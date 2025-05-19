@@ -1,4 +1,9 @@
 <template>
+  <!-- 빙프라임 로고 -->
+  <div class="login_logo">
+    <img src="/prime/Login_logo.png" alt="브랜드로고" />
+  </div>
+  <!-- 로그인 컨테이너 -->
   <div class="login-container">
     <div class="login-box">
       <h2>로그인</h2>
@@ -87,10 +92,7 @@ const handleLogin = () => {
   const users = JSON.parse(localStorage.getItem("users") || "[]");
 
   const user = users.find(
-    (u) =>
-      u.email === formData.value.email &&
-      u.password === formData.value.password &&
-      u.role === formData.value.role // "Worker" 또는 "customer" 비교
+    (u) => u.email === formData.value.email && u.password === formData.value.password && u.role === formData.value.role // "Worker" 또는 "customer" 비교
   );
 
   if (user) {
@@ -110,6 +112,14 @@ const handleLogin = () => {
 </script>
 
 <style scoped>
+/* .login_logo {
+  width: 150px;
+  margin: auto;
+  margin-top: 166px;
+}
+.login_logo img {
+  width: 100%;
+}
 .login {
   min-height: 100vh;
   display: flex;
@@ -127,6 +137,7 @@ const handleLogin = () => {
   width: 100%;
   max-width: 400px;
   margin: auto;
+  margin-top: 30px;
 }
 
 h2 {
@@ -312,5 +323,9 @@ select {
 .social-icon {
   font-weight: bold;
   font-size: 1.2rem;
-}
+} */
+ /* 테일윈드 */
+ /* 
+ ///////////////////// */
+ 
 </style>

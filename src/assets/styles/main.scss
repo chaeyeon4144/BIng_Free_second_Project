@@ -4,6 +4,29 @@
 @use "./main_check" as *;
 @use "./main_review" as *;
 @use "./main_reservation" as *;
+@use "./bingprime_reservation" as *;
+@use "./bingprime_subbenefit" as *;
+@use "./binfprime_faq" as *;
+@use "./bingprime_profile" as *;
+@use "./admin_adminhome" as *;
+@use "./admin_board" as *;
+@use "./admin_claim" as *;
+@use "./admin_claim" as *;
+@use "./admin_customers" as *;
+@use "./admin_Dashboard" as *;
+@use "./admin_reservation" as *;
+@use "./admin_sale" as *;
+@use "./admin_settings" as *;
+@use "./admin_worker" as *;
+@use "./worker_board" as *;
+@use "./worker_customers" as *;
+@use "./worker_ddashboard" as *;
+@use "./worker_history" as *;
+@use "./worker_profile" as *;
+@use "./worker_reservation" as *;
+@use "./worker_sale" as *;
+@use "./worker_setting" as *;
+@use "./worker_workerhome" as *;
 
 @keyframes viewmore {
   0% {
@@ -173,8 +196,7 @@ a {
       &:first-child {
         background-color: $bingfree-main;
         color: #fff;
-        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5),
-          inset -3px -1px 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5), inset -3px -1px 10px rgba(0, 0, 0, 0.2);
         img {
           filter: brightness(0) invert(1);
         }
@@ -204,8 +226,7 @@ a {
     border-radius: 50%;
     float: right;
     font-size: 30px;
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5),
-      inset -3px -1px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5), inset -3px -1px 10px rgba(0, 0, 0, 0.2);
   }
 }
 // 왼쪽 사이드 (섹션이동, 더보기)
@@ -288,21 +309,9 @@ a {
       position: absolute;
       left: 0;
       bottom: -20px;
-      background: -moz-linear-gradient(
-        top,
-        rgba(255, 255, 255, 0) 0%,
-        rgb(255, 255, 255) 90%
-      );
-      background: -webkit-linear-gradient(
-        top,
-        rgba(255, 255, 255, 0) 0%,
-        rgb(255, 255, 255) 90%
-      );
-      background: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 0%,
-        rgb(255, 255, 255) 90%
-      );
+      background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 90%);
+      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 90%);
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgb(255, 255, 255) 90%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#37197d',GradientType=0 );
       opacity: 0;
       transition: opacity 0.3s ease;
