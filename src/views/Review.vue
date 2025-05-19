@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from "vue";
+import Header from "@/components/Header.vue";
 // 기본값: 전체보기
 const selectedTab = ref("all");
 
@@ -77,6 +78,7 @@ const scrollToTop = () => {
 };
 </script>
 <template>
+  <Header/>
   <!-- 오른쪽 사이드 (예약, 챗봇 등) -->
   <div class="side">
     <div>
