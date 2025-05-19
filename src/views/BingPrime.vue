@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref } from "vue";
+import Navigation from "../components/Navigation.vue";
 
 const mainImg = ref(null);
 
@@ -21,6 +22,7 @@ onMounted(() => {
 });
 </script>
 <template>
+  <Navigation />
   <div class="prime-wrap" style="margin-top: 80px">
     <div class="main01">
       <div class="inner">
@@ -41,7 +43,7 @@ onMounted(() => {
           보세요.</span
         >
       </p>
-      <hr style="margin: 43px auto; width: 60%; border: none; border-top: 2px solid #e9ff54" />
+      r style="margin: 43px auto; width: 60%; border: none; border-top: 2px solid #e9ff54" />
       <p class="main-h3" style="text-align: center; color: #1456fd; font-weight: 300">
         빙프라임 멤버스 라운지에서는 프리몰부터 빙프리에서 운영하는 실험 연구소 체험까지
         <br />
