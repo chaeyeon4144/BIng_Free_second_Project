@@ -2,9 +2,9 @@
 import { ref, onMounted, computed, nextTick, onBeforeUnmount } from "vue";
 import { onUnmounted } from "vue";
 import { useRouter } from "vue-router"; // ✅ 라우터 임포트 추가
-import Topbar from "@/components/Topbar.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Header from "@/components/Header.vue";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -196,6 +196,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
+  <Header />
   <div class="wrap">
     <!-- header -->
     <!-- <Topbar />
