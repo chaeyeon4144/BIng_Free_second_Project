@@ -1,7 +1,3 @@
-<script setup>
-import Navigation from "@/components/Navigation.vue";
-</script>
-<template>
-  <Navigation />
-</template>
+<script setup></script>
+<template></template>
 <style lang="scss" scoped></style>
