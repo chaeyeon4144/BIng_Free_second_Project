@@ -1,5 +1,6 @@
 <script setup>
 import Navigation from "@/components/Navigation.vue";
+
 import { useRouter } from "vue-router";
 const router = useRouter();
 // '구독' 버튼 클릭시 '예약하기'로 이동

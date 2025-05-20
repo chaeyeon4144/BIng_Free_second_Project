@@ -1,331 +1,396 @@
 <template>
-  <!-- 빙프라임 로고 -->
-  <div class="login_logo">
-    <img src="/prime/Login_logo.png" alt="브랜드로고" />
-  </div>
-  <!-- 로그인 컨테이너 -->
-  <div class="login-container">
-    <div class="login-box">
-      <h2>로그인</h2>
-      <form @submit.prevent="handleLogin" class="login-form">
-        <div class="form-group">
-          <label for="email">이메일</label>
-          <input type="email" id="email" v-model="formData.email" placeholder="이메일을 입력하세요" required />
-        </div>
+  <div class="min-h-screen flex flex-col items-center justify-center px-4">
+    <!-- 로고 -->
+    <div class="mb-10">
+      <img src="/prime/Login_logo.png" alt="브랜드로고" class="w-40" />
+    </div>
 
-        <div class="form-group">
-          <label for="role">유형</label>
-          <select id="role" v-model="formData.role" required>
-            <option value="customer">고객</option>
-            <option value="Worker">기사</option>
-          </select>
-        </div>
+    <!-- 탭 -->
+    <div class="w-full max-w-md flex h-14 mb-6">
+      <div
+        v-for="(tab, index) in tabs"
+        :key="index"
+        @click="changeTab(index)"
+        :class="[
+          'flex-1 flex items-center justify-center font-semibold cursor-pointer transition',
+          activeTab === index ? 'active-tab' : 'inactive-tab',
+        ]">
+        {{ tab }}
+      </div>
+    </div>
 
-        <div class="form-group">
-          <label for="password">비밀번호</label>
-          <div class="password-input">
+    <!-- 로그인 폼 -->
+    <form @submit.prevent="handleLogin" class="w-full max-w-md">
+      <div class="relative min-h-[400px]">
+        <!-- 탭 0 :Bing.p 회원 폼 -->
+        <div v-show="activeTab === 0" class="absolute w-full">
+          <div class="mb-4 flex flex-col items-center justify-center">
+            <label
+              for="email"
+              class="self-start px-8 text-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
+              >이메일</label
+            >
+            <input
+              id="email"
+              v-model="formData.email"
+              type="email"
+              placeholder="Bing.P 아이디"
+              required
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+          </div>
+
+          <div class="mb-4 relative flex flex-col mt-[34px] items-center justify-center">
+            <label
+              for="password"
+              class="self-start px-8 blocktext-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
+              >비밀번호</label
+            >
             <input
               id="password"
-              :type="showPassword ? 'text' : 'password'"
               v-model="formData.password"
-              placeholder="비밀번호를 입력하세요"
-              required />
-            <button @click="togglePassword" type="button" class="toggle-password">
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Bing.P 비밀번호"
+              required
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+            <button
+              type="button"
+              @click="togglePassword"
+              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']">
               {{ showPassword ? "숨기기" : "보기" }}
             </button>
           </div>
-        </div>
 
-        <div class="form-options">
-          <label class="remember-me">
-            <input type="checkbox" v-model="formData.rememberMe" />
-            <span>로그인 상태 유지</span>
-          </label>
-          <router-link to="/find-password" class="find-password"> 비밀번호 찾기 </router-link>
-        </div>
+          <div class="flex items-center px-8 gap-3 mb-4 text-sm">
+            <label class="relative w-[38px] h-5 cursor-pointer">
+              <input type="checkbox" v-model="formData.rememberMe" class="sr-only peer" />
 
-        <button type="submit" class="login-btn">로그인</button>
+              <!-- 배경 바 -->
+              <div
+                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"></div>
 
-        <div class="social-login">
-          <p>또는</p>
-          <div class="social-buttons">
-            <button type="button" class="social-btn google">
-              <span class="social-icon">G</span>
-              Google로 로그인
+              <!-- 토글 핸들 -->
+              <div
+                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"></div>
+            </label>
+            <span class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+              >로그인 상태 유지</span
+            >
+          </div>
+
+          <div class="relative mt-10 flex items-center justify-center">
+            <button
+              type="submit"
+              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
+              로그인
             </button>
-            <button type="button" class="social-btn kakao">
-              <span class="social-icon">K</span>
-              카카오로 로그인
+          </div>
+          <div class="w-full max-w-md mt-[20px] mx-auto">
+            <div class="flex justify-center items-center space-x-6 relative">
+              <!-- 비밀번호 찾기 -->
+              <span
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200">
+                비밀번호 찾기
+              </span>
+
+              <!-- 구분선 1 -->
+              <span class="w-px h-4 bg-stone-300"></span>
+
+              <!-- 아이디 찾기 -->
+              <span
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200">
+                아이디 찾기
+              </span>
+
+              <!-- 구분선 2 -->
+              <span class="w-px h-4 bg-stone-300"></span>
+
+              <!-- 회원가입 -->
+              <router-link
+                to="/BingprimeJoin"
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] cursor-pointer transition-colors duration-200">
+                회원가입
+              </router-link>
+            </div>
+
+            <!-- 하단 가로선 -->
+            <div class="mt-2 w-full h-px bg-stone-300"></div>
+          </div>
+          <!-- 최상위 부모: 가운데 정렬을 위한 flex 컨테이너 -->
+          <div class="w-full flex justify-center items-center mt-10">
+            <!-- 버튼 박스 -->
+            <router-link
+              to="/Reservation"
+              class="w-96 h-12 rounded-lg border border-blue-600 flex justify-center items-center hover:bg-blue-600 transition-colors">
+              <span class="text-zinc-800 text-base font-bold font-['Pretendard'] hover:text-white transition-colors">
+                비회원 예약조회
+              </span>
+            </router-link>
+          </div>
+        </div>
+        <!-- 탭 1 :클리너 파트너 폼 -->
+        <div v-show="activeTab === 1" class="absolute w-full">
+          <div class="mb-4 flex flex-col items-center justify-center">
+            <label
+              for="email"
+              class="self-start px-8 text-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
+              >사원번호</label
+            >
+            <input
+              id="email"
+              v-model="formData.email"
+              type="email"
+              placeholder="클리너 사원번호"
+              required
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+          </div>
+
+          <div class="mb-4 relative flex flex-col mt-[34px] items-center justify-center">
+            <label
+              for="password"
+              class="self-start px-8 blocktext-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
+              >비밀번호</label
+            >
+            <input
+              id="password"
+              v-model="formData.password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="비밀번호"
+              required
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+            <button
+              type="button"
+              @click="togglePassword"
+              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']">
+              {{ showPassword ? "숨기기" : "보기" }}
+            </button>
+          </div>
+
+          <div class="flex items-center px-8 gap-3 mb-4 text-sm">
+            <label class="relative w-[38px] h-5 cursor-pointer">
+              <input type="checkbox" v-model="formData.rememberMe" class="sr-only peer" />
+
+              <!-- 배경 바 -->
+              <div
+                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"></div>
+
+              <!-- 토글 핸들 -->
+              <div
+                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"></div>
+            </label>
+            <span class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+              >로그인 상태 유지</span
+            >
+          </div>
+
+          <div class="relative mt-10 flex items-center justify-center">
+            <button
+              type="submit"
+              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
+              로그인
+            </button>
+          </div>
+          <div class="w-full max-w-md mt-[20px] mx-auto">
+            <div class="flex justify-center items-center space-x-6 relative">
+              <!-- 비밀번호 찾기 -->
+              <span
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200">
+                비밀번호 찾기
+              </span>
+
+              <!-- 구분선 1 -->
+              <span class="w-px h-4 bg-stone-300"></span>
+
+              <!-- 회원가입 -->
+              <router-link
+                to="/BusinessJoin"
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] cursor-pointer transition-colors duration-200">
+                회원가입
+              </router-link>
+            </div>
+
+            <!-- 하단 가로선 -->
+            <div class="mt-2 w-full h-px bg-stone-300"></div>
+          </div>
+          <!-- 최상위 부모: 가운데 정렬을 위한 flex 컨테이너 -->
+          <div class="w-full flex justify-center items-center mt-10">
+            <!-- 버튼 박스 -->
+            <div
+              class="w-96 h-12 rounded-lg border border-blue-600 flex justify-center items-center hover:bg-blue-600 transition-colors">
+              <span class="text-zinc-800 text-base font-bold font-['Pretendard'] hover:text-white transition-colors">
+                사원번호 조회하기
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- 탭 2 : 매니저 센터 폼 -->
+        <div v-show="activeTab === 2" class="absolute w-full">
+          <div class="mb-4 flex flex-col items-center justify-center">
+            <label
+              for="email"
+              class="self-start px-8 text-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
+              >아이디</label
+            >
+            <input
+              id="email"
+              v-model="formData.email"
+              type="email"
+              placeholder="아이디"
+              required
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+          </div>
+
+          <div class="mb-4 relative flex flex-col mt-[34px] items-center justify-center">
+            <label
+              for="password"
+              class="self-start px-8 blocktext-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
+              >비밀번호</label
+            >
+            <input
+              id="password"
+              v-model="formData.password"
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="비밀번호"
+              required
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+            <button
+              type="button"
+              @click="togglePassword"
+              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']">
+              {{ showPassword ? "숨기기" : "보기" }}
+            </button>
+          </div>
+
+          <div class="flex items-center px-8 gap-3 mb-4 text-sm">
+            <label class="relative w-[38px] h-5 cursor-pointer">
+              <input type="checkbox" v-model="formData.rememberMe" class="sr-only peer" />
+
+              <!-- 배경 바 -->
+              <div
+                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"></div>
+
+              <!-- 토글 핸들 -->
+              <div
+                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"></div>
+            </label>
+            <span class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+              >로그인 상태 유지</span
+            >
+          </div>
+
+          <div class="relative mt-10 flex items-center justify-center">
+            <button
+              type="submit"
+              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
+              로그인
             </button>
           </div>
         </div>
-      </form>
-
-      <div class="signup-link">
-        아직 회원이 아니신가요?
-        <router-link to="/SignUp">회원가입</router-link>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <script setup>
-import { useAuthStore } from "../stores/auth";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../stores/auth";
 
-const authStore = useAuthStore();
 const router = useRouter();
+const authStore = useAuthStore();
+
+const tabs = ["Bing.P 회원", "클리너 파트너", "매니저 센터"];
+const activeTab = ref(0);
+
+const formData = ref({
+  email: "",
+  password: "",
+  partnerId: "",
+  partnerPassword: "",
+  managerId: "",
+  managerPassword: "",
+  role: "customer",
+  rememberMe: false,
+});
+
 const showPassword = ref(false);
 const togglePassword = () => {
   showPassword.value = !showPassword.value;
 };
 
-const formData = ref({
-  email: "",
-  password: "",
-  role: "customer", // 또는 기본값을 "Worker"로 설정 가능
-  rememberMe: false,
-});
+const changeTab = (index) => {
+  activeTab.value = index;
+  if (index === 0) {
+    formData.value.role = "customer";
+  } else if (index === 1) {
+    formData.value.role = "Worker";
+  } else if (index === 2) {
+    formData.value.role = "Manager";
+  }
+
+  // 탭 변경 시 폼 초기화
+  formData.value.email = "";
+  formData.value.password = "";
+  formData.value.partnerId = "";
+  formData.value.partnerPassword = "";
+  formData.value.managerId = "";
+  formData.value.managerPassword = "";
+  formData.value.rememberMe = false;
+};
 
 const handleLogin = () => {
   const users = JSON.parse(localStorage.getItem("users") || "[]");
+  let user;
 
-  const user = users.find(
-    (u) => u.email === formData.value.email && u.password === formData.value.password && u.role === formData.value.role // "Worker" 또는 "customer" 비교
-  );
+  if (activeTab.value === 0) {
+    user = users.find(
+      (u) =>
+        u.email === formData.value.email && u.password === formData.value.password && u.role === formData.value.role
+    );
+  } else if (activeTab.value === 1) {
+    user = users.find(
+      (u) =>
+        u.email === formData.value.partnerId &&
+        u.password === formData.value.partnerPassword &&
+        u.role === formData.value.role
+    );
+  } else if (activeTab.value === 2) {
+    user = users.find(
+      (u) =>
+        u.email === formData.value.managerId &&
+        u.password === formData.value.managerPassword &&
+        u.role === formData.value.role
+    );
+  } else {
+    user = null;
+  }
 
   if (user) {
     authStore.login(user);
 
     if (user.role === "Worker") {
       router.push("/Worker");
+    } else if (user.role === "Manager") {
+      router.push("/Manager");
     } else if (user.role === "customer") {
       router.push("/BingPrime");
     } else {
       router.push("/");
     }
   } else {
-    alert("이메일 또는 비밀번호가 일치하지 않습니다.");
+    alert("아이디 또는 비밀번호가 일치하지 않습니다.");
   }
 };
 </script>
-
 <style scoped>
-/* .login_logo {
-  width: 150px;
-  margin: auto;
-  margin-top: 166px;
-}
-.login_logo img {
-  width: 100%;
-}
-.login {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f5f5f5;
-  padding: 2rem;
+.active-tab {
+  color: black;
+  border: 2px solid #292929; /* 전체 보더 */
+  border-bottom: none; /* 젤 아래선 없애기 */
 }
 
-.login-container {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  margin: auto;
-  margin-top: 30px;
+.inactive-tab {
+  color: #9ca3af; /* text-gray-400 */
+  border: 1px solid #bdbdbd; /* 전체 보더 밝은 회색 1px */
+  border-bottom: 2px solid #292929; /* 젤 아래선 진한 회색 1.5px */
 }
-
-h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-  font-weight: 500;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.password-input {
-  position: relative;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.remember-me {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-}
-
-.remember-me input[type="checkbox"] {
-  width: auto;
-}
-
-.find-password {
-  color: #666;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.find-password:hover {
-  color: #333;
-}
-
-.login-btn {
-  width: 100%;
-  padding: 1rem;
-  background: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-bottom: 1.5rem;
-}
-
-.login-btn:hover {
-  background: #45a049;
-}
-
-.social-login {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.social-login p {
-  color: #666;
-  margin-bottom: 1rem;
-  position: relative;
-}
-
-.social-login p::before,
-.social-login p::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 30%;
-  height: 1px;
-  background: #ddd;
-}
-
-.social-login p::before {
-  left: 0;
-}
-
-.social-login p::after {
-  right: 0;
-}
-
-.social-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.social-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.social-btn img {
-  width: 20px;
-  height: 20px;
-}
-
-.social-btn.google:hover {
-  background: #f5f5f5;
-}
-
-.social-btn.kakao {
-  background: #fee500;
-  border-color: #fee500;
-}
-
-.social-btn.kakao:hover {
-  background: #ffe812;
-}
-
-.signup-link {
-  text-align: center;
-  color: #666;
-}
-
-.signup-link a {
-  color: #4caf50;
-  text-decoration: none;
-  font-weight: 500;
-  margin-left: 0.5rem;
-}
-
-.signup-link a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 480px) {
-  .login {
-    padding: 1rem;
-  }
-
-  .login-container {
-    padding: 1.5rem;
-  }
-}
-
-.social-icon {
-  font-weight: bold;
-  font-size: 1.2rem;
-} */
- /* 테일윈드 */
- /* 
- ///////////////////// */
- 
 </style>
