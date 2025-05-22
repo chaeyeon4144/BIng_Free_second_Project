@@ -594,6 +594,7 @@
     .bannercoupon {
       width: 15%;
       position: absolute;
+      top: 10%;
       right: 25%;
       animation: ani_loop 2.5s ease infinite;
     }
@@ -1017,6 +1018,7 @@
       text-align: center;
       position: relative;
       img {
+        display: inline;
         width: 50%;
       }
       .infoicon {
@@ -1148,6 +1150,9 @@
       text-align: center;
       position: relative;
       margin-bottom: 70px;
+      img {
+        display: inline;
+      }
       .infoicon {
         position: absolute;
         top: 114px;

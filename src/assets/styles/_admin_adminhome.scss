@@ -13,6 +13,7 @@ header {
   justify-content: space-between;
   height: 70px;
   background: #ffffff;
+  margin-top: 0 !important;
   & .logo {
     margin-left: 30px;
   }
@@ -37,10 +38,17 @@ header {
     }
   }
 }
-.sidebar {
-  width: 260px;
-  background-color: #ffffff;
-  & .side-menu img {
-    display: inline-block;
+.home {
+  display: flex;
+  .sidebar {
+    width: 16%;
+    background-color: #ffffff;
+    & .side-menu img {
+      display: inline-block;
+    }
+  }
+  .admin-right {
+    width: 84%;
+    height: calc(100vh - 70px);
   }
 }

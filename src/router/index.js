@@ -28,9 +28,9 @@ import CustomerProfile from "@/views/CustomerProfile.vue";
 
 // 관리자
 import AdminHome from "@/Pages/Admin/AdminHome.vue";
-import Dashboard from "@/Pages/Worker/DDashboard.vue";
+import Dashboard from "@/Pages/Admin/Dashboard.vue";
 import Customers from "@/Pages/Admin/Customers.vue";
-import AdminReservation from "@/views/Reservation.vue";
+import AdminReservation from "@/Pages/Admin/AdminReservation.vue";
 import Workers from "@/Pages/Admin/Workers.vue";
 import Sales from "@/Pages/Admin/Sales.vue";
 import Settings from "@/Pages/Admin/Settings.vue";
