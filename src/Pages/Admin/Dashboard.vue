@@ -1,15 +1,15 @@
 <!-- 지수 관리자 대시보드 -->
 <template>
-  <div class="space-y-6 bg-white text-black dark:bg-black dark:text-white p-4 rounded">
+  <div class="tw-space-y-6 tw-bg-white tw-text-black tw-dark:bg-black tw-dark:text-white tw-p-4 tw-rounded">
     <!-- Font Awesome CDN 추가 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <h1 class="text-3xl font-bold text-gray-800 dark:text-white">관리자 대시보드</h1>
+    <h1 class="tw-text-3xl tw-font-bold tw-text-gray-800 tw-dark:text-white">관리자 대시보드</h1>
 
     <!-- 통계 카드 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    <div class="tw-grid grid-cols-1 tw-sm:grid-cols-2 tw-lg:grid-cols-3 tw-gap-4 tw-md:gap-6">
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 md:p-6 hover:shadow-lg transition-shadow">
-        <div class="flex items-center">
+        <div class="tw-flex tw-items-center">
           <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
             <i class="fas fa-calendar-check text-xl md:text-2xl"></i>
           </div>
