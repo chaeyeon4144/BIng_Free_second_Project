@@ -5,7 +5,7 @@
       <router-link to="/"><img src="/images/main-logo.png" alt="" /></router-link>
       <nav>
         <router-link to="/BingprimeReservation">예약하기</router-link>
-        <router-link to="/SubBenefit">구독혜택</router-link>
+        <router-link to="/SubBenefit">구독요금</router-link>
         <router-link to="/Faq">FAQ</router-link>
         <router-link to="/CustomerProfile">프로필</router-link>
       </nav>
