@@ -197,7 +197,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <Navigation />
-  <div class="wrap" style="margin-top: 80px">
+  <div class="sbf-wrap" style="margin-top: 80px">
     <!-- 숫자 표현 섹션 -->
     <div class="Top_number_section">
       <!-- 이벤트 안 텍스트  -->

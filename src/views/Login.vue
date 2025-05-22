@@ -382,6 +382,7 @@ const handleLogin = () => {
 };
 </script>
 <style scoped>
+
 .active-tab {
   color: black;
   border: 2px solid #292929; /* 전체 보더 */
