@@ -1,23 +1,10 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  prefix: "tw-", // 모든 클래스 앞에 tw- 접두사 붙음
-  content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
+// tailwind.config.js
+module.exports = {
+  // prefix: 'tw-',  ❌ 이렇게 되어 있다면
+  prefix: '',        // ✅ 이렇게 바꿔주세요 (또는 삭제)
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
-    extend: {
-      colors: {
-        primary: "#3B71CA",
-      },
-      spacing: {
-        "login-container": "400px",
-      },
-      borderRadius: {
-        login: "8px",
-      },
-      boxShadow: {
-        login: "0 2px 4px rgba(0, 0, 0, 0.1)",
-      },
-    },
+    extend: {},
   },
-  darkMode: "class",
   plugins: [],
-};
+}

@@ -172,15 +172,15 @@ onMounted(() => {
 // 고탑 수정
 .side .goTop {
   margin-bottom: 120%;
-    cursor: pointer;
-    width: 80px;
-    line-height: 80px;
-    background-color: #1456fd;
-    color: #fff;
-    text-align: center;
-    border-radius: 50%;
-    float: right;
-    font-size: 30px;
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5), inset -3px -1px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  width: 80px;
+  line-height: 80px;
+  background-color: #1456fd;
+  color: #fff;
+  text-align: center;
+  border-radius: 50%;
+  float: right;
+  font-size: 30px;
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5), inset -3px -1px 10px rgba(0, 0, 0, 0.2);
 }
 </style>

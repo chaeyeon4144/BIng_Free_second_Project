@@ -229,5 +229,6 @@ function toggleCheck(index) {
 </script>
 
 <style scoped>
+
 /* 토글 아이콘 회전 애니메이션은 SVG transform 속성으로 구현했습니다. */
 </style>
