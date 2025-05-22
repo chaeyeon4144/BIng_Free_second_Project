@@ -223,7 +223,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <template>
-  <Header/>
+  <Header />
   <div class="check-wrap">
     <!-- header -->
     <!-- <Topbar />

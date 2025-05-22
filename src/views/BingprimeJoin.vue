@@ -209,6 +209,8 @@
     </div>
   </div>
 </template>
+<style scoped>
+</style>
 
 <!--  -->
 <!-- <div class="w-[1920px] h-20 left-0 top-[40px] absolute overflow-hidden">
