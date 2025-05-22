@@ -1,4 +1,5 @@
 <script setup>
+
 import { ref, onMounted, computed, nextTick, onBeforeUnmount } from "vue";
 import { onUnmounted } from "vue";
 import { useRouter } from "vue-router"; // ✅ 라우터 임포트 추가
