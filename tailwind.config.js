@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  prefix: "tw-", // 모든 클래스 앞에 tw- 접두사 붙음
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
-       
-        "primary": "#3B71CA",
+        primary: "#3B71CA",
       },
       spacing: {
         "login-container": "400px",
