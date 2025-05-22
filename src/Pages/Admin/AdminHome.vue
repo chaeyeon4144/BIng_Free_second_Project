@@ -10,15 +10,54 @@ const route = useRoute();
 const router = useRouter();
 
 const links = [
-  { name: "대시보드", path: "/Admin/Dashboard", icon: "fas fa-chart-line" },
+  {
+    name: "대시보드",
+    imgUrl: "/public/prime/dashboard-icon.png",
+    path: "/Admin/Dashboard",
+    icon: "fas fa-chart-line",
+  },
   {
     name: "예약관리",
+    imgUrl: "/public/prime/reservation-icon.png",
     path: "/Admin/AdminReservation",
     icon: "fas fa-calendar-check",
   },
-  { name: "기사관리", path: "/Admin/Workers", icon: "fas fa-user-tie" },
-  { name: "고객관리", path: "/Admin/Customers", icon: "fas fa-users" },
-  { name: "설정", path: "/Admin/Settings", icon: "fas fa-cog" },
+  {
+    name: "고객관리",
+    imgUrl: "/public/prime/customer-icon.png",
+    path: "/Admin/Customers",
+    icon: "fas fa-users",
+  },
+  {
+    name: "기사관리",
+    imgUrl: "/public/prime/worker-icon.png",
+    path: "/Admin/Workers",
+    icon: "fas fa-user-tie",
+  },
+  {
+    name: "클레임",
+    imgUrl: "/public/prime/claim-icon.png",
+    path: "/Admin/Claim",
+    icon: "fas fa-user-tie",
+  },
+  {
+    name: "정산내역",
+    imgUrl: "/public/prime/pay-icon.png",
+    path: "/Admin/Sales",
+    icon: "fas fa-user-tie",
+  },
+  {
+    name: "게시판",
+    imgUrl: "/public/prime/notice-icon.png",
+    path: "/Admin/Board",
+    icon: "fas fa-user-tie",
+  },
+  {
+    name: "설정",
+    imgUrl: "/public/prime/settings-icon.png",
+    path: "/Admin/Settings",
+    icon: "fas fa-cog",
+  },
 ];
 
 // 현재 경로에 따른 활성화 상태 계산
@@ -32,144 +71,58 @@ const logout = () => {
 <!-- 지수 대시보드 홈 -->
 
 <template>
-  <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-    <!-- 사이드바 -->
-    <div
-      class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-lg">
-      <div class="flex flex-col h-full">
-        <!-- 로고 -->
-        <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-          <h1 class="text-xl font-bold text-gray-800 dark:text-white">
-            관리자 대시보드
-          </h1>
-        </div>
-
-        <!-- 네비게이션 메뉴 -->
-        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-          <router-link
-            v-for="link in links"
-            :key="link.path"
-            :to="link.path"
-            class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            :class="{
-              'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300':
-                isActive(link.path),
-            }">
-            <i :class="[link.icon, 'mr-3']"></i>
-            {{ link.name }}
-          </router-link>
-        </nav>
-
-        <!-- 로그아웃 버튼 -->
-        <div class="p-4 border-t border-gray-200 dark:border-gray-700">
-          <button
-            @click="logout"
-            class="w-full flex items-center justify-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-            <i class="fas fa-sign-out-alt mr-3"></i>
-            로그아웃
-          </button>
-        </div>
+  <!-- 페이지 헤더 -->
+  <header style="margin-top: 40px">
+    <div class="logo">
+      <img src="/public/prime/bingfree-logo.png" alt="빙프리로고" />
+    </div>
+    <div class="right">
+      <div class="right-icon saerch">
+        <img src="/public/prime/search-icon.png" alt="돋보기 아이콘" />
+      </div>
+      <div class="right-icon bell">
+        <img src="/public/prime/bell-icon.png" alt="알림 아이콘" />
+        <img
+          class="redPoint"
+          src="/public/prime/redPoint-icon.png"
+          alt="알림이 있을때 활성화되는 빨간도트 아이콘"
+        />
+      </div>
+      <div class="right-icon darkmode">
+        <img src="/public/prime/darkmode-icon.png" alt="다크모드 아이콘" />
+      </div>
+      <div class="right-icon setting">
+        <img src="/public/prime/setting-icon.png" alt="설정 아이콘" />
+      </div>
+      <div class="right-icon profile">
+        <img src="/public/prime/profile-image-icon.png" alt="프로필 아이콘" />
       </div>
     </div>
-
-    <!-- 메인 컨텐츠 -->
-    <div class="ml-64 min-h-screen">
-      <div class="p-8">
-        <router-view></router-view>
+  </header>
+  <div class="home">
+    <!-- 사이드바 -->
+    <div class="sidebar">
+      <nav class="side-menu">
+        <router-link
+          v-for="link in links"
+          :key="link.path"
+          :to="link.path"
+          class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+          :class="{ 'bg-indigo-100 text-indigo-700': isActive(link.path) }"
+        >
+          <img :src="link.imgUrl" :alt="link.name" />
+          {{ link.name }}
+        </router-link>
+      </nav>
+    </div>
+    <!-- 전체 -->
+    <div class="admin-right">
+      <p v-if="isLoggedIn">🛠 {{ userName }} 기사님!</p>
+      <div>
+        <main><router-view></router-view></main>
       </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-/* 기본 스타일 */
-.min-h-screen {
-  min-height: 100vh;
-}
-
-/* 반응형 스타일 */
-@media (max-width: 768px) {
-  .fixed {
-    position: relative;
-    width: 100%;
-    height: auto;
-  }
-
-  .ml-64 {
-    margin-left: 0;
-  }
-
-  .w-64 {
-    width: 100%;
-  }
-
-  .p-8 {
-    padding: 1rem;
-  }
-}
-
-/* 스크롤 스타일 */
-.overflow-y-auto {
-  scrollbar-width: thin;
-  scrollbar-color: #cbd5e0 #f7fafc;
-}
-
-.overflow-y-auto::-webkit-scrollbar {
-  width: 6px;
-}
-
-.overflow-y-auto::-webkit-scrollbar-track {
-  background: #f7fafc;
-}
-
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background-color: #cbd5e0;
-  border-radius: 3px;
-}
-
-/* 다크모드 스크롤 스타일 */
-.dark .overflow-y-auto {
-  scrollbar-color: #4b5563 #1f2937;
-}
-
-.dark .overflow-y-auto::-webkit-scrollbar-track {
-  background: #1f2937;
-}
-
-.dark .overflow-y-auto::-webkit-scrollbar-thumb {
-  background-color: #4b5563;
-}
-
-/* 전환 효과 */
-.transition-colors {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-/* 호버 효과 */
-.hover\:bg-gray-100:hover {
-  background-color: #e7e7e9;
-}
-
-.dark .hover\:bg-gray-700:hover {
-  background-color: #374151;
-}
-
-/* 활성화 상태 */
-.bg-indigo-100 {
-  background-color: #e0e7ff;
-}
-
-.dark .bg-indigo-900 {
-  background-color: #312e81;
-}
-
-.text-indigo-700 {
-  color: #4338ca;
-}
-
-.dark .text-indigo-300 {
-  color: #a5b4fc;
-}
-</style>
+<style scoped></style>

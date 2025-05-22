@@ -1,7 +1,10 @@
 <script setup>
 import Navigation from "@/components/Navigation.vue";
 import { ref, computed } from "vue";
+import { detailList, reservList, TableHeaders, TableData } from "@/data.mjs";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 // 마이페이지 탭
 const tab = ref("reservList");
 // 마이페이지 검색 - 상태
@@ -17,6 +20,85 @@ const reservdetail = ref(null); // 예약 기본 정보
 const reservExtra = ref(null); // 상세 정보 (detailList에서 가져옴)
 const reservdetailmodal = ref(false); // 모달 표시 여부
 
+// 구매확정 클릭시
+const openReview = ref(false);
+// 별점 리뷰 담기
+const categories = ["청결도", "친절도", "성실도"];
+const ratings = ref([0, 0, 0]); // 각 항목별 별점 저장
+function setRating(index, value) {
+  ratings.value[index] = value;
+}
+
+// 영수증 보기 클릭시
+const viewreceipt = ref(false);
+function printReceipt() {
+  window.print();
+}
+
+// 예약 수정 클릭시
+const moveReservation = () => {
+  router.push("/BingprimeReservation");
+};
+
+// 저장 버튼 클릭시
+const submitFix = () => {
+  alert("저장 되었습니다");
+  paymentmodal.value = false;
+  openReview.value = false;
+  reservdetailmodal.value = false;
+};
+
+// 청소 확정 클릭시
+const selectedItem = ref(null);
+
+const handleConfirmClick = (item) => {
+  if (item.status === "assigned") {
+    openReview.value = true;
+    selectedItem.value = item;
+
+    item.status = "confirmed";
+    reservList.value = reservList.value.map((i) =>
+      i.id === item.id ? { ...i, status: "confirmed" } : i
+    );
+  }
+};
+
+// 취소 버튼 클릭시
+const cancelBtn = () => {
+  alert("취소하시겠습니까?");
+  paymentmodal.value = false;
+  openReview.value = false;
+  reservdetailmodal.value = false;
+};
+
+// 별점 다음에 클릭시
+const cancelnextBtn = () => {
+  alert("취소하시겠습니까?");
+  paymentmodal.value = false;
+  openReview.value = false;
+  reservdetailmodal.value = false;
+
+  if (selectedItem.value && selectedItem.value.status === "confirmed") {
+    selectedItem.value.status = "assigned";
+    reservList.value = reservList.value.map((i) =>
+      i.id === selectedItem.value.id ? { ...i, status: "assigned" } : i
+    );
+  }
+};
+// 중복확인 클릭시
+const dbcheck = () => {
+  alert("확인 되었습니다");
+};
+
+// 문의버튼 클릭시
+const clamemodal = ref(false);
+
+const openClameModal = () => {
+  console.log("클릭됨");
+  clamemodal.value = true;
+  openReview.value = false;
+};
+
 // 상세 클릭시 값 전달
 function openReservDetail(item) {
   console.log("click");
@@ -30,6 +112,19 @@ const isCustomerOpen = ref(true);
 const isMembershipOpen = ref(false);
 const isWorkerOpen = ref(false);
 const isInquiryOpen = ref(false);
+
+// 카드 목록
+const cards = ref([
+  { id: 1, name: "삼성카드", image: "/prime/profile_card (1).png" },
+  { id: 2, name: "우리카드", image: "/prime/profile_card (2).png" },
+]);
+
+// 카드 삭제
+const deleteCard = (id) => {
+  if (confirm("삭제하시겠습니까?")) {
+    cards.value = cards.value.filter((card) => card.id !== id);
+  }
+};
 
 // 카드 번호 인식
 const cardInputs = ref(["", "", "", ""]); // 4개의 입력 칸
@@ -94,173 +189,73 @@ function parseKoreanDate(dateStr) {
   return new Date(fullDateStr);
 }
 
-// 상세 모달 데이터
-const detailList = [
-  {
-    id: 1,
-    customer: {
-      name: "고윤정",
-      mobile: "010-1234-1234",
-      email: "yunjung@naver.com",
-      address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
-    },
-    membership: {
-      name: "호시자키",
-      package: "6회권",
-      date: "2025-03-17 ~",
-      count: "2회 / 6회",
-      during: "3개월",
-    },
-    worker: {
-      name: "김기사",
-      mobile: "010-4321-4321",
-      email: "mrkim@bingfree.co.kr",
-    },
-    inquiry: {
-      type: "기타 문의",
-      title: "라벨 증정",
-      memo: "라벨 안 주고 가셨어요 ㅠㅠ",
-      file: null,
-    },
-    reservinfo: {
-      type: "비정기 청소",
-      address: "대구광역시 중구 중앙대로 77길 22 스타벅스 종로점",
-      date: "2025-05-15, 오후 11시 이후",
-      plus: "자가점검키트",
-      memo: "레포트 문자로 보내주세요",
-    },
-  },
-  {
-    id: 3,
-    customer: {
-      name: "김카페",
-      mobile: "010-1245-1534",
-      email: "cafekim@naver.com",
-      address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
-    },
-    membership: {
-      name: null,
-      date: null,
-      count: null,
-      during: null,
-    },
-    worker: {
-      name: "김기사",
-      mobile: "010-4321-4321",
-      email: "mrkim@bingfree.co.kr",
-    },
-    inquiry: {
-      type: null,
-      title: null,
-      memo: null,
-      file: null,
-    },
-    reservinfo: {
-      type: "일회성 청소",
-      address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
-      plus: null,
-      memo: null,
-    },
-  },
-  {
-    id: 2,
-    customer: {
-      name: "김카페",
-      mobile: "010-1245-1534",
-      email: "cafekim@naver.com",
-      address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
-    },
-    membership: {
-      name: null,
-      date: null,
-      count: null,
-      during: null,
-    },
-    worker: {
-      name: "김기사",
-      mobile: "010-4321-4321",
-      email: "mrkim@bingfree.co.kr",
-    },
-    inquiry: {
-      type: null,
-      title: null,
-      memo: null,
-      file: null,
-    },
-    reservinfo: {
-      type: "일회성 청소",
-      address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
-      plus: null,
-      memo: null,
-    },
-  },
-];
+// 문의 하기 모달
+const inquiryType = ref("");
+const title = ref("");
+const content = ref("");
+const file = ref(null);
 
-// 예약 내역 데이터
-const reservList = ref([
-  {
-    id: 1,
-    number: "BING-2025-001",
-    status: "done",
-    date: "2025-03-18, 오후 11시 이후",
-    memo: "라벨 부착해주세요.",
-    price: 0,
-    reservdate: "2025.03.17(월) 14:00",
-  },
-  {
-    id: 2,
-    number: "BING-2025-002",
-    status: "assigned",
-    date: "2025-05-15, 오후 11시 이후",
-    memo: "레포트 문자로 보내주세요",
-    price: 0,
-    reservdate: "2025.04.30(수) 16:00",
-  },
+const handleFileUpload = (e) => {
+  file.value = e.target.files[0];
+};
 
-  {
-    id: 3,
-    number: "BING-2025-003",
-    status: "waiting",
-    date: "2025-06-18, 오후 11시 이후",
-    memo: "세제 신청했어요 ~ ^^",
-    price: 0,
-    reservdate: "2025.06.17(화) 14:00",
-  },
-]);
+const submitInquiry = () => {
+  if (!inquiryType.value || !title.value || !content.value) {
+    alert("모든 필드를 입력해주세요.");
+    return;
+  }
+
+  alert("저장 되었습니다");
+  paymentmodal.value = false;
+  openReview.value = false;
+  reservdetailmodal.value = false;
+
+  clamemodal.value = false;
+};
+
 const reversedList = computed(() => {
   return [...reservList.value].reverse();
 });
 
-// 테이블 헤더 데이터
-const TableHeaders = [
-  { key: "item", label: "결제 내역" },
-  { key: "amount", label: "결제금액" },
-  { key: "date", label: "결제일" },
-  { key: "period", label: "이용 기간" },
-  { key: "status", label: "상태" },
-  { key: "receipt", label: "영수증" },
-];
+const stepStates = computed(() => {
+  const status = reservdetail.value?.status;
 
-// 테이블 내용 데이터
-const TableData = [
-  {
-    item: "호시자키(250kg~) 6회권",
-    amount: "1,134,000원",
-    date: "2025.03.17 14:00",
-    period: "2025.03.17 ~ 2026.03.17",
-    status: "결제완료",
-    receipt: "영수증 보기",
-    receiptUrl: "#",
-  },
-];
+  const labels = ["배정 완료", "작업 시작", "작업 완료", "확정 완료"];
+  const times = {
+    waiting: ["25.03.17 14:00", "-", "-", "-"],
+    assigned: ["25.03.17 14:00", "25.05.15 23:00", "-", "-"],
+    done: ["25.03.17 14:00", "25.05.15 23:00", "25.05.15 00:20", "-"],
+    confirmed: [
+      "25.03.17 14:00",
+      "25.05.15 23:00",
+      "25.05.15 00:20",
+      "25.05.22 14:00",
+    ],
+  };
+
+  const colorPerStatus = {
+    waiting: ["black", "", "", ""],
+    assigned: ["black", "orange", "", ""],
+    done: ["black", "black", "green", ""],
+    confirmed: ["black", "black", "black", "purple"], // 확정 완료
+  };
+
+  const timeList = times[status] || ["-", "-", "-", "-"];
+  const colorList = colorPerStatus[status] || ["", "", "", ""];
+
+  return labels.map((label, i) => ({
+    label,
+    time: timeList[i],
+    class: colorList[i],
+  }));
+});
 </script>
-<template>
+<template v-if="reservdetail">
   <Navigation />
   <div class="profile-wrap">
     <div class="profile-inner inner">
       <p class="profile-h1 mypage">마이페이지</p>
+      <!-- 마이페이지 전체 -->
       <div class="profile">
         <!-- 마이페이지 왼쪽 (고객프로필, 구독 정보) -->
         <div class="profile-left">
@@ -334,7 +329,17 @@ const TableData = [
             </button>
           </div>
           <!-- 구독 정보 -->
-          <p class="profile-h2">구독 정보</p>
+          <p
+            class="profile-h2"
+            style="
+              margin-top: 10px;
+              margin-left: 10px;
+              margin-right: auto;
+              margin-bottom: 10px;
+            "
+          >
+            구독 정보
+          </p>
           <div class="membership-box">
             <div class="membership-info">
               <p class="profile-h1">
@@ -366,32 +371,17 @@ const TableData = [
               </p>
               <ul>
                 <hr class="payment" />
-                <li>
-                  <img src="/prime/profile_card (1).png" alt="카드 이미지1" />
-                  <p>삼성카드</p>
+                <li v-for="card in cards" :key="card.id">
+                  <img :src="card.image" :alt="`${card.name} 이미지`" />
+                  <p>{{ card.name }}</p>
                   <svg
-                    width="18"
-                    height="18"
+                    width="20"
+                    height="20"
                     viewBox="0 0 18 18"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5.87812 0.622266C6.06797 0.239063 6.4582 0 6.88359 0H11.1164C11.5418 0 11.932 0.239063 12.1219 0.622266L12.375 1.125H15.75C16.3723 1.125 16.875 1.62773 16.875 2.25C16.875 2.87227 16.3723 3.375 15.75 3.375H2.25C1.62773 3.375 1.125 2.87227 1.125 2.25C1.125 1.62773 1.62773 1.125 2.25 1.125H5.625L5.87812 0.622266ZM2.25 4.5H15.75V15.75C15.75 16.991 14.741 18 13.5 18H4.5C3.25898 18 2.25 16.991 2.25 15.75V4.5ZM5.625 6.75C5.31562 6.75 5.0625 7.00312 5.0625 7.3125V15.1875C5.0625 15.4969 5.31562 15.75 5.625 15.75C5.93438 15.75 6.1875 15.4969 6.1875 15.1875V7.3125C6.1875 7.00312 5.93438 6.75 5.625 6.75ZM9 6.75C8.69062 6.75 8.4375 7.00312 8.4375 7.3125V15.1875C8.4375 15.4969 8.69062 15.75 9 15.75C9.30938 15.75 9.5625 15.4969 9.5625 15.1875V7.3125C9.5625 7.00312 9.30938 6.75 9 6.75ZM12.375 6.75C12.0656 6.75 11.8125 7.00312 11.8125 7.3125V15.1875C11.8125 15.4969 12.0656 15.75 12.375 15.75C12.6844 15.75 12.9375 15.4969 12.9375 15.1875V7.3125C12.9375 7.00312 12.6844 6.75 12.375 6.75Z"
-                      fill="#BDBDBD"
-                    />
-                  </svg>
-                </li>
-                <hr class="payment" />
-                <li>
-                  <img src="/prime/profile_card (2).png" alt="카드 이미지1" />
-                  <p>우리카드</p>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 18 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                    @click="deleteCard(card.id)"
+                    style="cursor: pointer"
                   >
                     <path
                       d="M5.87812 0.622266C6.06797 0.239063 6.4582 0 6.88359 0H11.1164C11.5418 0 11.932 0.239063 12.1219 0.622266L12.375 1.125H15.75C16.3723 1.125 16.875 1.62773 16.875 2.25C16.875 2.87227 16.3723 3.375 15.75 3.375H2.25C1.62773 3.375 1.125 2.87227 1.125 2.25C1.125 1.62773 1.62773 1.125 2.25 1.125H5.625L5.87812 0.622266ZM2.25 4.5H15.75V15.75C15.75 16.991 14.741 18 13.5 18H4.5C3.25898 18 2.25 16.991 2.25 15.75V4.5ZM5.625 6.75C5.31562 6.75 5.0625 7.00312 5.0625 7.3125V15.1875C5.0625 15.4969 5.31562 15.75 5.625 15.75C5.93438 15.75 6.1875 15.4969 6.1875 15.1875V7.3125C6.1875 7.00312 5.93438 6.75 5.625 6.75ZM9 6.75C8.69062 6.75 8.4375 7.00312 8.4375 7.3125V15.1875C8.4375 15.4969 8.69062 15.75 9 15.75C9.30938 15.75 9.5625 15.4969 9.5625 15.1875V7.3125C9.5625 7.00312 9.30938 6.75 9 6.75ZM12.375 6.75C12.0656 6.75 11.8125 7.00312 11.8125 7.3125V15.1875C11.8125 15.4969 12.0656 15.75 12.375 15.75C12.6844 15.75 12.9375 15.4969 12.9375 15.1875V7.3125C12.9375 7.00312 12.6844 6.75 12.375 6.75Z"
@@ -401,7 +391,14 @@ const TableData = [
                 </li>
                 <hr class="payment" />
               </ul>
-              <button class="modal" @click="paymentmodal = true">+ 추가</button>
+
+              <button
+                class="modal"
+                @click="paymentmodal = true"
+                style="margin-left: auto; margin-right: 15px; margin-top: 5px"
+              >
+                + 추가
+              </button>
             </div>
           </div>
         </div>
@@ -458,6 +455,8 @@ const TableData = [
                           ? "진행중"
                           : list.status === "waiting"
                           ? "대기중"
+                          : list.status === "confirmed"
+                          ? "확정완료"
                           : "알 수 없음"
                       }}</span
                     >
@@ -484,19 +483,31 @@ const TableData = [
               </ul>
               <div class="btnbox">
                 <button
-                  :class="['edit', list.status == 'done' ? 'disabled' : '']"
+                  :class="[
+                    'edit',
+                    list.status === 'confirmed' || list.status === 'done'
+                      ? 'disabled'
+                      : '',
+                  ]"
+                  v-on:click="moveReservation"
                 >
                   수정
                 </button>
                 <button
-                  :class="['cancel', list.status == 'done' ? 'disabled' : '']"
+                  :class="[
+                    'cancel',
+                    list.status !== 'waiting' ? 'disabled' : '',
+                  ]"
                 >
                   취소
                 </button>
                 <button
-                  :class="['fix', list.status !== 'assigned' ? 'disabled' : '']"
+                  class="fix"
+                  :disabled="list.status !== 'assigned'"
+                  :class="{ disabled: list.status !== 'assigned' }"
+                  @click="() => handleConfirmClick(list)"
                 >
-                  청소 확정
+                  {{ list.status === "confirmed" ? "확정 완료" : "청소 확정" }}
                 </button>
               </div>
             </div>
@@ -520,12 +531,16 @@ const TableData = [
                   <td>
                     <span
                       class="statusbox-done"
-                      style="font-size: 12px; padding: 2% 4%"
+                      style="font-size: 12px; padding: 4% 8%"
                       >{{ row.status }}</span
                     >
                   </td>
                   <td>
-                    <button class="modal" style="font-size: 13px">
+                    <button
+                      class="modal"
+                      style="font-size: 13px"
+                      v-on:click="viewreceipt = true"
+                    >
                       영수증 보기
                     </button>
                   </td>
@@ -600,7 +615,7 @@ const TableData = [
                   <label for="phone">휴대폰 번호</label>
                   <div class="inline-group">
                     <input type="text" id="phone" placeholder="숫자만 입력" />
-                    <button type="button">중복확인</button>
+                    <button v-on:click="dbcheck" type="button">중복확인</button>
                   </div>
                 </div>
                 <hr />
@@ -609,7 +624,7 @@ const TableData = [
                   <label for="email">이메일</label>
                   <div class="inline-group">
                     <input type="email" id="email" placeholder="이메일 입력" />
-                    <button type="button">중복확인</button>
+                    <button v-on:click="dbcheck" type="button">중복확인</button>
                   </div>
                 </div>
                 <hr />
@@ -637,8 +652,14 @@ const TableData = [
                 </div>
                 <hr style="color: #bdbdbd; height: 1px" />
                 <div class="btnbox">
-                  <button class="edit">취소</button>
-                  <button class="fix" style="padding: 1% 2%">저장</button>
+                  <button class="cancel" v-on:click="cancelBtn">취소</button>
+                  <button
+                    class="fix"
+                    style="padding: 1% 2%"
+                    v-on:click="submitFix"
+                  >
+                    저장
+                  </button>
                 </div>
               </form>
             </div>
@@ -720,25 +741,35 @@ const TableData = [
                 <hr />
                 <hr style="color: #bdbdbd; height: 1px" />
                 <div class="btnbox">
-                  <button class="edit">취소</button>
-                  <button class="fix" style="padding: 1% 2%">저장</button>
+                  <button class="cancel" v-on:click="cancelBtn">취소</button>
+                  <button
+                    class="fix"
+                    style="padding: 1% 2%"
+                    v-on:click="submitFix"
+                  >
+                    저장
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- 모달 오버레이 -->
       <div
         class="overlay"
-        v-show="paymentmodal || reservdetailmodal"
+        v-show="paymentmodal || reservdetailmodal || clamemodal"
         @click="
           () => {
             paymentmodal = false;
             reservdetailmodal = false;
+            clamemodal = false;
           }
         "
       ></div>
 
+      <!-- 결제 수단 추가 모달 -->
       <div class="paymentmodal" v-show="paymentmodal">
         <p class="profile-h1">결제 수단 추가</p>
         <div class="card-info-box">
@@ -775,10 +806,13 @@ const TableData = [
           </div>
         </div>
         <div class="btnbox">
-          <button class="edit" style="padding: 1% 3%">취소</button>
-          <button class="fix">저장</button>
+          <button class="cancel" style="padding: 1% 3%" v-on:click="cancelBtn">
+            취소
+          </button>
+          <button class="fix" v-on:click="submitFix">저장</button>
         </div>
       </div>
+      <!-- 예약 상세 모달 -->
       <div class="reservdetailmodal" v-if="reservdetailmodal && reservExtra">
         <div class="reservdetail-title">
           <p class="profile-h2">예약 상세 정보</p>
@@ -804,13 +838,51 @@ const TableData = [
         </div>
         <div class="reservdetail-info-box">
           <div class="reservdetail-left">
-            <p class="profile-h2">기본 정보</p>
+            <p class="profile-h2" style="font-size: 16px; font-weight: 500">
+              기본 정보
+            </p>
             <div class="customerinfo">
               <p class="profile-h3" @click="isCustomerOpen = !isCustomerOpen">
-                예약자 정보<span>{{ isCustomerOpen ? "▲" : "▼" }}</span>
+                예약자 정보
+                <span class="icon">
+                  <template v-if="isCustomerOpen">
+                    <!-- 위쪽 아이콘 (▲) -->
+                    <svg
+                      width="15"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                  <template v-else>
+                    <!-- 아래쪽 아이콘 (▼) -->
+                    <svg
+                      width="15"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                </span>
               </p>
 
-              <ul v-show="isCustomerOpen">
+              <ul v-show="isCustomerOpen" class="profile-h4">
                 <li><span>이름</span>{{ reservExtra.customer.name }}</li>
                 <li><span>연락처</span>{{ reservExtra.customer.mobile }}</li>
                 <li><span>이메일</span>{{ reservExtra.customer.email }}</li>
@@ -822,10 +894,46 @@ const TableData = [
                 class="profile-h3"
                 @click="isMembershipOpen = !isMembershipOpen"
               >
-                구독권 정보<span>{{ isMembershipOpen ? "▲" : "▼" }}</span>
+                구독권 정보
+                <span class="icon">
+                  <template v-if="isMembershipOpen">
+                    <!-- 위쪽 아이콘 (▲) -->
+                    <svg
+                      width="15"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                  <template v-else>
+                    <!-- 아래쪽 아이콘 (▼) -->
+                    <svg
+                      width="15"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                </span>
               </p>
 
-              <ul v-show="isMembershipOpen">
+              <ul v-show="isMembershipOpen" class="profile-h4">
                 <li>
                   <span>구독권</span>{{ reservExtra.membership?.name || "-" }}
                 </li>
@@ -842,10 +950,46 @@ const TableData = [
             </div>
             <div class="workerinfo">
               <p class="profile-h3" @click="isWorkerOpen = !isWorkerOpen">
-                담당자 정보 <span>{{ isWorkerOpen ? "▲" : "▼" }}</span>
+                담당자 정보
+                <span class="icon">
+                  <template v-if="isWorkerOpen">
+                    <!-- 위쪽 아이콘 (▲) -->
+                    <svg
+                      width="15"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                  <template v-else>
+                    <!-- 아래쪽 아이콘 (▼) -->
+                    <svg
+                      width="15"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                </span>
               </p>
 
-              <ul v-show="isWorkerOpen">
+              <ul v-show="isWorkerOpen" class="profile-h4">
                 <li><span>이름</span>{{ reservExtra.worker.name }}</li>
                 <li><span>연락처</span>{{ reservExtra.worker.mobile }}</li>
                 <li><span>이메일</span>{{ reservExtra.worker.email }}</li>
@@ -853,10 +997,46 @@ const TableData = [
             </div>
             <div class="inquiryinfo">
               <p class="profile-h3" @click="isInquiryOpen = !isInquiryOpen">
-                문의 정보<span>{{ isInquiryOpen ? "▲" : "▼" }}</span>
+                문의 정보
+                <span class="icon">
+                  <template v-if="isInquiryOpen">
+                    <!-- 위쪽 아이콘 (▲) -->
+                    <svg
+                      width="18"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                  <template v-else>
+                    <!-- 아래쪽 아이콘 (▼) -->
+                    <svg
+                      width="18"
+                      height="13"
+                      viewBox="0 0 22 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
+                        stroke="#424242"
+                        stroke-width="1.4"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </template>
+                </span>
               </p>
 
-              <ul v-show="isInquiryOpen">
+              <ul v-show="isInquiryOpen" class="profile-h4">
                 <li>
                   <span>문의유형</span>{{ reservExtra.inquiry?.type || "-" }}
                 </li>
@@ -868,15 +1048,22 @@ const TableData = [
             </div>
           </div>
           <div class="reservdetail-right">
-            <p class="profile-h2">예약 정보</p>
+            <p class="profile-h3" style="font-weight: 500">예약 정보</p>
             <div class="reservdetailinfo">
-              <button class="modal" style="text-align: right">
+              <button
+                class="modal profile-h4"
+                style="text-align: right; font-size: 14px"
+              >
                 첨부파일보기
               </button>
-              <ul>
+              <ul class="profile-h4">
                 <li class="firstli">
                   <span>서비스 유형</span
                   >{{ reservExtra.reservinfo?.type || "-" }}
+                </li>
+                <li>
+                  <span>제빙기 정보</span
+                  >{{ reservExtra.reservinfo?.machine || "-" }}
                 </li>
                 <li>
                   <span>서비스 주소</span
@@ -895,11 +1082,197 @@ const TableData = [
                 </li>
               </ul>
             </div>
-            <div class="price-summary"></div>
+            <div class="info-box-bt">
+              <ul class="timeline">
+                <p class="profile-h3">작업 진행 상황</p>
+                <li v-for="(step, index) in stepStates" :key="index">
+                  <span class="dot" :class="step.class"></span>
+                  <div class="label profile-h4">
+                    <p>{{ step.label }}</p>
+                    <p>{{ step.time }}</p>
+                  </div>
+                </li>
+              </ul>
+              <div class="receipt">
+                <p class="profile-h3">결제 정보</p>
+                <ul class="payment profile-h4">
+                  <li>
+                    <p style="color: #616161">서비스 금액</p>
+                    <p>{{ reservExtra.payment?.service.toLocaleString() }}원</p>
+                  </li>
+                  <li>
+                    <p style="color: #616161">추가 서비스</p>
+                    <p>{{ reservExtra.payment?.extra.toLocaleString() }}원</p>
+                  </li>
+                  <li>
+                    <p style="color: #616161">쿠폰 할인</p>
+                    <p>{{ reservExtra.payment?.coupon.toLocaleString() }}원</p>
+                  </li>
+                  <li>
+                    <p style="color: #616161">구독권 차감</p>
+                    <p>
+                      {{
+                        reservExtra.payment?.membershipDiscount.toLocaleString(
+                          "ko-KR",
+                          { signDisplay: "always" }
+                        )
+                      }}원
+                    </p>
+                  </li>
+                  <li>
+                    <p style="color: #616161">서비스 차감</p>
+                    <p>
+                      {{
+                        reservExtra.payment?.extraDiscount.toLocaleString(
+                          "ko-KR",
+                          { signDisplay: "always" }
+                        )
+                      }}원
+                    </p>
+                  </li>
+                  <hr />
+                  <li class="profile-h3" style="margin: 0">
+                    <p><strong>총 결제 금액</strong></p>
+                    <p style="color: red">
+                      {{ reservExtra.payment?.total.toLocaleString() }}원
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 
-        <button @click="reservdetailmodal = false">닫기</button>
+        <button
+          class="fix"
+          style="width: 8%; margin-left: auto; padding: 1% 1%"
+          @click="reservdetailmodal = false"
+        >
+          닫기
+        </button>
+      </div>
+      <!-- 별점 리뷰 모달 -->
+      <div class="starreview" v-show="openReview">
+        <div class="toptxt">
+          <p class="profile-h2">만족도를 평가해 주세요!</p>
+          <p class="description" style="color: #9e9e9e; margin-top: 5px">
+            리뷰 작성하면 혜택 드려요.
+          </p>
+        </div>
+        <button
+          class="modal"
+          style="margin-left: auto"
+          v-on:click="openClameModal"
+        >
+          문의 >
+        </button>
+        <div class="starbox">
+          <div class="row" v-for="(category, i) in categories" :key="i">
+            <p class="profile-h3">{{ category }}</p>
+            <div class="stars">
+              <svg
+                v-for="j in 5"
+                :key="j"
+                @click="setRating(i, j)"
+                width="31"
+                height="30"
+                viewBox="0 0 31 30"
+                xmlns="http://www.w3.org/2000/svg"
+                style="cursor: pointer; margin-right: 4px"
+              >
+                <path
+                  :fill="ratings[i] >= j ? '#FFD700' : '#D9D9D9'"
+                  d="M14.6766 0.908316C14.8601 0.536732 15.3899 0.536731 15.5734 0.908315L19.8369 9.5458C19.9097 9.69322 20.0503 9.79545 20.2129 9.81923L29.7481 11.2129C30.1581 11.2729 30.3215 11.7768 30.0247 12.0659L23.1259 18.7853C23.008 18.9001 22.9541 19.0657 22.982 19.228L24.61 28.7201C24.68 29.1286 24.2512 29.44 23.8844 29.2471L15.3577 24.763C15.212 24.6864 15.038 24.6864 14.8923 24.763L6.36557 29.2471C5.99875 29.44 5.56998 29.1285 5.64004 28.7201L7.26804 19.228C7.29587 19.0657 7.24204 18.9001 7.12411 18.7853L0.22534 12.0659C-0.0714571 11.7768 0.0919342 11.2729 0.501892 11.2129L10.0371 9.81923C10.1997 9.79545 10.3403 9.69322 10.4131 9.5458L14.6766 0.908316Z"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="btnbox">
+          <button
+            class="cancel"
+            style="padding: 2% 2.5%"
+            @click="cancelnextBtn"
+          >
+            다음에
+          </button>
+          <button class="fix" style="padding: 2% 2.5%" v-on:click="submitFix">
+            저장
+          </button>
+        </div>
+      </div>
+      <!-- 문의하기 모달 -->
+      <div class="clamemodal" v-show="clamemodal">
+        <h2 class="modal-title profile-h2">문의하기</h2>
+        <ul class="form">
+          <li>
+            <span class="label">예약번호</span>
+            <span class="value">{{ reservdetail?.number || "-" }}</span>
+          </li>
+          <li>
+            <span class="label">문의유형</span>
+            <select v-model="inquiryType">
+              <option disabled value="">문의유형 선택</option>
+              <option>청소 문의</option>
+              <option>예약 문의</option>
+              <option>기타 문의</option>
+            </select>
+          </li>
+          <li>
+            <span class="label">파일첨부</span>
+            <input type="file" @change="handleFileUpload" />
+          </li>
+          <li>
+            <span class="label">제목</span>
+            <input type="text" v-model="title" />
+          </li>
+          <li>
+            <span class="label memo"
+              >내용<small style="color: #bdbdbd"
+                >{{ content.length }}/1,000</small
+              ></span
+            >
+
+            <textarea
+              v-model="content"
+              placeholder="내용을 입력하세요"
+              maxlength="1000"
+            ></textarea>
+          </li>
+        </ul>
+
+        <div class="btn-box">
+          <button
+            style="padding: 1.5% 2.8%"
+            class="cancel"
+            @click="clamemodal = false"
+          >
+            취소
+          </button>
+          <button class="fix" @click="submitInquiry">저장</button>
+        </div>
+      </div>
+      <!-- 영수증 보기 모달 -->
+      <div class="viewreceipt" v-show="viewreceipt">
+        <img src="/prime/profile_receipt.png" alt="영수증 이미지" />
+        <img
+          src="/prime/profile_receipt.png"
+          class="print-only"
+          alt="영수증 이미지"
+        />
+
+        <div class="btnbox">
+          <button class="edit" style="padding: 1.5% 3%" @click="printReceipt">
+            출력하기
+          </button>
+          <button
+            class="fix"
+            style="padding: 1.6% 5.5%"
+            @click="viewreceipt = false"
+          >
+            닫기
+          </button>
+        </div>
       </div>
     </div>
   </div>

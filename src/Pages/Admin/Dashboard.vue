@@ -564,7 +564,7 @@
   </div>
 </template>
 <script setup>
-import Chart from "@/components/Chart.vue";
+// import Chart from "./components/Chart.vue";
 import { ref, computed } from "vue";
 // 선택된 기사 정보
 const selectedWorker = ref(null);
