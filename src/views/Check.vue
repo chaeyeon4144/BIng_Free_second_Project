@@ -2,9 +2,10 @@
 import { ref, onMounted, computed, nextTick, onBeforeUnmount } from "vue";
 import { onUnmounted } from "vue";
 import { useRouter } from "vue-router"; // ✅ 라우터 임포트 추가
+import Topbar from "@/components/Topbar.vue";
+import Header from "@/components/Header.vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import Header from "@/components/Header.vue";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -99,12 +100,37 @@ const pricePlans = {
 };
 
 const ordinarys = ref([
-  { title: "스탠다드", subtitle: "스탠다드", weight: "50kg 미만", totalprice: "99,000" },
-  { title: "스탠다드", subtitle: "스탠다드+", weight: "50~100kg", totalprice: "120,000" },
+  {
+    title: "스탠다드",
+    subtitle: "스탠다드",
+    weight: "50kg 미만",
+    totalprice: "99,000",
+  },
+  {
+    title: "스탠다드",
+    subtitle: "스탠다드+",
+    weight: "50~100kg",
+    totalprice: "120,000",
+  },
   { title: "디럭스", subtitle: "", weight: "100~200kg", totalprice: "150,000" },
-  { title: "프리미엄", subtitle: "", weight: "200kg 이상", totalprice: "170,000" },
-  { title: "호시자키", subtitle: "호시자키", weight: "250kg 미만", totalprice: "170,000" },
-  { title: "호시자키", subtitle: "호시자키+", weight: "250kg 이상", totalprice: "210,000" },
+  {
+    title: "프리미엄",
+    subtitle: "",
+    weight: "200kg 이상",
+    totalprice: "170,000",
+  },
+  {
+    title: "호시자키",
+    subtitle: "호시자키",
+    weight: "250kg 미만",
+    totalprice: "170,000",
+  },
+  {
+    title: "호시자키",
+    subtitle: "호시자키+",
+    weight: "250kg 이상",
+    totalprice: "210,000",
+  },
 ]);
 
 const selectTab = (tab) => {
@@ -197,7 +223,7 @@ onBeforeUnmount(() => {
 </script>
 <template>
   <Header />
-  <div class="wrap">
+  <div class="check-wrap">
     <!-- header -->
     <!-- <Topbar />
     <header /> -->
@@ -340,8 +366,8 @@ onBeforeUnmount(() => {
 
     <!-- 구독 탭 나누기 bingFrime -->
     <div class="Tap2_bingprime" v-if="intropiceTab === 'bingprime'">
-
       <!-- 숫자 표현 섹션 -->
+
       <div class="Top_number_section">
         <!-- 이벤트 안 텍스트  -->
         <div class="Top_number_text_content">
@@ -489,120 +515,120 @@ onBeforeUnmount(() => {
             </p>
           </div>
         </div>
-          <!-- 빙프리 프라임 구독 요금제 -->
-          <div class="bingfrime_wrap_section">
-            <div class="inner">
-              <p class="bing_h1">
-                필요한 만큼 선택하는<span>&nbsp#빙프라임+ 맞춤케어</span><span>&nbsp;구독&nbsp;요금제</span>
-              </p>
-              <div class="pricelist_tap">
-                <ul class="tab_list">
-                  <li v-for="(tab, index) in tabs" :key="index" class="tab_item" :class="{ on: selectedTab === tab }">
-                    <a href="#" class="btn_tab" @click.prevent="selectTab(tab)">
-                      {{ tab }}
-                    </a>
-                  </li>
-                </ul>
+        <!-- 빙프리 프라임 구독 요금제 -->
+        <div class="bingfrime_wrap_section">
+          <div class="inner">
+            <p class="bing_h1">
+              필요한 만큼 선택하는<span>&nbsp#빙프라임+ 맞춤케어</span><span>&nbsp;구독&nbsp;요금제</span>
+            </p>
+            <div class="pricelist_tap">
+              <ul class="tab_list">
+                <li v-for="(tab, index) in tabs" :key="index" class="tab_item" :class="{ on: selectedTab === tab }">
+                  <a href="#" class="btn_tab" @click.prevent="selectTab(tab)">
+                    {{ tab }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <!-- 요금제 카드 목록 -->
+            <div class="price_list">
+              <!-- 대표 제목 버튼 (탭 선택에 따라 바뀜) -->
+              <!-- price리스트 왼쪽 부분 -->
+              <div class="price_list_left">
+                <button class="selected_plan_title">
+                  <span class="selctedTab_bt">{{ selectedTab }}</span>
+                  빙프라임+구독회원 요금
+                </button>
+                <div class="individual_list">
+                  <div
+                    class="individual_card"
+                    v-for="(plan, idx) in pricePlans[selectedTab]"
+                    :key="idx"
+                    :class="{
+                      'last-card': idx === pricePlans[selectedTab].length - 1,
+                    }">
+                    <div class="card_in_times">
+                      회차: <span>{{ plan.times }}회</span>
+                    </div>
+                    <button class="perprice_bt">1회당</button>
+                    <div class="card_in_price">
+                      <div class="card_in_perprice">
+                        <span>{{ plan.pricePerUse.toLocaleString() }}원</span>
+                      </div>
+                      <div class="card_in_total">
+                        합계: <span>{{ plan.total.toLocaleString() }}원</span>
+                      </div>
+                    </div>
+
+                    <div class="buttons">
+                      <button>구독하기</button>
+                      <button @click="toggleBenefits(plan)">혜택보기</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <!-- 요금제 카드 목록 -->
-              <div class="price_list">
-                <!-- 대표 제목 버튼 (탭 선택에 따라 바뀜) -->
-                <!-- price리스트 왼쪽 부분 -->
-                <div class="price_list_left">
-                  <button class="selected_plan_title">
-                    <span class="selctedTab_bt">{{ selectedTab }}</span>
-                    빙프라임+구독회원 요금
-                  </button>
-                  <div class="individual_list">
-                    <div
-                      class="individual_card"
-                      v-for="(plan, idx) in pricePlans[selectedTab]"
-                      :key="idx"
-                      :class="{
-                        'last-card': idx === pricePlans[selectedTab].length - 1,
-                      }">
-                      <div class="card_in_times">
-                        회차: <span>{{ plan.times }}회</span>
-                      </div>
-                      <button class="perprice_bt">1회당</button>
-                      <div class="card_in_price">
-                        <div class="card_in_perprice">
-                          <span>{{ plan.pricePerUse.toLocaleString() }}원</span>
-                        </div>
-                        <div class="card_in_total">
-                          합계: <span>{{ plan.total.toLocaleString() }}원</span>
-                        </div>
-                      </div>
 
-                      <div class="buttons">
-                        <button>구독하기</button>
-                        <button @click="toggleBenefits(plan)">혜택보기</button>
-                      </div>
-                    </div>
+              <!-- 혜택 정보 섹션 그대로 유지 -->
+              <div class="plus_sale_list">
+                <h1 class="twoyear_h1">2년 연장회원 특별할인 혜택 계산하기</h1>
+
+                <!-- 혜택 전 -->
+                <div class="first_box_section" v-if="!showBenefits">
+                  <div class="first_box_before">
+                    <p>
+                      <span>혜택하기를 누르고<br />자세한 정보를 확인해보세요.</span>
+                    </p>
+                  </div>
+                  <div class="second_box">
+                    <p>
+                      <span>기본회원권:</span>
+                      <span>가격확인하기</span>
+                    </p>
+                    <p>
+                      <span>2년 연장 혜택:</span>
+                      <span>가격확인하기</span>
+                    </p>
                   </div>
                 </div>
 
-                <!-- 혜택 정보 섹션 그대로 유지 -->
-                <div class="plus_sale_list">
-                  <h1 class="twoyear_h1">2년 연장회원 특별할인 혜택 계산하기</h1>
-
-                  <!-- 혜택 전 -->
-                  <div class="first_box_section" v-if="!showBenefits">
-                    <div class="first_box_before">
-                      <p>
-                        <span>혜택하기를 누르고<br />자세한 정보를 확인해보세요.</span>
-                      </p>
-                    </div>
-                    <div class="second_box">
-                      <p>
-                        <span>기본회원권:</span>
-                        <span>가격확인하기</span>
-                      </p>
-                      <p>
-                        <span>2년 연장 혜택:</span>
-                        <span>가격확인하기</span>
-                      </p>
-                    </div>
+                <!-- 혜택 후 -->
+                <!-- 혜택 후 -->
+                <div v-else>
+                  <div class="first_box_after">
+                    <p>
+                      <span><img class="check_icon" src="/public/check/price_check_icon.png" alt="checkicon" /></span>
+                      <span>3년 구독 혜택으로<strong>&nbsp;5% 추가</strong>할인까지!</span>
+                    </p>
+                    <p>
+                      <span><img class="check_icon" src="/public/check/price_check_icon.png" alt="checkicon" /></span>
+                      <span>1년 4회의 청소, <strong>3년까지</strong>사용할 수 있는<br />특별 구독 혜택 </span>
+                    </p>
+                    <p>
+                      <span><img class="check_icon" src="/public/check/price_check_icon.png" alt="checkicon" /></span>
+                      <span>동절기엔 청소를 미뤄도 괜찮아요,<br /><strong>AI 알림</strong>&nbsp;으로 언제든 체크!</span>
+                    </p>
                   </div>
 
-                  <!-- 혜택 후 -->
-                  <!-- 혜택 후 -->
-                  <div v-else>
-                    <div class="first_box_after">
-                      <p>
-                        <span><img class="check_icon" src="/public/check/price_check_icon.png" alt="checkicon" /></span>
-                        <span>3년 구독 혜택으로<strong>&nbsp;5% 추가</strong>할인까지!</span>
-                      </p>
-                      <p>
-                        <span><img class="check_icon" src="/public/check/price_check_icon.png" alt="checkicon" /></span>
-                        <span>1년 4회의 청소, <strong>3년까지</strong>사용할 수 있는<br />특별 구독 혜택 </span>
-                      </p>
-                      <p>
-                        <span><img class="check_icon" src="/public/check/price_check_icon.png" alt="checkicon" /></span>
-                        <span>동절기엔 청소를 미뤄도 괜찮아요,<br /><strong>AI 알림</strong>&nbsp;으로 언제든 체크!</span>
-                      </p>
-                    </div>
-
-                    <div class="second_box" v-if="selectedPlan">
-                      <p>
-                        <span>기본 {{ selectedPlan.times }}회권</span>
-                        <span>회당 {{ selectedPlan.pricePerUse.toLocaleString() }}원</span>
-                      </p>
-                      <p>
-                        <span>2년 연장 혜택 {{ selectedPlan.times }}회권</span>
-                        <span>회당 {{ (selectedPlan.pricePerUse * 0.9).toLocaleString() }}원</span>
-                      </p>
-                    </div>
+                  <div class="second_box" v-if="selectedPlan">
+                    <p>
+                      <span>기본 {{ selectedPlan.times }}회권</span>
+                      <span>회당 {{ selectedPlan.pricePerUse.toLocaleString() }}원</span>
+                    </p>
+                    <p>
+                      <span>2년 연장 혜택 {{ selectedPlan.times }}회권</span>
+                      <span>회당 {{ (selectedPlan.pricePerUse * 0.9).toLocaleString() }}원</span>
+                    </p>
                   </div>
-
-                  <p class="years2_banner">2년 연장 구독하고 최대 25% 혜택을 누려보세요.</p>
-                  <button class="years2_bt" @click="handleBottomButtonClick">
-                    {{ showBenefits ? "구독하기" : "혜택보기" }}
-                  </button>
                 </div>
+
+                <p class="years2_banner">2년 연장 구독하고 최대 25% 혜택을 누려보세요.</p>
+                <button class="years2_bt" @click="handleBottomButtonClick">
+                  {{ showBenefits ? "구독하기" : "혜택보기" }}
+                </button>
               </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
