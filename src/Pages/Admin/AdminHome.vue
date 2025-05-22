@@ -122,7 +122,46 @@ const logout = () => {
         <main><router-view></router-view></main>
       </div>
     </div>
+  </header>
+  <!-- 사이드바 -->
+  <div class="sidebar">
+    <nav class="side-menu">
+      <router-link to="/Admin/Dashboard">
+        <img src="/public/prime/dashboard-icon.png" alt="대시보드 아이콘" />
+        <span>대시보드</span>
+      </router-link>
+      <router-link to="/Admin/AdminReservation">
+        <img src="/public/prime/reservation-icon.png" alt="예약관리 아이콘" />
+        <span>예약관리</span>
+      </router-link>
+      <router-link to="/Admin/Customers">
+        <img src="/public/prime/customer-icon.png" alt="고객관리 아이콘" />
+        <span>고객관리</span>
+      </router-link>
+      <router-link to="/Admin/Workers">
+        <img src="/public/prime/worker-icon.png" alt="기사관리 아이콘" />
+        <span>기사관리</span>
+      </router-link>
+      <router-link to="/Admin/Claim">
+        <img src="/public/prime/claim-icon.png" alt="클레임 아이콘" />
+        <span>클레임</span>
+      </router-link>
+      <router-link to="/Admin/Sales">
+        <img src="/public/prime/pay-icon.png" alt="정산내역 아이콘" />
+        <span>정산내역</span>
+      </router-link>
+      <router-link to="/Admin/Board">
+        <img src="/public/prime/notice-icon.png" alt="게시판 아이콘" />
+        <span>게시판</span>
+      </router-link>
+      <router-link to="/Admin/Settings">
+        <img src="/public/prime/settings-icon.png" alt="설정 아이콘" />
+        <span>설정</span>
+      </router-link>
+    </nav>
   </div>
+  <!-- 전체 -->
+  <div class="dashboard-wrap"></div>
 </template>
 
 <style scoped></style>

@@ -1,3 +1,4 @@
+// tailwind.config.js
 module.exports = {
   // prefix: 'tw-',  ❌ 이렇게 되어 있다면
   prefix: '',        // ✅ 이렇게 바꿔주세요 (또는 삭제)
