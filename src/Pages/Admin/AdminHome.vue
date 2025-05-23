@@ -74,7 +74,7 @@ const logout = () => {
   <!-- 페이지 헤더 -->
   <header class="adminHead">
     <div class="logo">
-      <img src="/public/prime/bingfree-logo.png" alt="빙프리로고" />
+      <router-link to="/Admin/Dashboard"><img src="/public/prime/bingfree-logo.png" alt="빙프리로고" /></router-link>
     </div>
     <div class="right">
       <div class="right-icon saerch">
@@ -103,12 +103,37 @@ const logout = () => {
           v-for="link in links"
           :key="link.path"
           :to="link.path"
-          class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
-          :class="{ 'bg-indigo-100 text-indigo-700': isActive(link.path) }">
+          class="flex items-center text-gray-700 rounded-lg hover:bg-gray-100 hover:text-gray8 transition-colors"
+          :class="{ 'bg-gray1 text-gray8 font-semibold': isActive(link.path) }">
           <img :src="link.imgUrl" :alt="link.name" />
           {{ link.name }}
         </router-link>
       </nav>
+      <div class="logout-wrap">
+        <div class="logout">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M5.66667 15H2.55556C2.143 15 1.74733 14.8361 1.45561 14.5444C1.16389 14.2527 1 13.857 1 13.4444V2.55556C1 2.143 1.16389 1.74733 1.45561 1.45561C1.74733 1.16389 2.143 1 2.55556 1H5.66667"
+              stroke="#616161"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M11.1112 11.8891L15.0001 8.00022L11.1112 4.11133"
+              stroke="#616161"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M15 8H5.66663"
+              stroke="#616161"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+          <span>로그아웃</span>
+        </div>
+      </div>
     </div>
     <!-- 전체 -->
     <div class="admin-right">
