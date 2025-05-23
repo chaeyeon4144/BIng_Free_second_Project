@@ -618,6 +618,20 @@
                   fw-label="나머지 주소(선택 입력 가능)" />
               </li>
             </ul>
+            <!-- 절취선 -->
+            <div class="mt-[70px] w-[860px] border-t-2 border-neutral-800"></div>
+            <div class="flex justify-center mt-10">
+              <router-link
+                to="/PersonalJoin"
+                class="w-[430px] h-[60px] rounded-l-lg border border-neutral-400 bg-white text-neutral-400 hover:border-blue-600 hover:text-[#262626] flex items-center justify-center font-semibold transition-colors">
+                이전
+              </router-link>
+              <router-link
+                to="/SubSelect"
+                class="w-[430px] h-[60px] rounded-r-lg border border-transparent bg-blue-600 text-white hover:border-blue-600 hover:bg-white hover:text-[#262626] flex items-center justify-center font-semibold transition-colors">
+                다음
+              </router-link>
+            </div>
           </div>
           <!-- 탭 1 :클리너 파트너 폼 -->
           <div v-show="activeTab === 1" class="relative w-full min-h-screen">
@@ -1036,7 +1050,6 @@
                 type="button"
                 class="w-[130px] h-11 bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] hover:bg-blue-700 transition flex items-center justify-center space-x-2">
                 <span>개인/법인선택</span>
-                <img src="/prime/bussines_icon.png" alt="더보기아이콘" class="w-4 h-4" />
               </button>
               <button
                 type="button"
@@ -1065,12 +1078,102 @@
               <label class="w-32 text-base font-bold text-neutral-800 font-['Pretendard']"> 기업인증 </label>
             </div>
             <!-- 이미지 -->
-            <div class="bussine_check_img">
-              <img src="/public/prime/aprrove_img.png" alt="사업자등록증" class="mt-[20px]" />
-              <button
-                class="w-72 h-11 relative rounded-lg bg-blue-600 text-white text-base font-bold font-['Pretendard']"
+            <div class="bussine_check_img mt-[36px]">
+              <img src="/public/prime/aprove_img.png" alt="사업자등록증" class="mt-[20px]" />
+              <label
+                for="imageUpload"
+                class="w-72 h-12 relative rounded-lg bg-blue-600 text-white text-base font-bold font-['Pretendard'] flex items-center justify-center cursor-pointer"
                 style="transform: translateX(270px) translateY(-180px)">
                 파일 선택
+              </label>
+              <input id="imageUpload" type="file" accept="image/*" class="hidden" />
+            </div>
+            <!-- 아이디 -->
+            <div class="mt-[36px] flex flex-row items-center w-full max-w-2xl space-x-4 mb-4">
+              <label for="id" class="w-32 text-base font-bold text-neutral-800 font-['Pretendard']"> 아이디 </label>
+              <input
+                id="id"
+                v-model="formData.id"
+                type="text"
+                placeholder="* 한글은 10자 , 영문은 20자 이내로"
+                required
+                class="flex-1 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1)] placeholder:text-stone-300 placeholder:text-base placeholder:font-bold font-['Pretendard']" />
+              <button
+                type="button"
+                class="w-44 h-11 bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] hover:bg-blue-700 transition">
+                중복확인
+              </button>
+            </div>
+
+            <!-- 비밀번호 -->
+
+            <div class="mt-[36px] flex flex-row items-center w-full max-w-2xl space-x-4 mb-4">
+              <label for="password" class="w-32 text-base font-bold text-neutral-800 font-['Pretendard']">
+                비밀번호
+              </label>
+              <input
+                id="password"
+                v-model="formData.password"
+                type="password"
+                placeholder="영문, 숫자, 특수문자 조합 8자 이상"
+                required
+                class="flex-1 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1)] placeholder:text-stone-300 placeholder:text-base placeholder:font-bold font-['Pretendard']" />
+            </div>
+            <!-- 비밀번호 확인 -->
+            <div class="flex flex-row items-center w-full max-w-2xl space-x-4 mb-4">
+              <label for="passwordCheck" class="w-32 text-base font-bold text-neutral-800 font-['Pretendard']">
+                비밀번호 확인
+              </label>
+              <input
+                id="passwordCheck"
+                v-model="formData.passwordcheck"
+                :type="showPassword ? 'text' : 'password'"
+                placeholder="비밀번호를 다시 입력해 주세요."
+                required
+                class="mt-[36px] flex-1 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1)] placeholder:text-stone-300 placeholder:text-base placeholder:font-bold font-['Pretendard']" />
+              <button
+                type="button"
+                @click="togglePassword"
+                class="mt-[36px] w-20 h-11 bg-gray-200 rounded-lg text-neutral-800 text-base font-bold font-['Pretendard'] hover:bg-gray-300 transition">
+                {{ showPassword ? "숨기기" : "보기" }}
+              </button>
+            </div>
+
+            <!-- 이메일 -->
+
+            <div class="mt-[36px] flex flex-row items-center w-full max-w-5xl space-x-4 mb-4">
+              <label for="email" class="w-32 text-base font-bold text-neutral-800 font-['Pretendard']"> 이메일 </label>
+
+              <input
+                id="emailId"
+                name="emailId"
+                type="text"
+                placeholder="이메일 아이디"
+                class="ml-[3px] w-36 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1)] placeholder:text-stone-300 placeholder:text-base placeholder:font-bold font-['Pretendard']" />
+
+              <span class="text-lg font-semibold text-neutral-700">@</span>
+
+              <input
+                id="emailDomain"
+                name="emailDomain"
+                type="text"
+                placeholder="직접 입력"
+                class="w-36 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1)] placeholder:text-stone-300 placeholder:text-base placeholder:font-bold font-['Pretendard']" />
+
+              <select
+                id="emailSelect"
+                name="emailSelect"
+                class="w-36 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1)] text-base font-bold text-neutral-700 font-['Pretendard']">
+                <option value="">직접입력</option>
+                <option value="naver.com">naver.com</option>
+                <option value="gmail.com">gmail.com</option>
+                <option value="daum.net">daum.net</option>
+              </select>
+
+              <button
+                type="button"
+                class="w-36 h-11 bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] hover:bg-blue-700 transition">
+                중복확인
               </button>
             </div>
 
@@ -1122,6 +1225,20 @@
                 class="w-44 h-11 bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] hover:bg-blue-700 transition">
                 인증번호 전송
               </button>
+            </div>
+            <!-- 절취선 -->
+            <div class="mt-[70px] w-[860px] border-t-2 border-neutral-800"></div>
+            <div class="flex justify-center mt-10">
+              <router-link
+                to="/PersonalJoin"
+                class="w-[430px] h-[60px] rounded-l-lg border border-neutral-400 bg-white text-neutral-400 hover:border-blue-600 hover:text-[#262626] flex items-center justify-center font-semibold transition-colors">
+                이전
+              </router-link>
+              <router-link
+                to="/SubSelect"
+                class="w-[430px] h-[60px] rounded-r-lg border border-transparent bg-blue-600 text-white hover:border-blue-600 hover:bg-white hover:text-[#262626] flex items-center justify-center font-semibold transition-colors">
+                다음
+              </router-link>
             </div>
           </div>
         </div>

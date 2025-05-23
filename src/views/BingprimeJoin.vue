@@ -162,7 +162,7 @@
     <div
       class="w-96 h-96 left-[763px] top-[316px] absolute bg-white shadow-[2px_2px_4px_3px_rgba(189,189,189,0.25)]"></div>
     <router-link
-      to="/BusinessJoin"
+      to="/PersonalJoin"
       class="w-80 h-12 left-[806px] border border-transparent top-[616.04px] absolute bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] whitespace-nowrap text-center flex items-center justify-center hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
       비즈니스 회원가입
     </router-link>
@@ -188,11 +188,11 @@
       class="w-80 h-12 left-[1226px] top-[615px] absolute bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] text-center whitespace-nowrap">
       클리너 회원가입
     </button> -->
-    <button
-      disabled
-      class="w-80 h-12 left-[1226px] top-[615px] absolute bg-gray-300 rounded-lg text-white text-base font-bold font-['Pretendard'] text-center whitespace-nowrap cursor-not-allowed">
+    <router-link
+      to="/CleanerAgree"
+      class="w-80 h-12 left-[1210px] top-[615px] absolute bg-blue-600 rounded-lg text-white text-base font-bold font-['Pretendard'] whitespace-nowrap text-center flex items-center justify-center hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors border border-transparent">
       클리너 회원가입
-    </button>
+    </router-link>
     <div
       class="left-[1302px] top-[478px] absolute text-center justify-start text-black text-sm font-normal font-['Pretendard']">
       사원번호로 별도의 절차 없이 <br />
@@ -209,8 +209,7 @@
     </div>
   </div>
 </template>
-<style scoped>
-</style>
+<style scoped></style>
 
 <!--  -->
 <!-- <div class="w-[1920px] h-20 left-0 top-[40px] absolute overflow-hidden">
