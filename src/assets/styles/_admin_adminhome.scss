@@ -1,13 +1,15 @@
 @use "./variables" as *;
 body,
 html {
-  background-color: #f5f5f5;
   z-index: -9999px;
+}
+.adminbody{
+  background-color: #f5f5f5;
 }
 a {
   display: block;
 }
-header {
+header.adminHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
