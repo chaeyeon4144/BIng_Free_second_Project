@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 export const detailList = [
   {
     id: 1,
@@ -185,7 +185,7 @@ export const reservList = ref([
 ]);
 
 // 전체 테이블 데이터
-export const fullReservationList = [
+export const fullReservationList = reactive([
   {
     id: 1,
     number: "BING-2025-001",
@@ -199,6 +199,7 @@ export const fullReservationList = [
       mobile: "010-1234-1234",
       email: "yunjung@naver.com",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "호시자키",
@@ -222,7 +223,8 @@ export const fullReservationList = [
       type: "비정기 청소",
       machine: "[호시자키] 250kg 이상 1대",
       address: "대구광역시 중구 중앙대로 77길 22 스타벅스 종로점",
-      date: "2025-05-15, 오후 11시 이후",
+      date: "2025.05.30",
+      time: "오후 11시 이후",
       plus: "자가점검키트",
       memo: "레포트 문자로 보내주세요",
     },
@@ -248,6 +250,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "cafekim@naver.com",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -270,7 +273,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.06.22",
+      time: "오후 11시 이후",
       plus: "자가 점검 키트",
       memo: null,
     },
@@ -296,6 +300,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "cafekim@naver.com",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -318,7 +323,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.07.12",
+      time: "오후 2시 이후",
       plus: null,
       memo: null,
     },
@@ -334,16 +340,17 @@ export const fullReservationList = [
   {
     id: 4,
     number: "BING-2025-004",
-    status: "confirmed",
+    status: "done",
     date: "2025-03-28, 오후 7시 이후",
     memo: "라벨 부착해주세요.",
     price: 0,
-    reservdate: "2025-02-28",
+    reservdate: "2025-05-28",
     customer: {
       name: "정유진",
       mobile: "010-1234-1234",
       email: "정유진@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: "스탠다드",
@@ -367,7 +374,8 @@ export const fullReservationList = [
       type: "비정기 청소",
       machine: "[호시자키] 250kg 이상 1대",
       address: "대구광역시 중구 중앙대로 77길 22 스타벅스 종로점",
-      date: "2025-05-15, 오후 11시 이후",
+      date: "2025.02.22",
+      time: "13:00",
       plus: "자가점검키트",
       memo: "레포트 문자로 보내주세요",
     },
@@ -393,6 +401,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "박서준@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -415,7 +424,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.08.22",
+      time: "오후 4시 이후",
       plus: "자가 점검 키트",
       memo: null,
     },
@@ -431,7 +441,7 @@ export const fullReservationList = [
   {
     id: 6,
     number: "BING-2025-006",
-    status: "assigned",
+    status: "done",
     date: "2025-02-22, 오후 10시 이후",
     memo: "레포트 문자로 보내주세요",
     price: 0,
@@ -441,6 +451,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "최지은@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -463,7 +474,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.05.30",
+      time: "15시",
       plus: null,
       memo: null,
     },
@@ -489,6 +501,7 @@ export const fullReservationList = [
       mobile: "010-1234-1234",
       email: "이동건@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "스탠다드",
@@ -512,7 +525,8 @@ export const fullReservationList = [
       type: "비정기 청소",
       machine: "[호시자키] 250kg 이상 1대",
       address: "대구광역시 중구 중앙대로 77길 22 스타벅스 종로점",
-      date: "2025-05-15, 오후 11시 이후",
+      date: "2025.07.12",
+      time: "오전 11시~12시",
       plus: "자가점검키트",
       memo: "레포트 문자로 보내주세요",
     },
@@ -538,6 +552,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "장민호@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "스탠다드",
@@ -561,7 +576,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.09.22",
+      time: "오후 11시 이후",
       plus: "자가 점검 키트",
       memo: null,
     },
@@ -577,7 +593,7 @@ export const fullReservationList = [
   {
     id: 9,
     number: "BING-2025-009",
-    status: "assigned",
+    status: "done",
     date: "2025-02-09, 오후 11시 이후",
     memo: "레포트 문자로 보내주세요",
     price: 0,
@@ -587,6 +603,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "하윤아@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -609,7 +626,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.03.22",
+      time: "21시 이후",
       plus: null,
       memo: null,
     },
@@ -635,6 +653,7 @@ export const fullReservationList = [
       mobile: "010-1234-1234",
       email: "문채원@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "스탠다드",
@@ -658,7 +677,8 @@ export const fullReservationList = [
       type: "비정기 청소",
       machine: "[호시자키] 250kg 이상 1대",
       address: "대구광역시 중구 중앙대로 77길 22 스타벅스 종로점",
-      date: "2025-05-15, 오후 11시 이후",
+      date: "2025.05.24",
+      time: "오후 11시 이후",
       plus: "자가점검키트",
       memo: "레포트 문자로 보내주세요",
     },
@@ -678,12 +698,13 @@ export const fullReservationList = [
     date: "2025-01-27, 오후 5시 이후",
     memo: "세제 신청했어요 ~ ^^",
     price: 0,
-    reservdate: "2025-03-13",
+    reservdate: "2025-08-13",
     customer: {
       name: "윤도현",
       mobile: "010-1245-1534",
       email: "윤도현@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "스탠다드",
@@ -707,7 +728,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.11.22",
+      time: "오후 11시 이후",
       plus: "자가 점검 키트",
       memo: null,
     },
@@ -727,12 +749,13 @@ export const fullReservationList = [
     date: "2025-01-20, 오후 8시 이후",
     memo: "레포트 문자로 보내주세요",
     price: 0,
-    reservdate: "2025-03-27",
+    reservdate: "2025-08-27",
     customer: {
       name: "백예린",
       mobile: "010-1245-1534",
       email: "백예린@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -755,7 +778,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.12.21",
+      time: "오후 1시 이후",
       plus: null,
       memo: null,
     },
@@ -775,12 +799,13 @@ export const fullReservationList = [
     date: "2025-01-09, 오후 10시 이후",
     memo: "라벨 부착해주세요.",
     price: 0,
-    reservdate: "2025-04-01",
+    reservdate: "2025-06-01",
     customer: {
       name: "서지호",
       mobile: "010-1234-1234",
       email: "서지호@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "스탠다드",
@@ -804,7 +829,8 @@ export const fullReservationList = [
       type: "비정기 청소",
       machine: "[호시자키] 250kg 이상 1대",
       address: "대구광역시 중구 중앙대로 77길 22 스타벅스 종로점",
-      date: "2025-05-15, 오후 11시 이후",
+      date: "2025.08.22",
+      time: "오후 11시 이후",
       plus: "자가점검키트",
       memo: "레포트 문자로 보내주세요",
     },
@@ -830,6 +856,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "김지수@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "personal",
     },
     membership: {
       name: null,
@@ -852,7 +879,8 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025.05.30",
+      time: "오후 11시 이후",
       plus: "자가 점검 키트",
       memo: null,
     },
@@ -878,6 +906,7 @@ export const fullReservationList = [
       mobile: "010-1245-1534",
       email: "강다현@bingfree.co.kr",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 5층",
+      shop: "business",
     },
     membership: {
       name: "스탠다드",
@@ -901,7 +930,7 @@ export const fullReservationList = [
       type: "일회성 청소",
       machine: "[스탠다드] 50kg 미만 1대",
       address: "대구광역시 중구 동성로 3가 동성로 1길 15 4층",
-      date: "2025-05-22, 오후 2시",
+      date: "2025-08-22, 오후 2시",
       plus: null,
       memo: null,
     },
@@ -914,7 +943,7 @@ export const fullReservationList = [
     },
     primemember: true,
   },
-];
+]);
 
 // 테이블 헤더 데이터
 export const TableHeaders = [

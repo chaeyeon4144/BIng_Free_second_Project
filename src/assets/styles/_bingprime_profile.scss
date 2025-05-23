@@ -78,6 +78,7 @@
     font-weight: 600;
     color: #757575;
   }
+  // 텍스트 컬러 전용
   .status-done {
     color: $bingprime-done;
   }
@@ -90,34 +91,31 @@
   .status-confirmed {
     color: $bingprime-all;
   }
-  .statusbox-confirmed {
+
+  // 뱃지 스타일 공통
+  %status-badge {
     color: #fff;
-    background-color: $bingprime-all;
-    border-radius: 10px;
-    padding: 0.4% 1%;
-    font-size: 11px;
-  }
-  .statusbox-done {
-    color: #fff;
-    background-color: $bingprime-done;
     border-radius: 10px;
     padding: 0.4% 1%;
     font-size: 11px;
   }
 
+  // 상태 뱃지
+  .statusbox-done {
+    @extend %status-badge;
+    background-color: $bingprime-done;
+  }
   .statusbox-waiting {
-    color: #fff;
+    @extend %status-badge;
     background-color: $bingprime-waiting;
-    border-radius: 10px;
-    padding: 0.4% 1%;
-    font-size: 11px;
   }
   .statusbox-assigned {
-    color: #fff;
+    @extend %status-badge;
     background-color: $bingprime-assigned;
-    border-radius: 10px;
-    padding: 0.4% 1%;
-    font-size: 11px;
+  }
+  .statusbox-confirmed {
+    @extend %status-badge;
+    background-color: $bingprime-all;
   }
   margin-top: 80px;
   width: 100%;

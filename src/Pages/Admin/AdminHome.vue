@@ -72,7 +72,7 @@ const logout = () => {
 
 <template>
   <!-- 페이지 헤더 -->
-  <header style="margin-top: 40px">
+  <header class="adminHead">
     <div class="logo">
       <img src="/public/prime/bingfree-logo.png" alt="빙프리로고" />
     </div>
@@ -107,8 +107,8 @@ const logout = () => {
           v-for="link in links"
           :key="link.path"
           :to="link.path"
-          class="flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
-          :class="{ 'bg-indigo-100 text-indigo-700': isActive(link.path) }"
+          class="flex items-center px-4 py-2 text-gray7 rounded-lg hover:bg-gray1 transition-colors"
+          :class="{ 'bg-gray1 text-gray8 font-bold': isActive(link.path) }"
         >
           <img :src="link.imgUrl" :alt="link.name" />
           {{ link.name }}
@@ -119,49 +119,10 @@ const logout = () => {
     <div class="admin-right">
       <p v-if="isLoggedIn">🛠 {{ userName }} 기사님!</p>
       <div>
-        <main><router-view></router-view></main>
+        <main class="adminbody"><router-view></router-view></main>
       </div>
     </div>
-  </header>
-  <!-- 사이드바 -->
-  <div class="sidebar">
-    <nav class="side-menu">
-      <router-link to="/Admin/Dashboard">
-        <img src="/public/prime/dashboard-icon.png" alt="대시보드 아이콘" />
-        <span>대시보드</span>
-      </router-link>
-      <router-link to="/Admin/AdminReservation">
-        <img src="/public/prime/reservation-icon.png" alt="예약관리 아이콘" />
-        <span>예약관리</span>
-      </router-link>
-      <router-link to="/Admin/Customers">
-        <img src="/public/prime/customer-icon.png" alt="고객관리 아이콘" />
-        <span>고객관리</span>
-      </router-link>
-      <router-link to="/Admin/Workers">
-        <img src="/public/prime/worker-icon.png" alt="기사관리 아이콘" />
-        <span>기사관리</span>
-      </router-link>
-      <router-link to="/Admin/Claim">
-        <img src="/public/prime/claim-icon.png" alt="클레임 아이콘" />
-        <span>클레임</span>
-      </router-link>
-      <router-link to="/Admin/Sales">
-        <img src="/public/prime/pay-icon.png" alt="정산내역 아이콘" />
-        <span>정산내역</span>
-      </router-link>
-      <router-link to="/Admin/Board">
-        <img src="/public/prime/notice-icon.png" alt="게시판 아이콘" />
-        <span>게시판</span>
-      </router-link>
-      <router-link to="/Admin/Settings">
-        <img src="/public/prime/settings-icon.png" alt="설정 아이콘" />
-        <span>설정</span>
-      </router-link>
-    </nav>
   </div>
-  <!-- 전체 -->
-  <div class="dashboard-wrap"></div>
 </template>
 
 <style scoped></style>
