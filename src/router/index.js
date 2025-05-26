@@ -44,7 +44,6 @@ import WorkerBoard from "@/Pages/Worker/WorkerBoard.vue";
 import WorkerCustomers from "@/Pages/Worker/WorkerCustomers.vue";
 import WorkerHistory from "@/Pages/Worker/WorkerHistory.vue";
 import WorkerProfile from "@/Pages/Worker/WorkerProfile.vue";
-import WorkerReservation from "@/Pages/Worker/WorkerReservation.vue";
 import WorkerSale from "@/Pages/Worker/WorkerSale.vue";
 import WorkerSetting from "@/Pages/Worker/WorkerSetting.vue";
 
@@ -95,7 +94,6 @@ const routes = [
     children: [
       { path: "ddashboard", component: DDashboard },
       { path: "WorkerHome", component: WorkerHome },
-      { path: "WorkerReservation", component: WorkerReservation },
       { path: "WorkerCustomers", component: WorkerCustomers },
       { path: "WorkerHistory", component: WorkerHistory },
       { path: "WorkerBoard", component: WorkerBoard },
