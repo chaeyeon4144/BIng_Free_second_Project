@@ -21,7 +21,7 @@ header.adminHead {
   height: 70px;
   background: #ffffff;
   margin-top: 0 !important;
-  adminHead & .logo {
+   & .logo {
     margin-left: 30px;
   }
   @include mobile {

@@ -186,7 +186,7 @@ const statusCards = computed(() => [
   {
     status: "total",
     title: "전체기사",
-    count: totalCount.value,
+    count: totalCount.value + "명",
     desc: `+${totalCount.value}명`,
     icon: `<svg width="34" height="29" viewBox="0 0 34 29" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M23.8182 26.5454V23.8181C23.8182 22.3714 23.2435 20.9841 22.2206 19.9611C21.1976 18.9382 19.8103 18.3635 18.3636 18.3635H7.45454C6.00791 18.3635 4.62052 18.9382 3.5976 19.9611C2.57467 20.9841 2 22.3714 2 23.8181V26.5454" stroke="#0F71F2" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
@@ -199,23 +199,23 @@ const statusCards = computed(() => [
   {
     status: "done",
     title: "활동중",
-    count: doneCount.value,
+    count: doneCount.value + "명",
     desc: ``,
-    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.9352 26.0072C20.5668 26.0072 25.9427 20.6313 25.9427 13.9997C25.9427 7.36813 20.5668 1.99219 13.9352 1.99219C7.30368 1.99219 1.92773 7.36813 1.92773 13.9997C1.92773 20.6313 7.30368 26.0072 13.9352 26.0072Z" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M13.9355 6.79688V14.0014L18.7385 16.4029" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    icon: `<svg width="31" height="28" viewBox="0 0 31 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M28.6613 3.33057V11.3306H20.6613" stroke="#5AB21A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.3146 17.9974C24.4479 20.4506 22.8073 22.5557 20.6402 23.9954C18.473 25.4351 15.8966 26.1315 13.2992 25.9795C10.7018 25.8276 8.22416 24.8355 6.23963 23.153C4.2551 21.4704 2.8712 19.1884 2.29645 16.6508C1.72171 14.1133 1.98727 11.4577 3.05311 9.08417C4.11896 6.71068 5.92735 4.7479 8.20576 3.4916C10.4842 2.2353 13.1092 1.75355 15.6852 2.11894C18.2613 2.48433 20.6488 3.67706 22.488 5.51741L28.6613 11.3307" stroke="#5AB21A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
   {
     status: "confirmed",
-    title: "확정 완료",
-    count: confirmedCount.value,
-    desc: `이 달 ${confirmedCount.value}개의 청소가 완료되었습니다.`,
-    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.4349 10H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 1.99414H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 18.0059H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    title: "기사 등록 요청",
+    count: confirmedCount.value + "명",
+    desc: ``,
+    icon: `<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M15 28C22.1797 28 28 22.1797 28 15C28 7.8203 22.1797 2 15 2C7.8203 2 2 7.8203 2 15C2 22.1797 7.8203 28 15 28Z" stroke="#893BEE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 9.80005V20.2" stroke="#893BEE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9.79999 15H20.2" stroke="#893BEE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
@@ -258,6 +258,9 @@ const statusCards = computed(() => [
       <!-- 테이블 -->
       <div class="tablelist">
         <h2 class="today-reservation-h2">기사목록</h2>
+        <div class="workers-table-search-wrap">
+        
+        </div>
         <table class="table">
           <!-- 여기서 본인이 쓸 제목으로 바꾸기! -->
           <thead>
@@ -348,7 +351,6 @@ const statusCards = computed(() => [
 
         <!-- 페이지네이션 -->
         <div class="pagination">
-          <span>총 {{ filteredList.length }}건의 예약</span>
           <div class="pagebox">
             <button @click="goToPage(currentPage - 1)">←</button>
             <button
