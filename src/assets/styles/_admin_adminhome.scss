@@ -4,18 +4,19 @@ html {
   z-index: -9999px;
 }
 .adminbody {
-  height: 90vh;
+  width: calc(100vw - 260px);
+  height: calc(100vh - 70px);
   overflow-y: scroll;
   background-color: #f5f5f5;
+  padding: 1%;
 }
-header.adminHead {
+.adminHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 70px;
   background: #ffffff;
-  margin-top: 0 !important;
-  adminHead & .logo {
+  & .logo {
     margin-left: 30px;
   }
   & .right {
@@ -61,7 +62,7 @@ header.adminHead {
     }
     & .side-menu img {
       display: inline-block;
-      margin-right: 16px;
+      margin-right: 10px;
     }
   }
   .logout-wrap {
@@ -83,17 +84,15 @@ header.adminHead {
   & .logout {
     position: relative;
     display: flex;
+    gap: 10px;
     align-items: center;
-    margin: auto;
+    // margin: auto;
   }
 
   & span {
     font-size: 15px;
     font-weight: 500;
     color: #424242;
-  }
-  & svg {
-    margin-right: 16px;
   }
   .admin-right {
     width: 84%;
