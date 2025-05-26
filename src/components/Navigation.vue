@@ -2,7 +2,9 @@
 <template>
   <header class="primeHead">
     <div class="inner">
-      <router-link to="/"><img src="/images/main-logo.png" alt="" /></router-link>
+      <router-link to="/"
+        ><img src="/images/main-logo.png" alt=""
+      /></router-link>
       <nav>
         <router-link to="/BingprimeReservation">예약하기</router-link>
         <router-link to="/SubBenefit">구독요금</router-link>
