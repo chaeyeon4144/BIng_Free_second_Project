@@ -167,8 +167,122 @@ const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) currentPage.value = page;
 };
 // 페이지 네이션 관련
+
+// 상태별 개수 계산
+const totalCount = computed(() => fullReservationList.length);
+// 대시보드 전체 예약 보기
+const doneCount = computed(
+  () => fullReservationList.filter((item) => item.status === "done").length
+);
+// 대시 보드 청소 완료 보기
+const waitingCount = computed(
+  () => fullReservationList.filter((item) => item.status === "waiting").length
+);
+// 대시 보드 배정 대기 보기
+const assignedCount = computed(
+  () => fullReservationList.filter((item) => item.status === "assigned").length
+);
+// 대시 보드 청소 진행 보기
+const confirmedCount = computed(
+  () => fullReservationList.filter((item) => item.status === "confirmed").length
+);
+// 대시보드 확정 완료 보기 (고객-> 확정완료 누르거나 기사-> 완료제출 누르는 거)
+
+
+// 카드에 쓸 데이터 (여기에 svg바꾸면 됩니다 이름이나)
+const statusCards = computed(() => [
+  {
+    status: "total",
+    title: "전체 예약",
+    count: totalCount.value,
+    desc: `이 달 ${totalCount.value}개의 청소가 있습니다.`,
+    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M25.4349 10H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.4349 1.99414H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.4349 18.0059H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+  },
+  {
+    status: "waiting",
+    title: "배정 대기",
+    count: waitingCount.value,
+    desc: `${waitingCount.value}개의 예약이 배정 대기 중입니다.`,
+    icon: `<svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.062 1.9005C13.2454 1.52892 13.7753 1.52892 13.9587 1.9005L17.2773 8.62368C17.3501 8.7711 17.4907 8.87333 17.6534 8.89711L25.0755 9.98196C25.4854 10.0419 25.6488 10.5458 25.352 10.8349L19.9823 16.065C19.8643 16.1799 19.8105 16.3455 19.8383 16.5077L21.1055 23.8959C21.1755 24.3044 20.7468 24.6159 20.38 24.423L13.7431 20.9327C13.5974 20.8561 13.4233 20.8561 13.2776 20.9327L6.64077 24.423C6.27396 24.6159 5.84518 24.3044 5.91524 23.8959L7.1824 16.5077C7.21024 16.3455 7.1564 16.1799 7.03847 16.065L1.6687 10.8349C1.3719 10.5458 1.53529 10.0419 1.94525 9.98196L9.36734 8.89711C9.53002 8.87333 9.67061 8.7711 9.74338 8.62368L13.062 1.9005Z" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+  },
+  {
+    status: "done",
+    title: "완료 대기",
+    count: doneCount.value,
+    desc: `${doneCount.value}개의 예약이 완료 대기 중입니다.`,
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.9352 26.0072C20.5668 26.0072 25.9427 20.6313 25.9427 13.9997C25.9427 7.36813 20.5668 1.99219 13.9352 1.99219C7.30368 1.99219 1.92773 7.36813 1.92773 13.9997C1.92773 20.6313 7.30368 26.0072 13.9352 26.0072Z" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M13.9355 6.79688V14.0014L18.7385 16.4029" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+  },
+  {
+    status: "assigned",
+    title: "청소 대기",
+    count: assignedCount.value,
+    desc: `${assignedCount.value}개의 예약이 청소 대기 중입니다.`,
+    icon: `<svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M25.4504 12.902V14.0067C25.4489 16.596 24.6104 19.1155 23.0601 21.1894C21.5097 23.2633 19.3305 24.7805 16.8475 25.5146C14.3644 26.2488 11.7106 26.1606 9.28175 25.2633C6.85291 24.3659 4.77919 22.7075 3.36989 20.5353C1.96059 18.3631 1.29121 15.7935 1.46158 13.2097C1.63194 10.626 2.63293 8.16656 4.31526 6.19821C5.99758 4.22986 8.27111 2.85806 10.7967 2.28742C13.3224 1.71677 15.9648 1.97785 18.33 3.03171" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.4514 4.40039L13.444 16.42L9.8418 12.8177" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+  },
+
+  {
+    status: "confirmed",
+    title: "확정 완료",
+    count: confirmedCount.value,
+    desc: `이 달 ${confirmedCount.value}개의 청소가 완료되었습니다.`,
+    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M25.4349 10H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.4349 1.99414H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M25.4349 18.0059H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+  },
+]);
+
+// 대시 보드 관련
 </script>
 <template>
+  <div class="dashboard">
+    <div
+      class="allcard"
+      v-for="card in statusCards"
+      :key="card.status"
+      :class="card.status"
+      @click="
+        card.status === 'waiting'
+          ? (waitinglist = true)
+          : card.status === 'assigned'
+          ? null
+          : card.status === 'done'
+          ? null
+          : card.status === 'confirmed'
+          ? null
+          : null
+      "
+    >
+      <p class="profile-h3">
+        {{ card.title }}
+        <span
+          class="card-icon"
+          v-html="card.icon"
+          style="margin-left: auto; display: inline"
+        ></span>
+      </p>
+      <p class="profile-h1">{{ card.count }}</p>
+      <p class="card-desc" v-html="card.desc"></p>
+    </div>
+  </div>
   <div class="table-wrap">
     <!-- 상단 검색창 -->
     <div class="searchbox">

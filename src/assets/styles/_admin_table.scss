@@ -1,4 +1,49 @@
 @use "./variables" as *;
+.dashboard {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  padding: 1%;
+
+  .allcard {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    .profile-h3 {
+      display: flex;
+      align-items: flex-start;
+      height: 30px;
+    }
+    &.total {
+      border-left: 5px solid$bingprime-all;
+    }
+
+    &.done {
+      border-left: 5px solid $bingprime-done;
+    }
+
+    &.waiting {
+      border-left: 5px solid $bingprime-waiting;
+    }
+
+    &.assigned {
+      border-left: 5px solid$bingprime-assigned;
+    }
+    &.confirmed {
+      border-left: 5px solid$bingprime-assigned;
+    }
+
+    .card-desc {
+      font-size: 0.875rem;
+      margin-top: 5px;
+      color: #6b7280;
+    }
+  }
+}
 .table-wrap {
   button {
     &.modal {
@@ -88,6 +133,7 @@
     border-radius: 8px;
     .profile-h2 {
       margin: 0 0 20px;
+      color: #424242;
     }
     hr {
       margin: 10px 0;
