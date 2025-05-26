@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <header>
+  <header class="primeHead">
     <div class="inner">
       <router-link to="/"><img src="/images/main-logo.png" alt="" /></router-link>
       <nav>
@@ -13,7 +13,7 @@
   </header>
 </template>
 <style lang="scss" scoped>
-header {
+header.primeHead {
   margin-top: 40px;
   margin-bottom: -80px;
   width: 100%;
