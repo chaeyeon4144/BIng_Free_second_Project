@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <Header />
   <div class="min-h-screen flex flex-col items-center justify-center px-4">
     <!-- 로고 -->
     <div class="mb-10">
@@ -15,7 +15,8 @@
         :class="[
           'flex-1 flex items-center justify-center font-semibold cursor-pointer transition',
           activeTab === index ? 'active-tab' : 'inactive-tab',
-        ]">
+        ]"
+      >
         {{ tab }}
       </div>
     </div>
@@ -37,10 +38,13 @@
               type="email"
               placeholder="Bing.P 아이디"
               required
-              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']"
+            />
           </div>
 
-          <div class="mb-4 relative flex flex-col mt-[34px] items-center justify-center">
+          <div
+            class="mb-4 relative flex flex-col mt-[34px] items-center justify-center"
+          >
             <label
               for="password"
               class="self-start px-8 blocktext-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
@@ -52,28 +56,37 @@
               :type="showPassword ? 'text' : 'password'"
               placeholder="Bing.P 비밀번호"
               required
-              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']"
+            />
             <button
               type="button"
               @click="togglePassword"
-              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']">
+              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+            >
               {{ showPassword ? "숨기기" : "보기" }}
             </button>
           </div>
 
           <div class="flex items-center px-8 gap-3 mb-4 text-sm">
             <label class="relative w-[38px] h-5 cursor-pointer">
-              <input type="checkbox" v-model="formData.rememberMe" class="sr-only peer" />
+              <input
+                type="checkbox"
+                v-model="formData.rememberMe"
+                class="sr-only peer"
+              />
 
               <!-- 배경 바 -->
               <div
-                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"></div>
+                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"
+              ></div>
 
               <!-- 토글 핸들 -->
               <div
-                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"></div>
+                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"
+              ></div>
             </label>
-            <span class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+            <span
+              class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
               >로그인 상태 유지</span
             >
           </div>
@@ -81,7 +94,8 @@
           <div class="relative mt-10 flex items-center justify-center">
             <button
               type="submit"
-              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
+              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors"
+            >
               로그인
             </button>
           </div>
@@ -89,7 +103,8 @@
             <div class="flex justify-center items-center space-x-6 relative">
               <!-- 비밀번호 찾기 -->
               <span
-                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200">
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200"
+              >
                 비밀번호 찾기
               </span>
 
@@ -98,7 +113,8 @@
 
               <!-- 아이디 찾기 -->
               <span
-                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200">
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200"
+              >
                 아이디 찾기
               </span>
 
@@ -108,7 +124,8 @@
               <!-- 회원가입 -->
               <router-link
                 to="/BingprimeJoin"
-                class="text-neutral-800 text-base font-medium font-['Pretendard'] cursor-pointer transition-colors duration-200">
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] cursor-pointer transition-colors duration-200"
+              >
                 회원가입
               </router-link>
             </div>
@@ -121,8 +138,11 @@
             <!-- 버튼 박스 -->
             <router-link
               to="/Reservation"
-              class="w-96 h-12 rounded-lg border border-blue-600 flex justify-center items-center hover:bg-blue-600 transition-colors">
-              <span class="text-zinc-800 text-base font-bold font-['Pretendard'] hover:text-white transition-colors">
+              class="w-96 h-12 rounded-lg border border-blue-600 flex justify-center items-center hover:bg-blue-600 transition-colors"
+            >
+              <span
+                class="text-zinc-800 text-base font-bold font-['Pretendard'] hover:text-white transition-colors"
+              >
                 비회원 예약조회
               </span>
             </router-link>
@@ -142,10 +162,13 @@
               type="email"
               placeholder="클리너 사원번호"
               required
-              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']"
+            />
           </div>
 
-          <div class="mb-4 relative flex flex-col mt-[34px] items-center justify-center">
+          <div
+            class="mb-4 relative flex flex-col mt-[34px] items-center justify-center"
+          >
             <label
               for="password"
               class="self-start px-8 blocktext-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
@@ -157,28 +180,37 @@
               :type="showPassword ? 'text' : 'password'"
               placeholder="비밀번호"
               required
-              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']"
+            />
             <button
               type="button"
               @click="togglePassword"
-              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']">
+              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+            >
               {{ showPassword ? "숨기기" : "보기" }}
             </button>
           </div>
 
           <div class="flex items-center px-8 gap-3 mb-4 text-sm">
             <label class="relative w-[38px] h-5 cursor-pointer">
-              <input type="checkbox" v-model="formData.rememberMe" class="sr-only peer" />
+              <input
+                type="checkbox"
+                v-model="formData.rememberMe"
+                class="sr-only peer"
+              />
 
               <!-- 배경 바 -->
               <div
-                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"></div>
+                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"
+              ></div>
 
               <!-- 토글 핸들 -->
               <div
-                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"></div>
+                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"
+              ></div>
             </label>
-            <span class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+            <span
+              class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
               >로그인 상태 유지</span
             >
           </div>
@@ -186,7 +218,8 @@
           <div class="relative mt-10 flex items-center justify-center">
             <button
               type="submit"
-              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
+              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors"
+            >
               로그인
             </button>
           </div>
@@ -194,7 +227,8 @@
             <div class="flex justify-center items-center space-x-6 relative">
               <!-- 비밀번호 찾기 -->
               <span
-                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200">
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] hover:text-blue-600 transition-colors duration-200"
+              >
                 비밀번호 찾기
               </span>
 
@@ -204,7 +238,8 @@
               <!-- 회원가입 -->
               <router-link
                 to="/BusinessJoin"
-                class="text-neutral-800 text-base font-medium font-['Pretendard'] cursor-pointer transition-colors duration-200">
+                class="text-neutral-800 text-base font-medium font-['Pretendard'] cursor-pointer transition-colors duration-200"
+              >
                 회원가입
               </router-link>
             </div>
@@ -216,8 +251,11 @@
           <div class="w-full flex justify-center items-center mt-10">
             <!-- 버튼 박스 -->
             <div
-              class="w-96 h-12 rounded-lg border border-blue-600 flex justify-center items-center hover:bg-blue-600 transition-colors">
-              <span class="text-zinc-800 text-base font-bold font-['Pretendard'] hover:text-white transition-colors">
+              class="w-96 h-12 rounded-lg border border-blue-600 flex justify-center items-center hover:bg-blue-600 transition-colors"
+            >
+              <span
+                class="text-zinc-800 text-base font-bold font-['Pretendard'] hover:text-white transition-colors"
+              >
                 사원번호 조회하기
               </span>
             </div>
@@ -237,10 +275,13 @@
               type="email"
               placeholder="bing@naver.com"
               required
-              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']"
+            />
           </div>
 
-          <div class="mb-4 relative flex flex-col mt-[34px] items-center justify-center">
+          <div
+            class="mb-4 relative flex flex-col mt-[34px] items-center justify-center"
+          >
             <label
               for="password"
               class="self-start px-8 blocktext-left mb-[5px] justify-start text-neutral-800 text-base font-bold font-['Pretendard']"
@@ -252,28 +293,37 @@
               :type="showPassword ? 'text' : 'password'"
               placeholder="1234"
               required
-              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']" />
+              class="w-96 h-12 px-3 rounded-lg border border-stone-300 focus:outline-none focus:ring focus:ring-[rgba(20,86,253,1) placeholder:text-left placeholder:justify-start placeholder:text-stone-300 placeholder:text-base placeholder:font-bold placeholder:font-['Pretendard']"
+            />
             <button
               type="button"
               @click="togglePassword"
-              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']">
+              class="absolute right-12 top-11 text-right justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+            >
               {{ showPassword ? "숨기기" : "보기" }}
             </button>
           </div>
 
           <div class="flex items-center px-8 gap-3 mb-4 text-sm">
             <label class="relative w-[38px] h-5 cursor-pointer">
-              <input type="checkbox" v-model="formData.rememberMe" class="sr-only peer" />
+              <input
+                type="checkbox"
+                v-model="formData.rememberMe"
+                class="sr-only peer"
+              />
 
               <!-- 배경 바 -->
               <div
-                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"></div>
+                class="w-full h-full bg-zinc-300 rounded-full transition-colors duration-200 peer-checked:bg-[#1456FD]"
+              ></div>
 
               <!-- 토글 핸들 -->
               <div
-                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"></div>
+                class="w-4 h-4 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform duration-200 peer-checked:translate-x-[18px]"
+              ></div>
             </label>
-            <span class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
+            <span
+              class="text-center justify-start text-neutral-800 text-base font-normal font-['Pretendard']"
               >로그인 상태 유지</span
             >
           </div>
@@ -281,7 +331,8 @@
           <div class="relative mt-10 flex items-center justify-center">
             <router-link
               to="/Admin/Dashboard"
-              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold flex items-center justify-center hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors">
+              class="w-96 h-12 border border-transparent bg-blue-600 rounded-lg text-white font-semibold flex items-center justify-center hover:border-blue-600 hover:bg-white hover:text-[#262626] transition-colors"
+            >
               로그인
             </router-link>
           </div>

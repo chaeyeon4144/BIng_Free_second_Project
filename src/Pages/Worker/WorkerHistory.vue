@@ -35,7 +35,12 @@ const stepStates = computed(() => {
     waiting: ["25.03.17 14:00", "-", "-", "-"],
     assigned: ["25.03.17 14:00", "25.05.15 23:00", "-", "-"],
     done: ["25.03.17 14:00", "25.05.15 23:00", "25.05.15 00:20", "-"],
-    confirmed: ["25.03.17 14:00", "25.05.15 23:00", "25.05.15 00:20", "25.05.22 14:00"],
+    confirmed: [
+      "25.03.17 14:00",
+      "25.05.15 23:00",
+      "25.05.15 00:20",
+      "25.05.22 14:00",
+    ],
   };
 
   const colorPerStatus = {
@@ -116,22 +121,34 @@ function applyFilters() {
       const isInDateRange =
         !fromDate.value || !toDate.value
           ? true
-          : reservDate.isAfter(fromDate.value.subtract(1, "day")) && reservDate.isBefore(toDate.value.add(1, "day"));
+          : reservDate.isAfter(fromDate.value.subtract(1, "day")) &&
+            reservDate.isBefore(toDate.value.add(1, "day"));
 
-      const statusMatched = statusFilter.value === "all" || item.status === statusFilter.value;
+      const statusMatched =
+        statusFilter.value === "all" || item.status === statusFilter.value;
 
       const memberMatched =
         memberFilter.value === "all" ||
         (memberFilter.value === "normal" && !item.primemember) ||
         (memberFilter.value === "prime" && item.primemember);
 
-      const shopMatched = shopFilter.value === "all" || item.customer.shop === shopFilter.value;
+      const shopMatched =
+        shopFilter.value === "all" || item.customer.shop === shopFilter.value;
 
       const searchMatched = searchText.value
-        ? (searchType.value === "customer" ? item.customer.name : item.worker.name || "").includes(searchText.value)
+        ? (searchType.value === "customer"
+            ? item.customer.name
+            : item.worker.name || ""
+          ).includes(searchText.value)
         : true;
 
-      return statusMatched && memberMatched && shopMatched && searchMatched && isInDateRange;
+      return (
+        statusMatched &&
+        memberMatched &&
+        shopMatched &&
+        searchMatched &&
+        isInDateRange
+      );
     })
     .sort((a, b) => a.id - b.id);
 
@@ -148,7 +165,9 @@ const paginatedList = computed(() => {
   return filteredList.value.slice(start, start + perPage);
 });
 
-const totalPages = computed(() => Math.ceil(filteredList.value.length / perPage));
+const totalPages = computed(() =>
+  Math.ceil(filteredList.value.length / perPage)
+);
 
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) currentPage.value = page;
@@ -156,10 +175,18 @@ const goToPage = (page) => {
 
 // 상태별 개수 계산
 // const totalCount = computed(() => fullReservationList.length);
-const doneCount = computed(() => fullReservationList.filter((item) => item.status === "done").length);
-const waitingCount = computed(() => fullReservationList.filter((item) => item.status === "waiting").length);
-const assignedCount = computed(() => fullReservationList.filter((item) => item.status === "assigned").length);
-const confirmedCount = computed(() => fullReservationList.filter((item) => item.status === "confirmed").length);
+const doneCount = computed(
+  () => fullReservationList.filter((item) => item.status === "done").length
+);
+const waitingCount = computed(
+  () => fullReservationList.filter((item) => item.status === "waiting").length
+);
+const assignedCount = computed(
+  () => fullReservationList.filter((item) => item.status === "assigned").length
+);
+const confirmedCount = computed(
+  () => fullReservationList.filter((item) => item.status === "confirmed").length
+);
 
 // 카드에 쓸 데이터
 const statusCards = computed(() => [
@@ -255,7 +282,9 @@ const waitinglist = ref(false);
 
 const selectedItem = ref(null);
 
-const waitingListOnly = computed(() => filteredList.value.filter((item) => item.status === "waiting"));
+const waitingListOnly = computed(() =>
+  filteredList.value.filter((item) => item.status === "waiting")
+);
 </script>
 <template>
   <div class="workerreservation">
@@ -279,10 +308,15 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             : card.status === 'confirmed'
             ? null
             : null
-        ">
+        "
+      >
         <p class="profile-h3">
           {{ card.title }}
-          <span class="card-icon" v-html="card.icon" style="margin-left: auto; display: inline"></span>
+          <span
+            class="card-icon"
+            v-html="card.icon"
+            style="margin-left: auto; display: inline"
+          ></span>
         </p>
         <p class="profile-h1">
           {{ card.count }}
@@ -301,19 +335,34 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <option value="customer">고객</option>
             <option value="worker">기사</option>
           </select>
-          <input v-model="searchText" type="text" placeholder="이름을 입력하세요" @keydown.enter="applyFilters" />
+          <input
+            v-model="searchText"
+            type="text"
+            placeholder="이름을 입력하세요"
+            @keydown.enter="applyFilters"
+          />
         </div>
         <hr />
         <div class="searchtop profile-h4">
           <div class="memberbox">
             <label>회원등급</label>
-            <label><input type="radio" v-model="memberFilter" value="all" /> 전체</label>
+            <label
+              ><input type="radio" v-model="memberFilter" value="all" />
+              전체</label
+            >
             <label
               ><input type="radio" v-model="memberFilter" value="normal" />
-              <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg
+                width="14"
+                height="11"
+                viewBox="0 0 14 11"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M1.75 1.57143H0C0 4.60871 2.74258 7.07143 6.125 7.07143V10.6071C6.125 10.8232 6.32188 11 6.5625 11H7.4375C7.67812 11 7.875 10.8232 7.875 10.6071V7.07143C7.875 4.03415 5.13242 1.57143 1.75 1.57143ZM12.25 0C9.94766 0 7.94609 1.14174 6.89883 2.82857C7.65625 3.57009 8.2168 4.47121 8.51211 5.47054C11.5938 5.18326 14 2.84576 14 0H12.25Z"
-                  fill="#4ECF50" />
+                  fill="#4ECF50"
+                />
               </svg>
               일반</label
             >
@@ -325,18 +374,28 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                 viewBox="0 0 15 15"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink">
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+              >
                 <rect width="15" height="15" fill="url(#pattern0_273_887)" />
                 <defs>
-                  <pattern id="pattern0_273_887" patternContentUnits="objectBoundingBox" width="1" height="1">
-                    <use xlink:href="#image0_273_887" transform="scale(0.0185185)" />
+                  <pattern
+                    id="pattern0_273_887"
+                    patternContentUnits="objectBoundingBox"
+                    width="1"
+                    height="1"
+                  >
+                    <use
+                      xlink:href="#image0_273_887"
+                      transform="scale(0.0185185)"
+                    />
                   </pattern>
                   <image
                     id="image0_273_887"
                     width="54"
                     height="54"
                     preserveAspectRatio="none"
-                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAACXBIWXMAAAsSAAALEgHS3X78AAAEXUlEQVRogd1aPUwUQRR+u6HCxKNZO/QSO8BISGig4OproNAsNgKNJgYSGmjhEis0EaPBaAPRAi5SYHOUHgU2GIMJ0pkc0rmFnImUu+bbn9u9vdmfmb29H76EAHO7c++b7817b96uZBgGJYGi6lkiyiaaJBzHWlG+4L2Jm5ii6n1ENEtEU0Q00RTTo1ElojIR7eEnDtHYxGxC60Q0kzqNcFRtO9bDCMYipqj6rD1ZpmXmRwMEp7SiXGZdKUfdrqj6FhFtdhgpsu35bC96A0KJ2aTa7XpR2FRUfdF/TSAxRdVXu4CUgxd+5Zh7TFH1HGRusXFJgT03rBXlCoUott41dFxkvHY3ELMlvdse2xJjUlH1YQpQjBllugiLDcTs8ihRNTE+ING31zJ9WpGpX2nLaqAialAsJzobSIDM3opk/j02QPQgJ0Xe83PTWgQsCOtzjHMuUAbu6CfGXcxmrhG9emKpBDI8uKlIdL3XWgQsSH7UJbd835oT41ELxEADsWHeGZ7OSDQ9wf3FTAzZy4rfS/fcOU8q3FNl/cT6eGdIQqp6ya5TM731c1b/8c8dWSumCSgxVTDo72U9gf4b7peea0S/NP4zY087iQGHpwbllg1zT5WOLALnvy1COwcGrX0UOwj7ibXq4FgHkFjYcAmA7Mh8PSFn/8Xdby1RbDon0fgA0Z2sRIO33HG4IAyFUlDHv5cQcR/nreDkhPyFNwbtlKNVrCuCFVXn1l0rBm/TL6dWLoqbh96VDFrbdQki3LPuHZnXTZVDUKhZ5dRYzQTyE09yfZSXzGTtuN3D5zr9OHM/h8LPdt1gE4aaYqJHlTDFRAHDc8uuKnBHuOXbUqO7BqDQ9qjIAqqRD0uySQ4AIV54l5s7OacJBBkoJQqvYk3fY14gkHhdaXzQMhzqBAGfi6hFrQr3rBB9eEq0XTZCjzcYR2HsJG4epF5S7X8Nzjv+xMzCkGDz3EtM+CwWhh1mO9MFqgxvSPeDdU6Lg9QVg+FREKneo9DW6j5NeImlEhXjuFIavREvsVR681G5KKqnEceVWUjdFVEvTgf0LBDx3i+FExdoC5gwa0X72dcfkQni1opI0NsHhnmIBPKjFuGwBI2a8facLmJWrVZMteogW7kxztAtWnVQJ0dF5DbRtgB1KjG44PyGkAvW4BBretUR5zDIApSaLOjCQcNGJbFiKHBZQOGK1lpYueSFczpuAingOHF1jwL3pGI0NDnRC0SRi9YachWi4FBWqmuDgzSuKx0R7R/FPh1H4UwrysdNiYrWCgdvdCRZHFPCrmki8C5IbY911Ok5IcynmletCH7pfwZ9FRTDw/VV5x+HWLc+c/Yi530F6aq44hwioXegI/uKHID7zWpFec9/i2x3gLsRB/YLKw2kqEsVQy2zqhXlrbCLuoUY1MEe2vLvpSD0tOIs5kHVNtCBtzmHcSeqXcQlEISeBDnsu9eQMINF3ulNCscVIXXNkCCDg97m7DgQ0X+1TJk9rcZcSQAAAABJRU5ErkJggg==" />
+                    xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAACXBIWXMAAAsSAAALEgHS3X78AAAEXUlEQVRogd1aPUwUQRR+u6HCxKNZO/QSO8BISGig4OproNAsNgKNJgYSGmjhEis0EaPBaAPRAi5SYHOUHgU2GIMJ0pkc0rmFnImUu+bbn9u9vdmfmb29H76EAHO7c++b7817b96uZBgGJYGi6lkiyiaaJBzHWlG+4L2Jm5ii6n1ENEtEU0Q00RTTo1ElojIR7eEnDtHYxGxC60Q0kzqNcFRtO9bDCMYipqj6rD1ZpmXmRwMEp7SiXGZdKUfdrqj6FhFtdhgpsu35bC96A0KJ2aTa7XpR2FRUfdF/TSAxRdVXu4CUgxd+5Zh7TFH1HGRusXFJgT03rBXlCoUott41dFxkvHY3ELMlvdse2xJjUlH1YQpQjBllugiLDcTs8ihRNTE+ING31zJ9WpGpX2nLaqAialAsJzobSIDM3opk/j02QPQgJ0Xe83PTWgQsCOtzjHMuUAbu6CfGXcxmrhG9emKpBDI8uKlIdL3XWgQsSH7UJbd835oT41ELxEADsWHeGZ7OSDQ9wf3FTAzZy4rfS/fcOU8q3FNl/cT6eGdIQqp6ya5TM731c1b/8c8dWSumCSgxVTDo72U9gf4b7peea0S/NP4zY087iQGHpwbllg1zT5WOLALnvy1COwcGrX0UOwj7ibXq4FgHkFjYcAmA7Mh8PSFn/8Xdby1RbDon0fgA0Z2sRIO33HG4IAyFUlDHv5cQcR/nreDkhPyFNwbtlKNVrCuCFVXn1l0rBm/TL6dWLoqbh96VDFrbdQki3LPuHZnXTZVDUKhZ5dRYzQTyE09yfZSXzGTtuN3D5zr9OHM/h8LPdt1gE4aaYqJHlTDFRAHDc8uuKnBHuOXbUqO7BqDQ9qjIAqqRD0uySQ4AIV54l5s7OacJBBkoJQqvYk3fY14gkHhdaXzQMhzqBAGfi6hFrQr3rBB9eEq0XTZCjzcYR2HsJG4epF5S7X8Nzjv+xMzCkGDz3EtM+CwWhh1mO9MFqgxvSPeDdU6Lg9QVg+FREKneo9DW6j5NeImlEhXjuFIavREvsVR681G5KKqnEceVWUjdFVEvTgf0LBDx3i+FExdoC5gwa0X72dcfkQni1opI0NsHhnmIBPKjFuGwBI2a8facLmJWrVZMteogW7kxztAtWnVQJ0dF5DbRtgB1KjG44PyGkAvW4BBretUR5zDIApSaLOjCQcNGJbFiKHBZQOGK1lpYueSFczpuAingOHF1jwL3pGI0NDnRC0SRi9YachWi4FBWqmuDgzSuKx0R7R/FPh1H4UwrysdNiYrWCgdvdCRZHFPCrmki8C5IbY911Ok5IcynmletCH7pfwZ9FRTDw/VV5x+HWLc+c/Yi530F6aq44hwioXegI/uKHID7zWpFec9/i2x3gLsRB/YLKw2kqEsVQy2zqhXlrbCLuoUY1MEe2vLvpSD0tOIs5kHVNtCBtzmHcSeqXcQlEISeBDnsu9eQMINF3ulNCscVIXXNkCCDg97m7DgQ0X+1TJk9rcZcSQAAAABJRU5ErkJggg=="
+                  />
                 </defs>
               </svg>
               구독</label
@@ -344,20 +403,44 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
           </div>
           <div class="shopbox">
             <label>회원구분</label>
-            <label><input type="radio" value="all" v-model="shopFilter" /> 전체</label>
-            <label><input type="radio" value="personal" v-model="shopFilter" /> 개인회원</label>
-            <label><input type="radio" value="business" v-model="shopFilter" /> 사업자회원</label>
+            <label
+              ><input type="radio" value="all" v-model="shopFilter" />
+              전체</label
+            >
+            <label
+              ><input type="radio" value="personal" v-model="shopFilter" />
+              개인회원</label
+            >
+            <label
+              ><input type="radio" value="business" v-model="shopFilter" />
+              사업자회원</label
+            >
           </div>
         </div>
         <hr />
         <div class="searchbt profile-h4">
           <div class="statusbox">
             <label>예약상태</label>
-            <label><input type="radio" value="all" v-model="statusFilter" /> 전체</label>
-            <label><input type="radio" value="waiting" v-model="statusFilter" /> 배정대기</label>
-            <label><input type="radio" value="assigned" v-model="statusFilter" /> 청소대기</label>
-            <label><input type="radio" value="confirmed" v-model="statusFilter" /> 청소완료</label>
-            <label><input type="radio" value="done" v-model="statusFilter" /> 확정완료</label>
+            <label
+              ><input type="radio" value="all" v-model="statusFilter" />
+              전체</label
+            >
+            <label
+              ><input type="radio" value="waiting" v-model="statusFilter" />
+              배정대기</label
+            >
+            <label
+              ><input type="radio" value="assigned" v-model="statusFilter" />
+              청소대기</label
+            >
+            <label
+              ><input type="radio" value="confirmed" v-model="statusFilter" />
+              청소완료</label
+            >
+            <label
+              ><input type="radio" value="done" v-model="statusFilter" />
+              확정완료</label
+            >
           </div>
           <div class="searchdate">
             <div class="datepicker-box">
@@ -370,7 +453,8 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                     dateFilter = 'custom';
                     applyFilters();
                   }
-                " />
+                "
+              />
               ~
               <input
                 type="date"
@@ -380,25 +464,50 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                     dateFilter = 'custom';
                     applyFilters();
                   }
-                " />
+                "
+              />
             </div>
             <ul class="date-filter">
-              <li style="font-size: 12px" :class="{ active: dateFilter === 'all' }" @click="dateFilter = 'all'">
+              <li
+                style="font-size: 12px"
+                :class="{ active: dateFilter === 'all' }"
+                @click="dateFilter = 'all'"
+              >
                 전체
               </li>
-              <li style="font-size: 12px" :class="{ active: dateFilter === 'today' }" @click="dateFilter = 'today'">
+              <li
+                style="font-size: 12px"
+                :class="{ active: dateFilter === 'today' }"
+                @click="dateFilter = 'today'"
+              >
                 오늘
               </li>
-              <li style="font-size: 12px" :class="{ active: dateFilter === 'plus7d' }" @click="dateFilter = 'plus7d'">
+              <li
+                style="font-size: 12px"
+                :class="{ active: dateFilter === 'plus7d' }"
+                @click="dateFilter = 'plus7d'"
+              >
                 7일
               </li>
-              <li style="font-size: 12px" :class="{ active: dateFilter === 'plus15d' }" @click="dateFilter = 'plus15d'">
+              <li
+                style="font-size: 12px"
+                :class="{ active: dateFilter === 'plus15d' }"
+                @click="dateFilter = 'plus15d'"
+              >
                 15일
               </li>
-              <li style="font-size: 12px" :class="{ active: dateFilter === 'plus1m' }" @click="dateFilter = 'plus1m'">
+              <li
+                style="font-size: 12px"
+                :class="{ active: dateFilter === 'plus1m' }"
+                @click="dateFilter = 'plus1m'"
+              >
                 1개월
               </li>
-              <li style="font-size: 12px" :class="{ active: dateFilter === 'plus3m' }" @click="dateFilter = 'plus3m'">
+              <li
+                style="font-size: 12px"
+                :class="{ active: dateFilter === 'plus3m' }"
+                @click="dateFilter = 'plus3m'"
+              >
                 3개월
               </li>
             </ul>
@@ -412,7 +521,9 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
       <div class="searchbox mbsearchbox">
         <p class="profile-h2">
           회원 검색
-          <button class="modal profile-h4" v-on:click="clickadd = !clickadd">상세검색</button>
+          <button class="modal profile-h4" v-on:click="clickadd = !clickadd">
+            상세검색
+          </button>
         </p>
         <div class="namesearchbox profile-h4">
           <label>검색어</label>
@@ -420,7 +531,12 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <option value="customer">고객</option>
             <option value="worker">기사</option>
           </select>
-          <input v-model="searchText" type="text" placeholder="이름을 입력하세요" @keydown.enter="applyFilters" />
+          <input
+            v-model="searchText"
+            type="text"
+            placeholder="이름을 입력하세요"
+            @keydown.enter="applyFilters"
+          />
         </div>
         <hr />
         <div class="clickadd" v-show="clickadd">
@@ -428,13 +544,23 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <div class="memberbox">
               <label class="filtermb">회원등급</label>
               <div class="mbbox">
-                <label><input type="radio" v-model="memberFilter" value="all" /> 전체</label>
+                <label
+                  ><input type="radio" v-model="memberFilter" value="all" />
+                  전체</label
+                >
                 <label
                   ><input type="radio" v-model="memberFilter" value="normal" />
-                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="14"
+                    height="11"
+                    viewBox="0 0 14 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M1.75 1.57143H0C0 4.60871 2.74258 7.07143 6.125 7.07143V10.6071C6.125 10.8232 6.32188 11 6.5625 11H7.4375C7.67812 11 7.875 10.8232 7.875 10.6071V7.07143C7.875 4.03415 5.13242 1.57143 1.75 1.57143ZM12.25 0C9.94766 0 7.94609 1.14174 6.89883 2.82857C7.65625 3.57009 8.2168 4.47121 8.51211 5.47054C11.5938 5.18326 14 2.84576 14 0H12.25Z"
-                      fill="#4ECF50" />
+                      fill="#4ECF50"
+                    />
                   </svg>
                   일반</label
                 >
@@ -446,18 +572,32 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <rect width="15" height="15" fill="url(#pattern0_273_887)" />
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <rect
+                      width="15"
+                      height="15"
+                      fill="url(#pattern0_273_887)"
+                    />
                     <defs>
-                      <pattern id="pattern0_273_887" patternContentUnits="objectBoundingBox" width="1" height="1">
-                        <use xlink:href="#image0_273_887" transform="scale(0.0185185)" />
+                      <pattern
+                        id="pattern0_273_887"
+                        patternContentUnits="objectBoundingBox"
+                        width="1"
+                        height="1"
+                      >
+                        <use
+                          xlink:href="#image0_273_887"
+                          transform="scale(0.0185185)"
+                        />
                       </pattern>
                       <image
                         id="image0_273_887"
                         width="54"
                         height="54"
                         preserveAspectRatio="none"
-                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAACXBIWXMAAAsSAAALEgHS3X78AAAEXUlEQVRogd1aPUwUQRR+u6HCxKNZO/QSO8BISGig4OproNAsNgKNJgYSGmjhEis0EaPBaAPRAi5SYHOUHgU2GIMJ0pkc0rmFnImUu+bbn9u9vdmfmb29H76EAHO7c++b7817b96uZBgGJYGi6lkiyiaaJBzHWlG+4L2Jm5ii6n1ENEtEU0Q00RTTo1ElojIR7eEnDtHYxGxC60Q0kzqNcFRtO9bDCMYipqj6rD1ZpmXmRwMEp7SiXGZdKUfdrqj6FhFtdhgpsu35bC96A0KJ2aTa7XpR2FRUfdF/TSAxRdVXu4CUgxd+5Zh7TFH1HGRusXFJgT03rBXlCoUott41dFxkvHY3ELMlvdse2xJjUlH1YQpQjBllugiLDcTs8ihRNTE+ING31zJ9WpGpX2nLaqAialAsJzobSIDM3opk/j02QPQgJ0Xe83PTWgQsCOtzjHMuUAbu6CfGXcxmrhG9emKpBDI8uKlIdL3XWgQsSH7UJbd835oT41ELxEADsWHeGZ7OSDQ9wf3FTAzZy4rfS/fcOU8q3FNl/cT6eGdIQqp6ya5TM731c1b/8c8dWSumCSgxVTDo72U9gf4b7peea0S/NP4zY087iQGHpwbllg1zT5WOLALnvy1COwcGrX0UOwj7ibXq4FgHkFjYcAmA7Mh8PSFn/8Xdby1RbDon0fgA0Z2sRIO33HG4IAyFUlDHv5cQcR/nreDkhPyFNwbtlKNVrCuCFVXn1l0rBm/TL6dWLoqbh96VDFrbdQki3LPuHZnXTZVDUKhZ5dRYzQTyE09yfZSXzGTtuN3D5zr9OHM/h8LPdt1gE4aaYqJHlTDFRAHDc8uuKnBHuOXbUqO7BqDQ9qjIAqqRD0uySQ4AIV54l5s7OacJBBkoJQqvYk3fY14gkHhdaXzQMhzqBAGfi6hFrQr3rBB9eEq0XTZCjzcYR2HsJG4epF5S7X8Nzjv+xMzCkGDz3EtM+CwWhh1mO9MFqgxvSPeDdU6Lg9QVg+FREKneo9DW6j5NeImlEhXjuFIavREvsVR681G5KKqnEceVWUjdFVEvTgf0LBDx3i+FExdoC5gwa0X72dcfkQni1opI0NsHhnmIBPKjFuGwBI2a8facLmJWrVZMteogW7kxztAtWnVQJ0dF5DbRtgB1KjG44PyGkAvW4BBretUR5zDIApSaLOjCQcNGJbFiKHBZQOGK1lpYueSFczpuAingOHF1jwL3pGI0NDnRC0SRi9YachWi4FBWqmuDgzSuKx0R7R/FPh1H4UwrysdNiYrWCgdvdCRZHFPCrmki8C5IbY911Ok5IcynmletCH7pfwZ9FRTDw/VV5x+HWLc+c/Yi530F6aq44hwioXegI/uKHID7zWpFec9/i2x3gLsRB/YLKw2kqEsVQy2zqhXlrbCLuoUY1MEe2vLvpSD0tOIs5kHVNtCBtzmHcSeqXcQlEISeBDnsu9eQMINF3ulNCscVIXXNkCCDg97m7DgQ0X+1TJk9rcZcSQAAAABJRU5ErkJggg==" />
+                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAACXBIWXMAAAsSAAALEgHS3X78AAAEXUlEQVRogd1aPUwUQRR+u6HCxKNZO/QSO8BISGig4OproNAsNgKNJgYSGmjhEis0EaPBaAPRAi5SYHOUHgU2GIMJ0pkc0rmFnImUu+bbn9u9vdmfmb29H76EAHO7c++b7817b96uZBgGJYGi6lkiyiaaJBzHWlG+4L2Jm5ii6n1ENEtEU0Q00RTTo1ElojIR7eEnDtHYxGxC60Q0kzqNcFRtO9bDCMYipqj6rD1ZpmXmRwMEp7SiXGZdKUfdrqj6FhFtdhgpsu35bC96A0KJ2aTa7XpR2FRUfdF/TSAxRdVXu4CUgxd+5Zh7TFH1HGRusXFJgT03rBXlCoUott41dFxkvHY3ELMlvdse2xJjUlH1YQpQjBllugiLDcTs8ihRNTE+ING31zJ9WpGpX2nLaqAialAsJzobSIDM3opk/j02QPQgJ0Xe83PTWgQsCOtzjHMuUAbu6CfGXcxmrhG9emKpBDI8uKlIdL3XWgQsSH7UJbd835oT41ELxEADsWHeGZ7OSDQ9wf3FTAzZy4rfS/fcOU8q3FNl/cT6eGdIQqp6ya5TM731c1b/8c8dWSumCSgxVTDo72U9gf4b7peea0S/NP4zY087iQGHpwbllg1zT5WOLALnvy1COwcGrX0UOwj7ibXq4FgHkFjYcAmA7Mh8PSFn/8Xdby1RbDon0fgA0Z2sRIO33HG4IAyFUlDHv5cQcR/nreDkhPyFNwbtlKNVrCuCFVXn1l0rBm/TL6dWLoqbh96VDFrbdQki3LPuHZnXTZVDUKhZ5dRYzQTyE09yfZSXzGTtuN3D5zr9OHM/h8LPdt1gE4aaYqJHlTDFRAHDc8uuKnBHuOXbUqO7BqDQ9qjIAqqRD0uySQ4AIV54l5s7OacJBBkoJQqvYk3fY14gkHhdaXzQMhzqBAGfi6hFrQr3rBB9eEq0XTZCjzcYR2HsJG4epF5S7X8Nzjv+xMzCkGDz3EtM+CwWhh1mO9MFqgxvSPeDdU6Lg9QVg+FREKneo9DW6j5NeImlEhXjuFIavREvsVR681G5KKqnEceVWUjdFVEvTgf0LBDx3i+FExdoC5gwa0X72dcfkQni1opI0NsHhnmIBPKjFuGwBI2a8facLmJWrVZMteogW7kxztAtWnVQJ0dF5DbRtgB1KjG44PyGkAvW4BBretUR5zDIApSaLOjCQcNGJbFiKHBZQOGK1lpYueSFczpuAingOHF1jwL3pGI0NDnRC0SRi9YachWi4FBWqmuDgzSuKx0R7R/FPh1H4UwrysdNiYrWCgdvdCRZHFPCrmki8C5IbY911Ok5IcynmletCH7pfwZ9FRTDw/VV5x+HWLc+c/Yi530F6aq44hwioXegI/uKHID7zWpFec9/i2x3gLsRB/YLKw2kqEsVQy2zqhXlrbCLuoUY1MEe2vLvpSD0tOIs5kHVNtCBtzmHcSeqXcQlEISeBDnsu9eQMINF3ulNCscVIXXNkCCDg97m7DgQ0X+1TJk9rcZcSQAAAABJRU5ErkJggg=="
+                      />
                     </defs>
                   </svg>
                   구독</label
@@ -467,9 +607,18 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <div class="shopbox">
               <label class="filtermb">회원구분</label>
               <div class="mbbox">
-                <label><input type="radio" value="all" v-model="shopFilter" /> 전체</label>
-                <label><input type="radio" value="personal" v-model="shopFilter" /> 개인회원</label>
-                <label><input type="radio" value="business" v-model="shopFilter" /> 사업자회원</label>
+                <label
+                  ><input type="radio" value="all" v-model="shopFilter" />
+                  전체</label
+                >
+                <label
+                  ><input type="radio" value="personal" v-model="shopFilter" />
+                  개인회원</label
+                >
+                <label
+                  ><input type="radio" value="business" v-model="shopFilter" />
+                  사업자회원</label
+                >
               </div>
             </div>
           </div>
@@ -477,12 +626,35 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
           <div class="searchbt profile-h4">
             <div class="statusbox">
               <label class="filtermb">예약상태</label>
-              <label><input type="radio" value="all" v-model="statusFilter" /> 전체</label>
+              <label
+                ><input type="radio" value="all" v-model="statusFilter" />
+                전체</label
+              >
               <div class="mbbox">
-                <label><input type="radio" value="waiting" v-model="statusFilter" /> 배정대기</label>
-                <label><input type="radio" value="assigned" v-model="statusFilter" /> 청소대기</label>
-                <label><input type="radio" value="confirmed" v-model="statusFilter" /> 청소완료</label>
-                <label><input type="radio" value="done" v-model="statusFilter" /> 확정완료</label>
+                <label
+                  ><input type="radio" value="waiting" v-model="statusFilter" />
+                  배정대기</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    value="assigned"
+                    v-model="statusFilter"
+                  />
+                  청소대기</label
+                >
+                <label
+                  ><input
+                    type="radio"
+                    value="confirmed"
+                    v-model="statusFilter"
+                  />
+                  청소완료</label
+                >
+                <label
+                  ><input type="radio" value="done" v-model="statusFilter" />
+                  확정완료</label
+                >
               </div>
             </div>
             <div class="searchdate">
@@ -497,7 +669,8 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                         dateFilter = 'custom';
                         applyFilters();
                       }
-                    " />
+                    "
+                  />
                   ~
                   <input
                     type="date"
@@ -507,29 +680,51 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                         dateFilter = 'custom';
                         applyFilters();
                       }
-                    " />
+                    "
+                  />
                 </div>
               </div>
               <ul class="date-filter">
-                <li style="font-size: 12px" :class="{ active: dateFilter === 'all' }" @click="dateFilter = 'all'">
+                <li
+                  style="font-size: 12px"
+                  :class="{ active: dateFilter === 'all' }"
+                  @click="dateFilter = 'all'"
+                >
                   전체
                 </li>
-                <li style="font-size: 12px" :class="{ active: dateFilter === 'today' }" @click="dateFilter = 'today'">
+                <li
+                  style="font-size: 12px"
+                  :class="{ active: dateFilter === 'today' }"
+                  @click="dateFilter = 'today'"
+                >
                   오늘
                 </li>
-                <li style="font-size: 12px" :class="{ active: dateFilter === 'plus7d' }" @click="dateFilter = 'plus7d'">
+                <li
+                  style="font-size: 12px"
+                  :class="{ active: dateFilter === 'plus7d' }"
+                  @click="dateFilter = 'plus7d'"
+                >
                   7일
                 </li>
                 <li
                   style="font-size: 12px"
                   :class="{ active: dateFilter === 'plus15d' }"
-                  @click="dateFilter = 'plus15d'">
+                  @click="dateFilter = 'plus15d'"
+                >
                   15일
                 </li>
-                <li style="font-size: 12px" :class="{ active: dateFilter === 'plus1m' }" @click="dateFilter = 'plus1m'">
+                <li
+                  style="font-size: 12px"
+                  :class="{ active: dateFilter === 'plus1m' }"
+                  @click="dateFilter = 'plus1m'"
+                >
                   1개월
                 </li>
-                <li style="font-size: 12px" :class="{ active: dateFilter === 'plus3m' }" @click="dateFilter = 'plus3m'">
+                <li
+                  style="font-size: 12px"
+                  :class="{ active: dateFilter === 'plus3m' }"
+                  @click="dateFilter = 'plus3m'"
+                >
                   3개월
                 </li>
               </ul>
@@ -568,18 +763,32 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                     viewBox="0 0 15 15"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <rect width="15" height="15" fill="url(#pattern0_273_889)" />
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                  >
+                    <rect
+                      width="15"
+                      height="15"
+                      fill="url(#pattern0_273_889)"
+                    />
                     <defs>
-                      <pattern id="pattern0_273_889" patternContentUnits="objectBoundingBox" width="1" height="1">
-                        <use xlink:href="#image0_273_889" transform="scale(0.0185185)" />
+                      <pattern
+                        id="pattern0_273_889"
+                        patternContentUnits="objectBoundingBox"
+                        width="1"
+                        height="1"
+                      >
+                        <use
+                          xlink:href="#image0_273_889"
+                          transform="scale(0.0185185)"
+                        />
                       </pattern>
                       <image
                         id="image0_273_889"
                         width="54"
                         height="54"
                         preserveAspectRatio="none"
-                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAACXBIWXMAAAsSAAALEgHS3X78AAAEXUlEQVRogd1aPUwUQRR+u6HCxKNZO/QSO8BISGig4OproNAsNgKNJgYSGmjhEis0EaPBaAPRAi5SYHOUHgU2GIMJ0pkc0rmFnImUu+bbn9u9vdmfmb29H76EAHO7c++b7817b96uZBgGJYGi6lkiyiaaJBzHWlG+4L2Jm5ii6n1ENEtEU0Q00RTTo1ElojIR7eEnDtHYxGxC60Q0kzqNcFRtO9bDCMYipqj6rD1ZpmXmRwMEp7SiXGZdKUfdrqj6FhFtdhgpsu35bC96A0KJ2aTa7XpR2FRUfdF/TSAxRdVXu4CUgxd+5Zh7TFH1HGRusXFJgT03rBXlCoUott41dFxkvHY3ELMlvdse2xJjUlH1YQpQjBllugiLDcTs8ihRNTE+ING31zJ9WpGpX2nLaqAialAsJzobSIDM3opk/j02QPQgJ0Xe83PTWgQsCOtzjHMuUAbu6CfGXcxmrhG9emKpBDI8uKlIdL3XWgQsSH7UJbd835oT41ELxEADsWHeGZ7OSDQ9wf3FTAzZy4rfS/fcOU8q3FNl/cT6eGdIQqp6ya5TM731c1b/8c8dWSumCSgxVTDo72U9gf4b7peea0S/NP4zY087iQGHpwbllg1zT5WOLALnvy1COwcGrX0UOwj7ibXq4FgHkFjYcAmA7Mh8PSFn/8Xdby1RbDon0fgA0Z2sRIO33HG4IAyFUlDHv5cQcR/nreDkhPyFNwbtlKNVrCuCFVXn1l0rBm/TL6dWLoqbh96VDFrbdQki3LPuHZnXTZVDUKhZ5dRYzQTyE09yfZSXzGTtuN3D5zr9OHM/h8LPdt1gE4aaYqJHlTDFRAHDc8uuKnBHuOXbUqO7BqDQ9qjIAqqRD0uySQ4AIV54l5s7OacJBBkoJQqvYk3fY14gkHhdaXzQMhzqBAGfi6hFrQr3rBB9eEq0XTZCjzcYR2HsJG4epF5S7X8Nzjv+xMzCkGDz3EtM+CwWhh1mO9MFqgxvSPeDdU6Lg9QVg+FREKneo9DW6j5NeImlEhXjuFIavREvsVR681G5KKqnEceVWUjdFVEvTgf0LBDx3i+FExdoC5gwa0X72dcfkQni1opI0NsHhnmIBPKjFuGwBI2a8facLmJWrVZMteogW7kxztAtWnVQJ0dF5DbRtgB1KjG44PyGkAvW4BBretUR5zDIApSaLOjCQcNGJbFiKHBZQOGK1lpYueSFczpuAingOHF1jwL3pGI0NDnRC0SRi9YachWi4FBWqmuDgzSuKx0R7R/FPh1H4UwrysdNiYrWCgdvdCRZHFPCrmki8C5IbY911Ok5IcynmletCH7pfwZ9FRTDw/VV5x+HWLc+c/Yi530F6aq44hwioXegI/uKHID7zWpFec9/i2x3gLsRB/YLKw2kqEsVQy2zqhXlrbCLuoUY1MEe2vLvpSD0tOIs5kHVNtCBtzmHcSeqXcQlEISeBDnsu9eQMINF3ulNCscVIXXNkCCDg97m7DgQ0X+1TJk9rcZcSQAAAABJRU5ErkJggg==" />
+                        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADYAAAA2CAYAAACMRWrdAAAACXBIWXMAAAsSAAALEgHS3X78AAAEXUlEQVRogd1aPUwUQRR+u6HCxKNZO/QSO8BISGig4OproNAsNgKNJgYSGmjhEis0EaPBaAPRAi5SYHOUHgU2GIMJ0pkc0rmFnImUu+bbn9u9vdmfmb29H76EAHO7c++b7817b96uZBgGJYGi6lkiyiaaJBzHWlG+4L2Jm5ii6n1ENEtEU0Q00RTTo1ElojIR7eEnDtHYxGxC60Q0kzqNcFRtO9bDCMYipqj6rD1ZpmXmRwMEp7SiXGZdKUfdrqj6FhFtdhgpsu35bC96A0KJ2aTa7XpR2FRUfdF/TSAxRdVXu4CUgxd+5Zh7TFH1HGRusXFJgT03rBXlCoUott41dFxkvHY3ELMlvdse2xJjUlH1YQpQjBllugiLDcTs8ihRNTE+ING31zJ9WpGpX2nLaqAialAsJzobSIDM3opk/j02QPQgJ0Xe83PTWgQsCOtzjHMuUAbu6CfGXcxmrhG9emKpBDI8uKlIdL3XWgQsSH7UJbd835oT41ELxEADsWHeGZ7OSDQ9wf3FTAzZy4rfS/fcOU8q3FNl/cT6eGdIQqp6ya5TM731c1b/8c8dWSumCSgxVTDo72U9gf4b7peea0S/NP4zY087iQGHpwbllg1zT5WOLALnvy1COwcGrX0UOwj7ibXq4FgHkFjYcAmA7Mh8PSFn/8Xdby1RbDon0fgA0Z2sRIO33HG4IAyFUlDHv5cQcR/nreDkhPyFNwbtlKNVrCuCFVXn1l0rBm/TL6dWLoqbh96VDFrbdQki3LPuHZnXTZVDUKhZ5dRYzQTyE09yfZSXzGTtuN3D5zr9OHM/h8LPdt1gE4aaYqJHlTDFRAHDc8uuKnBHuOXbUqO7BqDQ9qjIAqqRD0uySQ4AIV54l5s7OacJBBkoJQqvYk3fY14gkHhdaXzQMhzqBAGfi6hFrQr3rBB9eEq0XTZCjzcYR2HsJG4epF5S7X8Nzjv+xMzCkGDz3EtM+CwWhh1mO9MFqgxvSPeDdU6Lg9QVg+FREKneo9DW6j5NeImlEhXjuFIavREvsVR681G5KKqnEceVWUjdFVEvTgf0LBDx3i+FExdoC5gwa0X72dcfkQni1opI0NsHhnmIBPKjFuGwBI2a8facLmJWrVZMteogW7kxztAtWnVQJ0dF5DbRtgB1KjG44PyGkAvW4BBretUR5zDIApSaLOjCQcNGJbFiKHBZQOGK1lpYueSFczpuAingOHF1jwL3pGI0NDnRC0SRi9YachWi4FBWqmuDgzSuKx0R7R/FPh1H4UwrysdNiYrWCgdvdCRZHFPCrmki8C5IbY911Ok5IcynmletCH7pfwZ9FRTDw/VV5x+HWLc+c/Yi530F6aq44hwioXegI/uKHID7zWpFec9/i2x3gLsRB/YLKw2kqEsVQy2zqhXlrbCLuoUY1MEe2vLvpSD0tOIs5kHVNtCBtzmHcSeqXcQlEISeBDnsu9eQMINF3ulNCscVIXXNkCCDg97m7DgQ0X+1TJk9rcZcSQAAAABJRU5ErkJggg=="
+                      />
                     </defs>
                   </svg>
 
@@ -587,10 +796,17 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                 </template>
                 <template v-else>
                   <!-- 초록 나뭇잎 아이콘 -->
-                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="14"
+                    height="11"
+                    viewBox="0 0 14 11"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M1.75 1.57143H0C0 4.60871 2.74258 7.07143 6.125 7.07143V10.6071C6.125 10.8232 6.32188 11 6.5625 11H7.4375C7.67812 11 7.875 10.8232 7.875 10.6071V7.07143C7.875 4.03415 5.13242 1.57143 1.75 1.57143ZM12.25 0C9.94766 0 7.94609 1.14174 6.89883 2.82857C7.65625 3.57009 8.2168 4.47121 8.51211 5.47054C11.5938 5.18326 14 2.84576 14 0H12.25Z"
-                      fill="#4ECF50" />
+                      fill="#4ECF50"
+                    />
                   </svg>
                   {{ item.customer.name }}
                 </template>
@@ -601,7 +817,9 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
               <td class="profile-h4" data-label="예약일자">
                 {{ item.reservdate }}
               </td>
-              <td class="profile-h4" data-label="청소일자">{{ item.reservinfo.date }} {{ item.reservinfo.time }}</td>
+              <td class="profile-h4" data-label="청소일자">
+                {{ item.reservinfo.date }} {{ item.reservinfo.time }}
+              </td>
               <td class="profile-h4" data-label="처리상태">
                 <button
                   class="modal"
@@ -616,7 +834,8 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                       : item.status === 'confirmed'
                       ? viewReview()
                       : null
-                  ">
+                  "
+                >
                   {{
                     item.status === "waiting"
                       ? "수락하기"
@@ -646,8 +865,12 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                 </span>
               </td>
               <td class="btnbox" data-label="액션">
-                <button class="modal" @click="viewreceipt = true">영수증 보기</button>
-                <button class="modal" @click="openDetailById(item.id)">상세보기</button>
+                <button class="modal" @click="viewreceipt = true">
+                  영수증 보기
+                </button>
+                <button class="modal" @click="openDetailById(item.id)">
+                  상세보기
+                </button>
               </td>
             </tr>
           </tbody>
@@ -662,7 +885,8 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
               v-for="page in totalPages"
               :key="page"
               :class="{ active: currentPage === page }"
-              @click="goToPage(page)">
+              @click="goToPage(page)"
+            >
               {{ page }}
             </button>
             <button @click="goToPage(currentPage + 1)">→</button>
@@ -682,15 +906,24 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
         complete = false;
         waitinglist = false;
       }
-    "></div>
+    "
+  ></div>
   <!-- 예약 상세 모달 -->
   <div class="reservdetailmodal" v-if="openReservDetail && reservdetail">
     <div class="reservdetail-title">
       <p class="profile-h2">예약 상세 정보</p>
       <hr />
-      <div class="title" :class="`status-${reservdetail.status}`" style="font-weight: 600">
+      <div
+        class="title"
+        :class="`status-${reservdetail.status}`"
+        style="font-weight: 600"
+      >
         예약 번호: {{ reservdetail.number }}
-        <span :class="reservdetail?.status ? `statusbox-${reservdetail.status}` : ''">
+        <span
+          :class="
+            reservdetail?.status ? `statusbox-${reservdetail.status}` : ''
+          "
+        >
           {{
             reservdetail?.status === "waiting"
               ? "대기중"
@@ -707,29 +940,45 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
     </div>
     <div class="reservdetail-info-box">
       <div class="reservdetail-left">
-        <p class="profile-h2" style="font-size: 16px; font-weight: 500">기본 정보</p>
+        <p class="profile-h2" style="font-size: 16px; font-weight: 500">
+          기본 정보
+        </p>
         <div class="customerinfo">
           <p class="profile-h3" @click="isCustomerOpen = !isCustomerOpen">
             예약자 정보
             <span class="icon">
               <template v-if="isCustomerOpen">
                 <!-- 위쪽 아이콘 (▲) -->
-                <svg width="15" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="15"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
               <template v-else>
                 <!-- 아래쪽 아이콘 (▼) -->
-                <svg width="15" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="15"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
             </span>
@@ -748,32 +997,54 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <span class="icon">
               <template v-if="isMembershipOpen">
                 <!-- 위쪽 아이콘 (▲) -->
-                <svg width="15" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="15"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
               <template v-else>
                 <!-- 아래쪽 아이콘 (▼) -->
-                <svg width="15" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="15"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
             </span>
           </p>
 
           <ul v-show="isMembershipOpen" class="profile-h4">
-            <li><span>구독권</span>{{ reservdetail.membership?.name || "-" }}</li>
-            <li><span>구독일</span>{{ reservdetail.membership?.date || "-" }}</li>
-            <li><span>회차</span>{{ reservdetail.membership?.count || "-" }}</li>
-            <li><span>주기</span>{{ reservdetail.membership?.during || "-" }}</li>
+            <li>
+              <span>구독권</span>{{ reservdetail.membership?.name || "-" }}
+            </li>
+            <li>
+              <span>구독일</span>{{ reservdetail.membership?.date || "-" }}
+            </li>
+            <li>
+              <span>회차</span>{{ reservdetail.membership?.count || "-" }}
+            </li>
+            <li>
+              <span>주기</span>{{ reservdetail.membership?.during || "-" }}
+            </li>
           </ul>
         </div>
         <div class="workerinfo">
@@ -782,22 +1053,36 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <span class="icon">
               <template v-if="isWorkerOpen">
                 <!-- 위쪽 아이콘 (▲) -->
-                <svg width="15" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="15"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
               <template v-else>
                 <!-- 아래쪽 아이콘 (▼) -->
-                <svg width="15" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="15"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
             </span>
@@ -815,29 +1100,45 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             <span class="icon">
               <template v-if="isInquiryOpen">
                 <!-- 위쪽 아이콘 (▲) -->
-                <svg width="18" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="18"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M1 12L10.63 1.407C10.8284 1.18875 11.1716 1.18875 11.37 1.407L21 12"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
               <template v-else>
                 <!-- 아래쪽 아이콘 (▼) -->
-                <svg width="18" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="18"
+                  height="13"
+                  viewBox="0 0 22 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M21 1L11.37 11.593C11.1716 11.8113 10.8284 11.8113 10.63 11.593L1 1"
                     stroke="#424242"
                     stroke-width="1.4"
-                    stroke-linecap="round" />
+                    stroke-linecap="round"
+                  />
                 </svg>
               </template>
             </span>
           </p>
 
           <ul v-show="isInquiryOpen" class="profile-h4">
-            <li><span>문의유형</span>{{ reservdetail.inquiry?.type || "-" }}</li>
+            <li>
+              <span>문의유형</span>{{ reservdetail.inquiry?.type || "-" }}
+            </li>
             <li><span>제목</span>{{ reservdetail.inquiry?.title || "-" }}</li>
             <li><span>내용</span>{{ reservdetail.inquiry?.memo || "-" }}</li>
           </ul>
@@ -846,14 +1147,33 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
       <div class="reservdetail-right">
         <p class="profile-h3" style="font-weight: 500">예약 정보</p>
         <div class="reservdetailinfo">
-          <button class="modal profile-h4" style="text-align: right; font-size: 14px">첨부파일보기</button>
+          <button
+            class="modal profile-h4"
+            style="text-align: right; font-size: 14px"
+          >
+            첨부파일보기
+          </button>
           <ul class="profile-h4">
-            <li class="firstli"><span>서비스 유형</span>{{ reservdetail.reservinfo?.type || "-" }}</li>
-            <li><span>제빙기 정보</span>{{ reservdetail.reservinfo?.machine || "-" }}</li>
-            <li><span>서비스 주소</span>{{ reservdetail.reservinfo?.address || "-" }}</li>
-            <li><span>서비스 일시</span>{{ reservdetail.reservinfo?.date || "-" }}</li>
-            <li><span>추가 서비스</span>{{ reservdetail.reservinfo?.plus || "-" }}</li>
-            <li><span>요청사항</span>{{ reservdetail.reservinfo?.memo || "-" }}</li>
+            <li class="firstli">
+              <span>서비스 유형</span>{{ reservdetail.reservinfo?.type || "-" }}
+            </li>
+            <li>
+              <span>제빙기 정보</span
+              >{{ reservdetail.reservinfo?.machine || "-" }}
+            </li>
+            <li>
+              <span>서비스 주소</span
+              >{{ reservdetail.reservinfo?.address || "-" }}
+            </li>
+            <li>
+              <span>서비스 일시</span>{{ reservdetail.reservinfo?.date || "-" }}
+            </li>
+            <li>
+              <span>추가 서비스</span>{{ reservdetail.reservinfo?.plus || "-" }}
+            </li>
+            <li>
+              <span>요청사항</span>{{ reservdetail.reservinfo?.memo || "-" }}
+            </li>
           </ul>
         </div>
         <div class="info-box-bt">
@@ -886,9 +1206,12 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                 <p style="color: #616161">구독권 차감</p>
                 <p>
                   {{
-                    reservdetail.payment?.membershipDiscount.toLocaleString("ko-KR", {
-                      signDisplay: "always",
-                    })
+                    reservdetail.payment?.membershipDiscount.toLocaleString(
+                      "ko-KR",
+                      {
+                        signDisplay: "always",
+                      }
+                    )
                   }}원
                 </p>
               </li>
@@ -896,9 +1219,12 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
                 <p style="color: #616161">서비스 차감</p>
                 <p>
                   {{
-                    reservdetail.payment?.extraDiscount.toLocaleString("ko-KR", {
-                      signDisplay: "always",
-                    })
+                    reservdetail.payment?.extraDiscount.toLocaleString(
+                      "ko-KR",
+                      {
+                        signDisplay: "always",
+                      }
+                    )
                   }}원
                 </p>
               </li>
@@ -928,11 +1254,23 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
   <!-- 영수증 보기 모달 -->
   <div class="viewreceipt" v-show="viewreceipt">
     <img src="/prime/profile_receipt.png" alt="영수증 이미지" />
-    <img src="/prime/profile_receipt.png" class="print-only" alt="영수증 이미지" />
+    <img
+      src="/prime/profile_receipt.png"
+      class="print-only"
+      alt="영수증 이미지"
+    />
 
     <div class="btnbox">
-      <button class="edit" style="padding: 1.5% 3%" @click="printReceipt">출력하기</button>
-      <button class="fix" style="padding: 1.6% 5.5%" @click="viewreceipt = false">닫기</button>
+      <button class="edit" style="padding: 1.5% 3%" @click="printReceipt">
+        출력하기
+      </button>
+      <button
+        class="fix"
+        style="padding: 1.6% 5.5%"
+        @click="viewreceipt = false"
+      >
+        닫기
+      </button>
     </div>
   </div>
   <!-- 보고서 제출 모달  -->
@@ -946,7 +1284,9 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
 
       <li>
         <span class="label">레포트 출력</span>
-        <button class="modal" v-on:click="viewreceipt = true">영수증 보기</button>
+        <button class="modal" v-on:click="viewreceipt = true">
+          영수증 보기
+        </button>
       </li>
       <li>
         <span class="label">보고서 첨부</span>
@@ -958,20 +1298,37 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
       </li>
       <li>
         <span class="label memo"
-          >내용<small style="color: #bdbdbd">{{ content.length }}/1,000</small></span
+          >내용<small style="color: #bdbdbd"
+            >{{ content.length }}/1,000</small
+          ></span
         >
 
-        <textarea v-model="content" placeholder="내용을 입력하세요" maxlength="1000"></textarea>
+        <textarea
+          v-model="content"
+          placeholder="내용을 입력하세요"
+          maxlength="1000"
+        ></textarea>
       </li>
     </ul>
 
     <div class="btn-box">
-      <button style="padding: 1.5% 2.8%" class="cancel" @click="complete = false">취소</button>
+      <button
+        style="padding: 1.5% 2.8%"
+        class="cancel"
+        @click="complete = false"
+      >
+        취소
+      </button>
       <button class="fix" @click="submitInquiry">저장</button>
     </div>
   </div>
   <!-- 배정 대기 목록 모달 -->
-  <div class="waitinglist" v-show="waitinglist" v-for="item in filteredList" :key="item.id">
+  <div
+    class="waitinglist"
+    v-show="waitinglist"
+    v-for="item in filteredList"
+    :key="item.id"
+  >
     <p class="profile-h1 title">
       배정 대기 목록
       <button class="fix" @click="waitinglist = false">닫기</button>
@@ -984,7 +1341,8 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
             v-for="item in waitingListOnly"
             :key="item.id"
             @click="selectedItem = item"
-            :class="{ active: selectedItem?.id === item.id }">
+            :class="{ active: selectedItem?.id === item.id }"
+          >
             <div class="profile-h1">{{ item.reservinfo.machine }}</div>
             <div class="profile-h4">일정 | {{ item.reservinfo.date }}</div>
             <div class="profile-h4">주소 | {{ item.reservinfo.address }}</div>
@@ -999,35 +1357,73 @@ const waitingListOnly = computed(() => filteredList.value.filter((item) => item.
         <ul class="listright">
           <li class="profile-h1">{{ selectedItem.reservinfo.machine }}</li>
           <li class="profile-h4">일정 | {{ selectedItem.reservinfo.date }}</li>
-          <li class="profile-h4">주소 | {{ selectedItem.reservinfo.address }}</li>
+          <li class="profile-h4">
+            주소 | {{ selectedItem.reservinfo.address }}
+          </li>
           <li class="profile-h4">
             금액 |
-            {{ Math.floor(selectedItem.payment.service * 0.4).toLocaleString() }}원
+            {{
+              Math.floor(selectedItem.payment.service * 0.4).toLocaleString()
+            }}원
           </li>
         </ul>
         <p class="profile-h3">예약자 정보</p>
         <div class="customerinfo">
           <ul class="profile-h4">
             <li><span>이름</span>{{ selectedItem.customer?.name || "-" }}</li>
-            <li><span>연락처</span>{{ selectedItem.customer?.mobile || "-" }}</li>
-            <li><span>이메일</span>{{ selectedItem.customer?.email || "-" }}</li>
-            <li><span>주소</span>{{ selectedItem.customer?.address || "-" }}</li>
+            <li>
+              <span>연락처</span>{{ selectedItem.customer?.mobile || "-" }}
+            </li>
+            <li>
+              <span>이메일</span>{{ selectedItem.customer?.email || "-" }}
+            </li>
+            <li>
+              <span>주소</span>{{ selectedItem.customer?.address || "-" }}
+            </li>
           </ul>
         </div>
-        <p class="profile-h3 customerlist">고객 정보<button class="modal description">첨부파일보기</button></p>
+        <p class="profile-h3 customerlist">
+          고객 정보<button class="modal description">첨부파일보기</button>
+        </p>
         <div class="reservdetailinfo">
           <ul class="profile-h4">
-            <li><span>서비스 유형</span>{{ selectedItem.reservinfo?.type || "-" }}</li>
-            <li><span>제빙기 정보</span>{{ selectedItem.reservinfo?.machine || "-" }}</li>
-            <li><span>서비스 주소</span>{{ selectedItem.reservinfo?.address || "-" }}</li>
-            <li><span>서비스 일시</span>{{ selectedItem.reservinfo?.date || "-" }}</li>
-            <li><span>추가 서비스</span>{{ selectedItem.reservinfo?.plus || "-" }}</li>
-            <li><span>요청사항</span>{{ selectedItem.reservinfo?.memo || "-" }}</li>
+            <li>
+              <span>서비스 유형</span>{{ selectedItem.reservinfo?.type || "-" }}
+            </li>
+            <li>
+              <span>제빙기 정보</span
+              >{{ selectedItem.reservinfo?.machine || "-" }}
+            </li>
+            <li>
+              <span>서비스 주소</span
+              >{{ selectedItem.reservinfo?.address || "-" }}
+            </li>
+            <li>
+              <span>서비스 일시</span>{{ selectedItem.reservinfo?.date || "-" }}
+            </li>
+            <li>
+              <span>추가 서비스</span>{{ selectedItem.reservinfo?.plus || "-" }}
+            </li>
+            <li>
+              <span>요청사항</span>{{ selectedItem.reservinfo?.memo || "-" }}
+            </li>
           </ul>
         </div>
         <div class="btnbox">
-          <button class="edit" style="padding: 2% 4%" @click="accept(selectedItem)">수락하기</button>
-          <button class="fix" style="padding: 2.4% 8%" @click="selectedItem = null">닫기</button>
+          <button
+            class="edit"
+            style="padding: 2% 4%"
+            @click="accept(selectedItem)"
+          >
+            수락하기
+          </button>
+          <button
+            class="fix"
+            style="padding: 2.4% 8%"
+            @click="selectedItem = null"
+          >
+            닫기
+          </button>
         </div>
       </div>
     </div>

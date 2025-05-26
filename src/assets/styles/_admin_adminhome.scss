@@ -21,7 +21,8 @@ header.adminHead {
   height: 70px;
   background: #ffffff;
   margin-top: 0 !important;
-   & .logo {
+  
+ & .logo {
     margin-left: 30px;
   }
   @include mobile {
@@ -111,5 +112,82 @@ header.adminHead {
         }
       }
     }
+  }
+}
+.home {
+  display: flex;
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 70px);
+    width: 260px;
+    background-color: #ffffff;
+    &.webonly {
+      @include mobile {
+        display: none;
+      }
+    }
+    a {
+      height: 44px;
+      padding-left: 22px;
+    }
+    & .side-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      height: 100vh;
+      padding: 10px;
+      img {
+        display: inline-block;
+        margin-right: 16px;
+      }
+      .btnbox {
+        display: flex;
+        align-items: center;
+        button.logout {
+          display: inline-block;
+        }
+      }
+    }
+  }
+  .logout-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 0 25px 0;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 10px; // 얇은 선
+      background: linear-gradient(to bottom, #ffffff, #f9f9f9, #f3f3f3);
+    }
+  }
+  & .logout {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin: auto;
+  }
+  & span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #424242;
+  }
+  & svg {
+    margin-right: 16px;
+    @include mobile {
+      margin: 0;
+    }
+  }
+
+  .admin-right {
+    width: 84%;
+    height: calc(100vh - 70px);
   }
 }
