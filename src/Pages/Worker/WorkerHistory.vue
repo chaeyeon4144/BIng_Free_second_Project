@@ -23,6 +23,7 @@ const isMembershipOpen = ref(true);
 const isWorkerOpen = ref(true);
 const isInquiryOpen = ref(true);
 const viewreceipt = ref(false);
+const clickadd = ref(false);
 function printReceipt() {
   window.print();
 }
@@ -154,18 +155,15 @@ const goToPage = (page) => {
 };
 
 // 상태별 개수 계산
-const totalCount = fullReservationList.length;
-const doneCount = fullReservationList.filter((item) => item.status === "done").length;
-const waitingCount = fullReservationList.filter((item) => item.status === "waiting").length;
-const assignedCount = fullReservationList.filter((item) => item.status === "assigned").length;
-// const confirmedCount = fullReservationList.filter(
-//   (item) => item.status === "confirmed"
-// ).length;
+// const totalCount = computed(() => fullReservationList.length);
+const doneCount = computed(() => fullReservationList.filter((item) => item.status === "done").length);
+const waitingCount = computed(() => fullReservationList.filter((item) => item.status === "waiting").length);
+const assignedCount = computed(() => fullReservationList.filter((item) => item.status === "assigned").length);
+const confirmedCount = computed(() => fullReservationList.filter((item) => item.status === "confirmed").length);
 
 // 카드에 쓸 데이터
-const statusCards = [
+const statusCards = computed(() => [
   {
-<<<<<<< HEAD
     status: "waiting",
     title: "배정 대기",
     count: waitingCount.value,
@@ -173,24 +171,15 @@ const statusCards = [
     icon: `<svg width="50" height="50" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="16" cy="16" r="16" fill="#FF0000"/>
 <path d="M14.6719 6.40234V9.46875H12.2109V10.3965H15.6973V11.2754H7.65039V10.3965H11.1172V9.46875H8.66602V6.40234H14.6719ZM9.7207 7.25195V8.60938H13.5977V7.25195H9.7207ZM14.7109 12.0176V14.8691H13.627V12.877H8.53906V12.0176H14.7109ZM24.3496 10.8164V11.6953H16.2832V10.8164H19.7793V10.084H17.3086V7.74023H22.2695V7.08594H17.2793V6.23633H23.3535V8.53125H18.3828V9.23438H23.5293V10.084H20.8535V10.8164H24.3496ZM23.4023 12.252V14.8105H22.3086V13.1113H17.1816V12.252H23.4023ZM15.7168 24.916V25.8047H7.65039V24.916H11.127V23.1973H8.53906V18.627H9.62305V20.0723H13.7148V18.627H14.7988V23.1973H12.2012V24.916H15.7168ZM9.62305 22.3184H13.7148V20.9414H9.62305V22.3184ZM23.666 18.041V26.8691H22.5723V18.041H23.666ZM21.0293 18.9785C21.0293 21.6055 20.0137 23.8418 16.918 25.3066L16.3516 24.4375C18.6611 23.3389 19.7354 21.8447 19.9258 19.8379H16.8008V18.9785H21.0293Z" fill="white"/>
-=======
-    status: "total",
-    title: "전체 예약",
-    count: totalCount,
-    desc: `이 달 ${totalCount}개의 청소가 있습니다.`,
-    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.4349 10H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 1.99414H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 18.0059H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
->>>>>>> parent of 95f0d9c (Merge pull request #22 from chaeyeon4144/hb)
 </svg>
+
 `,
   },
   {
     status: "done",
-    title: "청소 완료",
-    count: doneCount,
-    desc: `${doneCount}개의 예약이 청소 완료 되었습니다.`,
+    title: "완료 대기",
+    count: doneCount.value,
+    desc: `${doneCount.value}개의 예약이 완료 대기 중입니다.`,
     icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M13.9352 26.0072C20.5668 26.0072 25.9427 20.6313 25.9427 13.9997C25.9427 7.36813 20.5668 1.99219 13.9352 1.99219C7.30368 1.99219 1.92773 7.36813 1.92773 13.9997C1.92773 20.6313 7.30368 26.0072 13.9352 26.0072Z" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M13.9355 6.79688V14.0014L18.7385 16.4029" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -200,48 +189,110 @@ const statusCards = [
   {
     status: "assigned",
     title: "청소 대기",
-    count: assignedCount,
-    desc: `${assignedCount}개의 예약이 청소 대기 중입니다.`,
+    count: assignedCount.value,
+    desc: `${assignedCount.value}개의 예약이 청소 대기 중입니다.`,
     icon: `<svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M25.4504 12.902V14.0067C25.4489 16.596 24.6104 19.1155 23.0601 21.1894C21.5097 23.2633 19.3305 24.7805 16.8475 25.5146C14.3644 26.2488 11.7106 26.1606 9.28175 25.2633C6.85291 24.3659 4.77919 22.7075 3.36989 20.5353C1.96059 18.3631 1.29121 15.7935 1.46158 13.2097C1.63194 10.626 2.63293 8.16656 4.31526 6.19821C5.99758 4.22986 8.27111 2.85806 10.7967 2.28742C13.3224 1.71677 15.9648 1.97785 18.33 3.03171" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <path d="M25.4514 4.40039L13.444 16.42L9.8418 12.8177" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
+
   {
-    status: "waiting",
-    title: "배정 대기",
-    count: waitingCount,
-    desc: `${waitingCount}개의 예약이 배정 대기 중입니다.`,
-    icon: `<svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.062 1.9005C13.2454 1.52892 13.7753 1.52892 13.9587 1.9005L17.2773 8.62368C17.3501 8.7711 17.4907 8.87333 17.6534 8.89711L25.0755 9.98196C25.4854 10.0419 25.6488 10.5458 25.352 10.8349L19.9823 16.065C19.8643 16.1799 19.8105 16.3455 19.8383 16.5077L21.1055 23.8959C21.1755 24.3044 20.7468 24.6159 20.38 24.423L13.7431 20.9327C13.5974 20.8561 13.4233 20.8561 13.2776 20.9327L6.64077 24.423C6.27396 24.6159 5.84518 24.3044 5.91524 23.8959L7.1824 16.5077C7.21024 16.3455 7.1564 16.1799 7.03847 16.065L1.6687 10.8349C1.3719 10.5458 1.53529 10.0419 1.94525 9.98196L9.36734 8.89711C9.53002 8.87333 9.67061 8.7711 9.74338 8.62368L13.062 1.9005Z" stroke="#F20F0F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    status: "confirmed",
+    title: "확정 완료",
+    count: confirmedCount.value,
+    desc: `이 달 ${confirmedCount.value}개의 청소가 완료되었습니다.`,
+    icon: `<svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M26.015 10.0059H2" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26.015 2H2" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26.015 18.0117H2" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 
 `,
   },
-];
+]);
+
+//처리상태 버튼 모음짐
+const accept = (item) => {
+  item.status = "assigned";
+  alert("수락 되었습니다");
+};
+
+const complete = ref(false);
+function opencompleteById(id) {
+  const found = fullReservationList.find((item) => item.id === id);
+  if (found) {
+    reservdetail.value = found;
+    complete.value = true;
+  }
+}
+// 보고서 제출 모달
+const title = ref("");
+const content = ref("");
+const file = ref(null);
+
+const handleFileUpload = (e) => {
+  file.value = e.target.files[0];
+};
+
+const submitInquiry = () => {
+  if (!file.value || !title.value || !content.value) {
+    alert("모든 필드를 입력해주세요.");
+    return;
+  }
+
+  alert("제출 되었습니다");
+  reservdetail.value.status = "confirmed";
+  // paymentmodal.value = false;
+  // openReview.value = false;
+  // reservdetailmodal.value = false;
+  complete.value = false;
+};
+
+// 배정 대기 목록 모달
+const waitinglist = ref(false);
+
+const selectedItem = ref(null);
+
+const waitingListOnly = computed(() => filteredList.value.filter((item) => item.status === "waiting"));
 </script>
 <template>
-<<<<<<< HEAD
   <div class="workerreservation">
     <div class="dash">
       <p class="dash-name">작업 관리</p>
       <p class="dash-desc">오늘의 작업현항과 일정을 확인할 수 있습니다.</p>
     </div>
-=======
-  <div class="adminreservation">
->>>>>>> parent of 95f0d9c (Merge pull request #22 from chaeyeon4144/hb)
     <div class="dashboard">
-      <div class="allcard" v-for="(item, index) in statusCards" :key="index" :class="item.status">
+      <div
+        class="allcard"
+        v-for="card in statusCards"
+        :key="card.status"
+        :class="card.status"
+        @click="
+          card.status === 'waiting'
+            ? (waitinglist = true)
+            : card.status === 'assigned'
+            ? null
+            : card.status === 'done'
+            ? null
+            : card.status === 'confirmed'
+            ? null
+            : null
+        ">
         <p class="profile-h3">
-          {{ item.title }}
-          <span class="card-icon" v-html="item.icon" style="margin-left: auto; display: inline"></span>
+          {{ card.title }}
+          <span class="card-icon" v-html="card.icon" style="margin-left: auto; display: inline"></span>
         </p>
-        <p class="profile-h1">{{ item.count }} <span class="profile-h3 mbonly">개</span></p>
-        <p class="card-desc" v-html="item.desc"></p>
+        <p class="profile-h1">
+          {{ card.count }}
+          <span class="profile-h3 mbonly">개</span>
+        </p>
+        <p class="card-desc" v-html="card.desc"></p>
       </div>
     </div>
     <div class="table-wrap">
+      <!-- 상단 검색창 -->
       <div class="searchbox websearchbox">
         <p class="profile-h2">회원 검색</p>
         <div class="namesearchbox profile-h4">
@@ -256,7 +307,6 @@ const statusCards = [
         <div class="searchtop profile-h4">
           <div class="memberbox">
             <label>회원등급</label>
-
             <label><input type="radio" v-model="memberFilter" value="all" /> 전체</label>
             <label
               ><input type="radio" v-model="memberFilter" value="normal" />
@@ -501,8 +551,7 @@ const statusCards = [
               <th>고객 연락처</th>
               <th>예약일자</th>
               <th>청소일자</th>
-              <th>담당기사</th>
-              <th>담당기사 연락처</th>
+              <th>처리상태</th>
               <th>상태</th>
               <th>액션</th>
             </tr>
@@ -512,6 +561,7 @@ const statusCards = [
               <td data-label="예약번호">{{ item.number }}</td>
               <td class="customername" data-label="고객명">
                 <template v-if="item.primemember">
+                  <!-- 파란 북마크 아이콘 -->
                   <svg
                     width="15"
                     height="15"
@@ -545,14 +595,42 @@ const statusCards = [
                   {{ item.customer.name }}
                 </template>
               </td>
-              <td data-label="고객연락처">{{ item.customer.mobile }}</td>
-              <td data-label="예약일자">{{ item.reservdate }}</td>
-              <td data-label="청소일자">{{ item.reservinfo.date }} {{ item.reservinfo.time }}</td>
-              <td data-label="담당기사">{{ item.worker.name || "-" }}</td>
-              <td data-label="담당기사 연락처">
-                {{ item.worker.mobile || "-" }}
+              <td class="profile-h4" data-label="고객 연락처">
+                {{ item.customer.mobile }}
               </td>
-              <td data-label="상태">
+              <td class="profile-h4" data-label="예약일자">
+                {{ item.reservdate }}
+              </td>
+              <td class="profile-h4" data-label="청소일자">{{ item.reservinfo.date }} {{ item.reservinfo.time }}</td>
+              <td class="profile-h4" data-label="처리상태">
+                <button
+                  class="modal"
+                  :class="`processingbox-${item.status}`"
+                  @click="
+                    item.status === 'waiting'
+                      ? accept(item)
+                      : item.status === 'assigned'
+                      ? null
+                      : item.status === 'done'
+                      ? opencompleteById(item.id)
+                      : item.status === 'confirmed'
+                      ? viewReview()
+                      : null
+                  ">
+                  {{
+                    item.status === "waiting"
+                      ? "수락하기"
+                      : item.status === "assigned"
+                      ? "-"
+                      : item.status === "done"
+                      ? "완료하기"
+                      : item.status === "confirmed"
+                      ? "리뷰보기"
+                      : "알수없음"
+                  }}
+                </button>
+              </td>
+              <td class="profile-h4" data-label="상태">
                 <span :class="`statusbox-${item.status}`">
                   {{
                     item.status === "waiting"
@@ -568,7 +646,7 @@ const statusCards = [
                 </span>
               </td>
               <td class="btnbox" data-label="액션">
-                <button class="modal" v-on:click="viewreceipt = true">영수증 보기</button>
+                <button class="modal" @click="viewreceipt = true">영수증 보기</button>
                 <button class="modal" @click="openDetailById(item.id)">상세보기</button>
               </td>
             </tr>
@@ -596,11 +674,13 @@ const statusCards = [
   <!-- 모달 오버레이 -->
   <div
     class="overlay"
-    v-show="openReservDetail || viewreceipt"
+    v-show="openReservDetail || viewreceipt || complete || waitinglist"
     @click="
       () => {
         openReservDetail = false;
         viewreceipt = false;
+        complete = false;
+        waitinglist = false;
       }
     "></div>
   <!-- 예약 상세 모달 -->
@@ -853,6 +933,103 @@ const statusCards = [
     <div class="btnbox">
       <button class="edit" style="padding: 1.5% 3%" @click="printReceipt">출력하기</button>
       <button class="fix" style="padding: 1.6% 5.5%" @click="viewreceipt = false">닫기</button>
+    </div>
+  </div>
+  <!-- 보고서 제출 모달  -->
+  <div class="completemodal" v-if="complete && reservdetail">
+    <h2 class="modal-title profile-h2">문의하기</h2>
+    <ul class="form">
+      <li>
+        <span class="label">예약번호</span>
+        <span class="value">{{ reservdetail.number }}</span>
+      </li>
+
+      <li>
+        <span class="label">레포트 출력</span>
+        <button class="modal" v-on:click="viewreceipt = true">영수증 보기</button>
+      </li>
+      <li>
+        <span class="label">보고서 첨부</span>
+        <input type="file" @change="handleFileUpload" />
+      </li>
+      <li>
+        <span class="label">제목</span>
+        <input type="text" v-model="title" />
+      </li>
+      <li>
+        <span class="label memo"
+          >내용<small style="color: #bdbdbd">{{ content.length }}/1,000</small></span
+        >
+
+        <textarea v-model="content" placeholder="내용을 입력하세요" maxlength="1000"></textarea>
+      </li>
+    </ul>
+
+    <div class="btn-box">
+      <button style="padding: 1.5% 2.8%" class="cancel" @click="complete = false">취소</button>
+      <button class="fix" @click="submitInquiry">저장</button>
+    </div>
+  </div>
+  <!-- 배정 대기 목록 모달 -->
+  <div class="waitinglist" v-show="waitinglist" v-for="item in filteredList" :key="item.id">
+    <p class="profile-h1 title">
+      배정 대기 목록
+      <button class="fix" @click="waitinglist = false">닫기</button>
+    </p>
+    <div class="list-wrap-been">
+      <div class="list-left">
+        <ul class="leftlist-wrap">
+          <li
+            class="leftlist"
+            v-for="item in waitingListOnly"
+            :key="item.id"
+            @click="selectedItem = item"
+            :class="{ active: selectedItem?.id === item.id }">
+            <div class="profile-h1">{{ item.reservinfo.machine }}</div>
+            <div class="profile-h4">일정 | {{ item.reservinfo.date }}</div>
+            <div class="profile-h4">주소 | {{ item.reservinfo.address }}</div>
+            <div class="profile-h4">
+              금액 |
+              {{ Math.floor(item.payment.service * 0.4).toLocaleString() }}원
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-right" v-if="selectedItem">
+        <ul class="listright">
+          <li class="profile-h1">{{ selectedItem.reservinfo.machine }}</li>
+          <li class="profile-h4">일정 | {{ selectedItem.reservinfo.date }}</li>
+          <li class="profile-h4">주소 | {{ selectedItem.reservinfo.address }}</li>
+          <li class="profile-h4">
+            금액 |
+            {{ Math.floor(selectedItem.payment.service * 0.4).toLocaleString() }}원
+          </li>
+        </ul>
+        <p class="profile-h3">예약자 정보</p>
+        <div class="customerinfo">
+          <ul class="profile-h4">
+            <li><span>이름</span>{{ selectedItem.customer?.name || "-" }}</li>
+            <li><span>연락처</span>{{ selectedItem.customer?.mobile || "-" }}</li>
+            <li><span>이메일</span>{{ selectedItem.customer?.email || "-" }}</li>
+            <li><span>주소</span>{{ selectedItem.customer?.address || "-" }}</li>
+          </ul>
+        </div>
+        <p class="profile-h3 customerlist">고객 정보<button class="modal description">첨부파일보기</button></p>
+        <div class="reservdetailinfo">
+          <ul class="profile-h4">
+            <li><span>서비스 유형</span>{{ selectedItem.reservinfo?.type || "-" }}</li>
+            <li><span>제빙기 정보</span>{{ selectedItem.reservinfo?.machine || "-" }}</li>
+            <li><span>서비스 주소</span>{{ selectedItem.reservinfo?.address || "-" }}</li>
+            <li><span>서비스 일시</span>{{ selectedItem.reservinfo?.date || "-" }}</li>
+            <li><span>추가 서비스</span>{{ selectedItem.reservinfo?.plus || "-" }}</li>
+            <li><span>요청사항</span>{{ selectedItem.reservinfo?.memo || "-" }}</li>
+          </ul>
+        </div>
+        <div class="btnbox">
+          <button class="edit" style="padding: 2% 4%" @click="accept(selectedItem)">수락하기</button>
+          <button class="fix" style="padding: 2.4% 8%" @click="selectedItem = null">닫기</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
