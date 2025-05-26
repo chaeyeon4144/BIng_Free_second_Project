@@ -136,6 +136,10 @@ const banks = [
 ];
 </script>
 <template>
+  <div class="dash">
+    <p class="dash-name">프로필</p>
+    <p class="dash-desc">내 프로필을 확인하고 수정할 수 있습니다.</p>
+  </div>
   <div class="workerprofile">
     <div class="left">
       <img src="/prime/workeritsub.png" alt="기사프로필" />

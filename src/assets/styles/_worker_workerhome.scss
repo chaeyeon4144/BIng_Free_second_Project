@@ -11,7 +11,6 @@ html {
   background-color: #f5f5f5;
   @include mobile {
     width: 100vw;
-    padding: 2%;
   }
 }
 header.workerHead {
@@ -22,7 +21,8 @@ header.workerHead {
   height: 70px;
   background: #ffffff;
   margin-top: 0 !important;
-  adminHead & .logo {
+
+  & .logo {
     margin-left: 30px;
   }
   @include mobile {

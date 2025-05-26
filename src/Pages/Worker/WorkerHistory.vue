@@ -195,10 +195,9 @@ const statusCards = computed(() => [
     title: "배정 대기",
     count: waitingCount.value,
     desc: `${waitingCount.value}개의 예약이 배정 대기 중입니다.`,
-    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.4349 10H1.41992" stroke="#FF0000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 1.99414H1.41992" stroke="#FF0000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 18.0059H1.41992" stroke="#FF0000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    icon: `<svg width="50" height="50" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="16" cy="16" r="16" fill="#FF0000"/>
+<path d="M14.6719 6.40234V9.46875H12.2109V10.3965H15.6973V11.2754H7.65039V10.3965H11.1172V9.46875H8.66602V6.40234H14.6719ZM9.7207 7.25195V8.60938H13.5977V7.25195H9.7207ZM14.7109 12.0176V14.8691H13.627V12.877H8.53906V12.0176H14.7109ZM24.3496 10.8164V11.6953H16.2832V10.8164H19.7793V10.084H17.3086V7.74023H22.2695V7.08594H17.2793V6.23633H23.3535V8.53125H18.3828V9.23438H23.5293V10.084H20.8535V10.8164H24.3496ZM23.4023 12.252V14.8105H22.3086V13.1113H17.1816V12.252H23.4023ZM15.7168 24.916V25.8047H7.65039V24.916H11.127V23.1973H8.53906V18.627H9.62305V20.0723H13.7148V18.627H14.7988V23.1973H12.2012V24.916H15.7168ZM9.62305 22.3184H13.7148V20.9414H9.62305V22.3184ZM23.666 18.041V26.8691H22.5723V18.041H23.666ZM21.0293 18.9785C21.0293 21.6055 20.0137 23.8418 16.918 25.3066L16.3516 24.4375C18.6611 23.3389 19.7354 21.8447 19.9258 19.8379H16.8008V18.9785H21.0293Z" fill="white"/>
 </svg>
 
 `,
@@ -289,6 +288,10 @@ const waitingListOnly = computed(() =>
 </script>
 <template>
   <div class="workerreservation">
+    <div class="dash">
+      <p class="dash-name">작업 관리</p>
+      <p class="dash-desc">오늘의 작업현항과 일정을 확인할 수 있습니다.</p>
+    </div>
     <div class="dashboard">
       <div
         class="allcard"

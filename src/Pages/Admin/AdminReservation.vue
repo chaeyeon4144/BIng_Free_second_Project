@@ -238,6 +238,10 @@ const statusCards = [
 </script>
 <template>
   <div class="adminreservation">
+    <div class="dash">
+      <p class="dash-name">예약 관리</p>
+      <p class="dash-desc">전체 예약을 관리할 수 있습니다.</p>
+    </div>
     <div class="dashboard">
       <div
         class="allcard"

@@ -156,7 +156,11 @@ const logout = () => {
           class="flex items-center text-gray-700 rounded-lg hover:bg-gray-100 hover:text-gray8 transition-colors"
           :class="{ 'bg-gray1 text-gray8 font-semibold': isActive(link.path) }"
         >
-          <img :src="link.imgUrl" :alt="link.name" />
+          <img
+            :src="link.imgUrl"
+            :alt="link.name"
+            class="w-[16px] h-[16px] object-contain object-center"
+          />
           {{ link.name }}
         </router-link>
         <div class="btnbox">
@@ -215,7 +219,11 @@ const logout = () => {
           class="flex items-center text-gray-700 rounded-lg hover:bg-gray-100 hover:text-gray8 transition-colors"
           :class="{ 'bg-gray1 text-gray8 font-semibold': isActive(link.path) }"
         >
-          <img :src="link.imgUrl" :alt="link.name" />
+          <img
+            :src="link.imgUrl"
+            :alt="link.name"
+            class="w-[16px] h-[16px] object-contain object-center"
+          />
           {{ link.name }}
         </router-link>
       </nav>
