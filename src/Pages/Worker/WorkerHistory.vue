@@ -222,15 +222,12 @@ const statusCards = [
 ];
 </script>
 <template>
-<<<<<<< HEAD
   <div class="workerreservation">
     <div class="dash">
       <p class="dash-name">작업 관리</p>
       <p class="dash-desc">오늘의 작업현항과 일정을 확인할 수 있습니다.</p>
     </div>
-=======
   <div class="adminreservation">
->>>>>>> parent of 95f0d9c (Merge pull request #22 from chaeyeon4144/hb)
     <div class="dashboard">
       <div class="allcard" v-for="(item, index) in statusCards" :key="index" :class="item.status">
         <p class="profile-h3">

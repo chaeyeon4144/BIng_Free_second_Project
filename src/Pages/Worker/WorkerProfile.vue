@@ -2,7 +2,6 @@
 import Table from "../Admin/Table.vue";
 </script>
 <template>
-<<<<<<< HEAD
   <div class="dash">
     <p class="dash-name">프로필</p>
     <p class="dash-desc">내 프로필을 확인하고 수정할 수 있습니다.</p>
@@ -523,8 +522,5 @@ import Table from "../Admin/Table.vue";
       </div>
     </div>
   </div>
-=======
-  <Table />
->>>>>>> parent of 95f0d9c (Merge pull request #22 from chaeyeon4144/hb)
 </template>
 <style></style>
