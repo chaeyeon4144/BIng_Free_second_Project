@@ -39,15 +39,8 @@
       border-left: 5px solid $bingprime-done;
     }
 
-    &.waiting {
-      border-left: 5px solid $bingprime-waiting;
-    }
-
-    &.assigned {
-      border-left: 5px solid$bingprime-assigned;
-    }
     &.confirmed {
-      border-left: 5px solid$bingprime-assigned;
+      border-left: 5px solid #893BEE;
     }
 
     .card-desc {

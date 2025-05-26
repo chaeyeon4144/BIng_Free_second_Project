@@ -3,7 +3,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import { fullReservationList } from "@/data.mjs";
 import dayjs from "dayjs";
 import MonthlyChart from "@/components/MonthlyChart.vue";
-import MonthlyBarChart from "@/components/MonthlyBarChart.vue";
+import MonthlyBarChart from "@/components/MonthlyBarchart.vue";
 
 const currentPage = ref(1);
 // ㄴ테이블 페이지 표시
@@ -189,58 +189,53 @@ const confirmedCount = computed(() => fullReservationList.filter((item) => item.
 const statusCards = computed(() => [
   {
     status: "total",
-    title: "전체 예약",
+    title: "총 작업 수",
     count: totalCount.value,
-    desc: `이 달 ${totalCount.value}개의 청소가 있습니다.`,
-    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.4349 10H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 1.99414H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 18.0059H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    desc: `${totalCount.value}% 증가`,
+    icon: `<svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M26 10H2" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 2H2" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 18H2" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
-  //   {
-  //     status: "waiting",
-  //     title: "배정 대기",
-  //     count: waitingCount.value,
-  //     desc: `${waitingCount.value}개의 예약이 배정 대기 중입니다.`,
-  //     icon: `<svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-  // <path d="M13.062 1.9005C13.2454 1.52892 13.7753 1.52892 13.9587 1.9005L17.2773 8.62368C17.3501 8.7711 17.4907 8.87333 17.6534 8.89711L25.0755 9.98196C25.4854 10.0419 25.6488 10.5458 25.352 10.8349L19.9823 16.065C19.8643 16.1799 19.8105 16.3455 19.8383 16.5077L21.1055 23.8959C21.1755 24.3044 20.7468 24.6159 20.38 24.423L13.7431 20.9327C13.5974 20.8561 13.4233 20.8561 13.2776 20.9327L6.64077 24.423C6.27396 24.6159 5.84518 24.3044 5.91524 23.8959L7.1824 16.5077C7.21024 16.3455 7.1564 16.1799 7.03847 16.065L1.6687 10.8349C1.3719 10.5458 1.53529 10.0419 1.94525 9.98196L9.36734 8.89711C9.53002 8.87333 9.67061 8.7711 9.74338 8.62368L13.062 1.9005Z" stroke="#0F71F2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  // </svg>
-  // `,
-  //   },
   {
     status: "done",
-    title: "완료 대기",
-    count: doneCount.value,
-    desc: `${doneCount.value}개의 예약이 완료 대기 중입니다.`,
+    title: "완료율",
+    count: doneCount.value + "%",
+    desc: ``,
     icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M13.9352 26.0072C20.5668 26.0072 25.9427 20.6313 25.9427 13.9997C25.9427 7.36813 20.5668 1.99219 13.9352 1.99219C7.30368 1.99219 1.92773 7.36813 1.92773 13.9997C1.92773 20.6313 7.30368 26.0072 13.9352 26.0072Z" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M13.9355 6.79688V14.0014L18.7385 16.4029" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26 12.9029V14.0069C25.9985 16.5946 25.1606 19.1125 23.6112 21.1851C22.0618 23.2576 19.8839 24.7738 17.4024 25.5075C14.9209 26.2412 12.2687 26.1531 9.84136 25.2564C7.41402 24.3596 5.34158 22.7022 3.93315 20.5313C2.52472 18.3605 1.85575 15.7925 2.02601 13.2104C2.19627 10.6283 3.19665 8.17046 4.87793 6.20335C6.55922 4.23625 8.83134 2.86533 11.3554 2.29504C13.8795 1.72476 16.5203 1.98567 18.884 3.03887" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26.0001 4.40674L14.0001 16.4187L10.4001 12.8187" stroke="#5AB21A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
   {
     status: "assigned",
-    title: "청소 대기",
-    count: assignedCount.value,
-    desc: `${assignedCount.value}개의 예약이 청소 대기 중입니다.`,
-    icon: `<svg width="27" height="28" viewBox="0 0 27 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.4504 12.902V14.0067C25.4489 16.596 24.6104 19.1155 23.0601 21.1894C21.5097 23.2633 19.3305 24.7805 16.8475 25.5146C14.3644 26.2488 11.7106 26.1606 9.28175 25.2633C6.85291 24.3659 4.77919 22.7075 3.36989 20.5353C1.96059 18.3631 1.29121 15.7935 1.46158 13.2097C1.63194 10.626 2.63293 8.16656 4.31526 6.19821C5.99758 4.22986 8.27111 2.85806 10.7967 2.28742C13.3224 1.71677 15.9648 1.97785 18.33 3.03171" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4514 4.40039L13.444 16.42L9.8418 12.8177" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    title: "평균 작업 시간",
+    count: assignedCount.value + "분",
+    desc: `${assignedCount.value}% 감소`,
+    icon: `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M14 26C20.6274 26 26 20.6274 26 14C26 7.37258 20.6274 2 14 2C7.37258 2 2 7.37258 2 14C2 20.6274 7.37258 26 14 26Z" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14 6.7998V13.9998L18.8 16.3998" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
 
   {
     status: "confirmed",
-    title: "확정 완료",
+    title: "평균 평가",
     count: confirmedCount.value,
-    desc: `이 달 ${confirmedCount.value}개의 청소가 완료되었습니다.`,
-    icon: `<svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M25.4349 10H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 1.99414H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M25.4349 18.0059H1.41992" stroke="#893BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    desc: `<svg width="65" height="12" viewBox="0 0 65 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.87605 1.22694C6.13553 0.716686 6.86446 0.716686 7.12395 1.22694L8.34343 3.62493C8.44689 3.82838 8.64306 3.96862 8.86905 4.00068L11.5621 4.38275C12.1425 4.4651 12.3707 5.18174 11.9447 5.58448L10.024 7.40022C9.85297 7.56195 9.77466 7.79885 9.81562 8.03069L10.2724 10.6155C10.3729 11.1846 9.77953 11.6236 9.26479 11.3608L6.81825 10.112C6.61835 10.0099 6.38165 10.0099 6.18175 10.112L3.73521 11.3608C3.22047 11.6236 2.62707 11.1846 2.72763 10.6155L3.18438 8.03069C3.22534 7.79885 3.14703 7.56195 2.97595 7.40022L1.05534 5.58448C0.629349 5.18174 0.857491 4.4651 1.43791 4.38275L4.13095 4.00068C4.35694 3.96862 4.55311 3.82838 4.65657 3.62493L5.87605 1.22694Z" fill="#F99B23"/>
+<path d="M18.876 1.22694C19.1355 0.716686 19.8645 0.716686 20.124 1.22694L21.3434 3.62493C21.4469 3.82838 21.6431 3.96862 21.8691 4.00068L24.5621 4.38275C25.1425 4.4651 25.3707 5.18174 24.9447 5.58448L23.024 7.40022C22.853 7.56195 22.7747 7.79885 22.8156 8.03069L23.2724 10.6155C23.3729 11.1846 22.7795 11.6236 22.2648 11.3608L19.8183 10.112C19.6184 10.0099 19.3816 10.0099 19.1817 10.112L16.7352 11.3608C16.2205 11.6236 15.6271 11.1846 15.7276 10.6155L16.1844 8.03069C16.2253 7.79885 16.147 7.56195 15.9759 7.40022L14.0553 5.58448C13.6293 5.18174 13.8575 4.4651 14.4379 4.38275L17.1309 4.00068C17.3569 3.96862 17.5531 3.82838 17.6566 3.62493L18.876 1.22694Z" fill="#F99B23"/>
+<path d="M31.876 1.22694C32.1355 0.716686 32.8645 0.716686 33.124 1.22694L34.3434 3.62493C34.4469 3.82838 34.6431 3.96862 34.8691 4.00068L37.5621 4.38275C38.1425 4.4651 38.3707 5.18174 37.9447 5.58448L36.024 7.40022C35.853 7.56195 35.7747 7.79885 35.8156 8.03069L36.2724 10.6155C36.3729 11.1846 35.7795 11.6236 35.2648 11.3608L32.8183 10.112C32.6184 10.0099 32.3816 10.0099 32.1817 10.112L29.7352 11.3608C29.2205 11.6236 28.6271 11.1846 28.7276 10.6155L29.1844 8.03069C29.2253 7.79885 29.147 7.56195 28.9759 7.40022L27.0553 5.58448C26.6293 5.18174 26.8575 4.4651 27.4379 4.38275L30.1309 4.00068C30.3569 3.96862 30.5531 3.82838 30.6566 3.62493L31.876 1.22694Z" fill="#F99B23"/>
+<path d="M44.876 1.22694C45.1355 0.716686 45.8645 0.716686 46.124 1.22694L47.3434 3.62493C47.4469 3.82838 47.6431 3.96862 47.8691 4.00068L50.5621 4.38275C51.1425 4.4651 51.3707 5.18174 50.9447 5.58448L49.024 7.40022C48.853 7.56195 48.7747 7.79885 48.8156 8.03069L49.2724 10.6155C49.3729 11.1846 48.7795 11.6236 48.2648 11.3608L45.8183 10.112C45.6184 10.0099 45.3816 10.0099 45.1817 10.112L42.7352 11.3608C42.2205 11.6236 41.6271 11.1846 41.7276 10.6155L42.1844 8.03069C42.2253 7.79885 42.147 7.56195 41.9759 7.40022L40.0553 5.58448C39.6293 5.18174 39.8575 4.4651 40.4379 4.38275L43.1309 4.00068C43.3569 3.96862 43.5531 3.82838 43.6566 3.62493L44.876 1.22694Z" fill="#F99B23"/>
+<path d="M57.876 1.22694C58.1355 0.716686 58.8645 0.716686 59.124 1.22694L60.3434 3.62493C60.4469 3.82838 60.6431 3.96862 60.8691 4.00068L63.5621 4.38275C64.1425 4.4651 64.3707 5.18174 63.9447 5.58448L62.0241 7.40022C61.853 7.56195 61.7747 7.79885 61.8156 8.03069L62.2724 10.6155C62.3729 11.1846 61.7795 11.6236 61.2648 11.3608L58.8183 10.112C58.6184 10.0099 58.3816 10.0099 58.1817 10.112L55.7352 11.3608C55.2205 11.6236 54.6271 11.1846 54.7276 10.6155L55.1844 8.03069C55.2253 7.79885 55.147 7.56195 54.9759 7.40022L53.0553 5.58448C52.6293 5.18174 52.8575 4.4651 53.4379 4.38275L56.1309 4.00068C56.3569 3.96862 56.5531 3.82838 56.6566 3.62493L57.876 1.22694Z" fill="#F99B23"/>
+</svg>
+`,
+    icon: `<svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.0508 1.91859C13.2336 1.54478 13.7664 1.54478 13.9492 1.91859L17.2468 8.66249C17.3192 8.81056 17.46 8.91343 17.623 8.93749L25.0059 10.0268C25.4144 10.0871 25.5779 10.5885 25.2835 10.878L19.9361 16.1356C19.8195 16.2503 19.7663 16.4147 19.7937 16.5759L21.0548 23.9981C21.1243 24.4072 20.6939 24.7181 20.3274 24.5235L13.7344 21.0235C13.5878 20.9457 13.4122 20.9457 13.2656 21.0235L6.6726 24.5235C6.30607 24.7181 5.87571 24.4072 5.94522 23.9981L7.20628 16.5759C7.23367 16.4147 7.1805 16.2503 7.0639 16.1356L1.71653 10.878C1.42209 10.5885 1.5856 10.0871 1.99409 10.0268L9.37699 8.93749C9.54004 8.91343 9.68077 8.81056 9.75318 8.66249L13.0508 1.91859Z" stroke="#F99B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
 `,
   },
@@ -297,15 +292,13 @@ document.addEventListener("DOMContentLoaded", function () {
       box.classList.toggle("active");
 
       // 상태 아이콘 이미지찾기
-      const stateIconImg = box.querySelector(".alert-state-icon img");
+      let stateIconImg = box.querySelector(".alert-state-icon img");
 
       if (stateIconImg) {
         const isActive = box.classList.contains("active");
 
         // 상태에 따라 이미지 변경
-        stateIconImg.src = isActive
-          ? "/public/prime/alert-state-on-icon.png"
-          : "/public/prime/alert-state-off-icon.png";
+        stateIconImg.src = isActive ? "/prime/alert-state-on-icon.png" : "/prime/alert-state-off-icon.png";
         stateIconImg = isActive ? "상태 활성화 아이콘" : "상태 비활성화 아이콘";
       }
     });
@@ -319,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <p class="dash-name">대시보드</p>
       <p class="dash-desc">오늘의 작업현항과 일정을 확인할 수 있습니다.</p>
     </div>
-    <div class="dashboard">
+    <div class="dashboard dashboard2">
       <div
         class="allcard"
         v-for="card in statusCards"
@@ -366,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <!-- 여기서 내용 바꾸기 -->
           <tbody>
             <tr v-for="item in paginatedList" :key="item.id">
-              <td>{{ item.number }}</td>
+              <td data-label="예약번호">{{ item.number }}</td>
               <td class="customername">
                 <template v-if="item.primemember">
                   <!-- 파란 북마크 아이콘 -->
@@ -731,38 +724,38 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="alert-box-wrap">
           <div class="alert-box">
             <div class="alert-icon">
-              <img src="/public/prime/alert-claim-icon.png" alt="클레임 알림 아이콘" />
+              <img src="/prime/alert-claim-icon.png" alt="클레임 알림 아이콘" />
             </div>
             <div class="alert-desc">
               <p class="alert-instructions">클레임건이 있습니다.</p>
               <p class="alert-time">오전 10:00</p>
             </div>
             <div class="alert-state-icon">
-              <img class="state-off-icon" src="/public/prime/alert-state-off-icon.png" alt="상태 비활성화 아이콘" />
+              <img class="state-off-icon" src="/prime/alert-state-off-icon.png" alt="상태 비활성화 아이콘" />
             </div>
           </div>
           <div class="alert-box">
             <div class="alert-icon">
-              <img src="/public/prime/alert-newres-icon.png" alt="새로운 예약 알림 아이콘" />
+              <img src="/prime/alert-newres-icon.png" alt="새로운 예약 알림 아이콘" />
             </div>
             <div class="alert-desc">
               <p class="alert-instructions">새로운 예약이 있습니다.</p>
               <p class="alert-time">오전 11:10</p>
             </div>
             <div class="alert-state-icon">
-              <img class="state-off-icon" src="/public/prime/alert-state-off-icon.png" alt="상태 활성화 아이콘" />
+              <img class="state-off-icon" src="/prime/alert-state-off-icon.png" alt="상태 활성화 아이콘" />
             </div>
           </div>
           <div class="alert-box">
             <div class="alert-icon">
-              <img src="/public/prime/alert-saftytraining-icon.png" alt="안전교육 알림 아이콘" />
+              <img src="/prime/alert-saftytraining-icon.png" alt="안전교육 알림 아이콘" />
             </div>
             <div class="alert-desc">
               <p class="alert-instructions">새로운 안전교육 영상을 시청해 주세요.</p>
               <p class="alert-time">오후 14:00</p>
             </div>
             <div class="alert-state-icon">
-              <img class="state-off-icon" src="/public/prime/alert-state-off-icon.png" alt="상태 비활성화 아이콘" />
+              <img class="state-off-icon" src="/prime/alert-state-off-icon.png" alt="상태 비활성화 아이콘" />
             </div>
           </div>
         </div>
