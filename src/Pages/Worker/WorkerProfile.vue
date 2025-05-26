@@ -1,141 +1,8 @@
 <script setup>
-import { ref, computed, toRaw, watch } from "vue";
-import { fullReservationList, koreaLocations } from "@/data.mjs";
-const item = fullReservationList[0];
-
-const tab = ref("review");
-
-const reviews = ref([
-  {
-    name: "이*현",
-    img: "/prime/beenstar.png",
-    text: "24시간 중 원하는 시간에 언제든 서비스 받을 수 있어 좋았어요. 기사님도 너무 친절하시고 꼼꼼하게 케어 해주셔서 믿음이 가요.",
-  },
-  {
-    name: "김*수",
-    img: "/prime/beenstar.png",
-    text: "청소 끝나고 다시 얼음 만들어보니까 투명도부터 다르더라고요. 물맛도 좋고, 냉장고 안 냄새도 덜해진 느낌이에요.",
-  },
-  {
-    name: "오*연",
-    img: "/prime/beenstar.png",
-    text: "보이지 않던 내부까지 다 분해해서 세척하는 걸 보고 놀랐어요. 청소 후 얼음 색도 더 맑아지고, 냄새도 완전히 사라졌습니다.",
-  },
-  {
-    name: "김*빈",
-    img: "/prime/beenstar.png",
-    text: "직접 하기 어려운 부분까지 다 해주시니 너무 편했어요. 정기적으로 꼭 받아야겠다는 생각이 들었어요. 완전 추천합니다!",
-  },
-  {
-    name: "김*리",
-    img: "/prime/beenstar.png",
-    text: "전문 청소 서비스를 받고 나서야, 속까지 비로소 안심이 됐습니다. 하얗게 맑아진 얼음을 보고 있으니 마음도 같이 맑아지는 기분이었어요.",
-  },
-  {
-    name: "장*진",
-    img: "/prime/beenstar.png",
-    text: "청소 후엔 얼음 투명도도 확실히 좋아졌고, 잡내도 사라졌습니다.",
-  },
-  {
-    name: "김*웅",
-    img: "/prime/beenstar.png",
-    text: "집에서 얼음을 자주 쓰다 보니 위생이 걱정됐는데, 전문 청소 후 얼음 맛이 확 달라졌어요. 아이들도 안심하고 마실 수 있어 만족합니다.",
-  },
-  {
-    name: "박*호",
-    img: "/prime/beenstar.png",
-    text: "냉장고 청소는 해도 제빙기는 처음 맡겨봤어요. 청소 후 얼음이 맑고 깨끗해서 놀랐습니다. 이젠 마음 놓고 음료에 넣어 마실 수 있어요.",
-  },
-  {
-    name: "강*호",
-    img: "/prime/beenstar.png",
-    text: "여름마다 제빙기 돌리는데 얼음 냄새가 살짝 나서 신경 쓰였거든요. 전문 청소 받고 나니 얼음도 더 맑고, 물맛도 깔끔해졌어요. 이젠 가족들 모두 안심하고 시원하게 즐기고 있어요.",
-  },
-]);
-
-const currentPage = ref(1);
-const perPage = 3;
-
-const paginatedReviews = computed(() => {
-  const start = (currentPage.value - 1) * perPage;
-  const end = start + perPage;
-  return reviews.value.slice(start, end);
-});
-
-const totalPages = computed(() => Math.ceil(reviews.value.length / perPage));
-// 지역 선택 관련
-const selectedSido = ref(""); // 시/도 배열
-const selectedGugun = ref({}); // 시도별 구군 배열
-
-function toggleGugun(sido, gugun) {
-  if (!selectedGugun.value[sido]) {
-    selectedGugun.value[sido] = [];
-  }
-
-  const gugunList = selectedGugun.value[sido];
-
-  if (gugunList.includes(gugun)) {
-    selectedGugun.value[sido] = gugunList.filter((g) => g !== gugun);
-  } else {
-    selectedGugun.value[sido] = [...gugunList, gugun];
-  }
-}
-watch(selectedSido, (newSido, oldSido) => {
-  if (oldSido && selectedGugun.value[oldSido]) {
-    delete selectedGugun.value[oldSido];
-  }
-
-  if (newSido && !selectedGugun.value[newSido]) {
-    selectedGugun.value[newSido] = [];
-  }
-});
-function saveLocation() {
-  if (!item.worker.location) {
-    item.worker.location = {};
-  }
-
-  const raw = toRaw(item.worker.location); // 기존 값
-
-  for (const [sido, guguns] of Object.entries(selectedGugun.value)) {
-    if (!raw[sido]) {
-      raw[sido] = [];
-    }
-
-    const merged = new Set([...raw[sido], ...guguns]);
-    raw[sido] = Array.from(merged);
-  }
-
-  item.worker.location = { ...raw }; // 반응성 유지
-  alert("저장되었습니다!");
-  console.log(Object.keys(item.worker.location));
-  console.log(typeof Object.keys(item.worker.location));
-}
-
-const selectedBank = ref("");
-
-const selectedPeriod = ref("month");
-
-const banks = [
-  "국민은행",
-  "신한은행",
-  "우리은행",
-  "하나은행",
-  "농협은행",
-  "기업은행",
-  "카카오뱅크",
-  "케이뱅크",
-  "토스뱅크",
-  "SC제일은행",
-  "씨티은행",
-  "수협은행",
-  "부산은행",
-  "대구은행",
-  "광주은행",
-  "전북은행",
-  "제주은행",
-];
+import Table from "../Admin/Table.vue";
 </script>
 <template>
+<<<<<<< HEAD
   <div class="dash">
     <p class="dash-name">프로필</p>
     <p class="dash-desc">내 프로필을 확인하고 수정할 수 있습니다.</p>
@@ -656,5 +523,8 @@ const banks = [
       </div>
     </div>
   </div>
+=======
+  <Table />
+>>>>>>> parent of 95f0d9c (Merge pull request #22 from chaeyeon4144/hb)
 </template>
 <style></style>
