@@ -4,40 +4,65 @@ html {
   z-index: -9999px;
 }
 .adminbody {
+  padding: 1%;
   width: calc(100vw - 260px);
   height: calc(100vh - 70px);
   overflow-y: scroll;
   background-color: #f5f5f5;
-  padding: 1%;
+  @include mobile {
+    width: 100vw;
+  }
 }
-.adminHead {
+header.adminHead {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 70px;
   background: #ffffff;
-<<<<<<< HEAD
   margin-top: 0 !important;
-  
- & .logo {
-=======
-  & .logo {
->>>>>>> parent of 95f0d9c (Merge pull request #22 from chaeyeon4144/hb)
+   & .logo {
     margin-left: 30px;
   }
+  @include mobile {
+    padding: 0 5%;
+  }
+
   & .right {
     display: flex;
     align-items: center;
     gap: 30px;
     margin-right: 36px;
+    @include mobile {
+      width: 100%;
+      gap: 5px;
+      padding: 0 5%;
+      justify-content: space-between;
+    }
+    &.webonly {
+      @include mobile {
+        display: none;
+      }
+    }
     & .right-icon {
       position: relative;
       width: 20px;
       height: 20px;
+      @include mobile {
+        width: 20px;
+        height: 20px;
+        img {
+          width: 100%;
+        }
+      }
       & .redPoint {
         position: absolute;
         top: -2px;
         right: 0;
+        @include mobile {
+          width: 10px;
+          height: 10px;
+        }
       }
     }
     & .profile {
@@ -45,140 +70,46 @@ html {
       height: 32px;
     }
   }
-}
-.home {
-  display: flex;
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: calc(100vh - 70px);
-    width: 260px;
-    background-color: #ffffff;
-    a {
-      height: 44px;
-      padding-left: 22px;
+  .sidebar.mbonly {
+    display: none;
+    @include mobile {
+      display: flex;
     }
-    & .side-menu {
+
+    .side-menu {
+      padding: 4% 1%;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      // justify-content: space-between;
+      gap: 3%;
+      width: 50vw;
       height: 100vh;
-      padding: 10px;
-    }
-    & .side-menu img {
-      display: inline-block;
-      margin-right: 10px;
-    }
-  }
-  .logout-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 35px 0 25px 0;
-    &::before {
-      content: "";
-      position: absolute;
+      background-color: #fff;
+      position: fixed;
       top: 0;
-      left: 0;
       right: 0;
-      height: 10px; // 얇은 선
-      background: linear-gradient(to bottom, #ffffff, #f9f9f9, #f3f3f3);
-    }
-  }
-  & .logout {
-    position: relative;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    // margin: auto;
-  }
+      z-index: 9999;
 
-  & span {
-    font-size: 15px;
-    font-weight: 500;
-    color: #424242;
-  }
-  .admin-right {
-    width: 84%;
-    height: calc(100vh - 70px);
-  }
-}
-.home {
-  display: flex;
-
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: calc(100vh - 70px);
-    width: 260px;
-    background-color: #ffffff;
-    &.webonly {
-      @include mobile {
-        display: none;
-      }
-    }
-    a {
-      height: 44px;
-      padding-left: 22px;
-    }
-    & .side-menu {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-      height: 100vh;
-      padding: 10px;
-      img {
-        display: inline-block;
-        margin-right: 16px;
+      a {
+        height: 5vh;
+        pad: 2%;
+        img {
+          display: inline-block;
+          margin-right: 16px;
+          margin-left: 16px;
+        }
       }
       .btnbox {
         display: flex;
         align-items: center;
-        button.logout {
-          display: inline-block;
+        justify-content: center;
+        gap: 20px;
+        .logout {
+          align-items: center;
+          display: flex;
+          gap: 10px;
         }
       }
     }
-  }
-  .logout-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 35px 0 25px 0;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 10px; // 얇은 선
-      background: linear-gradient(to bottom, #ffffff, #f9f9f9, #f3f3f3);
-    }
-  }
-  & .logout {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin: auto;
-  }
-  & span {
-    font-size: 15px;
-    font-weight: 500;
-    color: #424242;
-  }
-  & svg {
-    margin-right: 16px;
-    @include mobile {
-      margin: 0;
-    }
-  }
-
-  .admin-right {
-    width: 84%;
-    height: calc(100vh - 70px);
   }
 }

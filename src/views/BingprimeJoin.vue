@@ -1,4 +1,9 @@
+<script setup lang="ts">
+import Header from "@/components/Header.vue";
+</script>
+
 <template>
+  <Header />
   <div class="w-[1920px] h-[5875px] relative bg-white overflow-hidden">
     <div class="w-[1920px] h-[5875px] left-0 top-0 absolute bg-white rounded-sm overflow-hidden">
       <div
@@ -61,12 +66,6 @@
         </div>
       </div>
 
-      <div class="w-[1920px] h-10 left-0 top-0 absolute bg-black"></div>
-      <div class="w-64 h-10 left-[835px] top-0 absolute bg-blue-600"></div>
-      <div
-        class="left-[630px] top-[11px] absolute text-center justify-start text-white text-base font-medium font-['Pretendard']">
-        빙프리 홈페이지
-      </div>
       <div
         class="left-[932px] top-[11px] absolute text-center justify-start text-white text-base font-medium font-['Pretendard']">
         빙프라임
@@ -93,16 +92,16 @@
       </div>
       <div class="w-20 h-20 left-[762px] top-[1050px] absolute overflow-hidden">
         <div class="w-20 h-20 left-0 top-0 absolute"></div>
-        <img src="/public/prime/Login_naver.png" class="w-full" alt="네이버" />
+        <img src="/prime/Login_naver.png" class="w-full" alt="네이버" />
       </div>
       <div class="w-20 h-20 left-[1076px] top-[1051px] absolute overflow-hidden">
         <div class="w-20 h-20 left-[2.55px] top-[0.85px] absolute"></div>
-        <img src="/public/prime/Login_facebook.png" alt="페이스북" class="w-full" />
+        <img src="/prime/Login_facebook.png" alt="페이스북" class="w-full" />
       </div>
       <div class="w-20 h-20 left-[920px] top-[1050px] absolute overflow-hidden">
         <div class="w-20 h-20 left-[1.19px] top-[0.02px] absolute"></div>
         <div class="w-20 h-20 left-[2.02px] top-[0.85px] absolute"></div>
-        <img src="/public/prime/Login_kakao.png" alt="페이스북" class="w-full" />
+        <img src="/prime/Login_kakao.png" alt="페이스북" class="w-full" />
       </div>
       <div
         class="w-[1240px] h-0 left-[340px] top-[789px] absolute outline outline-1 outline-offset-[-0.50px] outline-stone-300"></div>
@@ -113,33 +112,33 @@
         쿠폰제공 및 혜택
       </div>
       <div class="w-16 h-16 left-[372px] top-[810px] absolute bg-neutral-100 rounded-full"></div>
-      <img class="w-12 h-12 left-[382px] top-[820px] absolute" src="/public/prime/Bingprime_new_cup.png" />
+      <img class="w-12 h-12 left-[382px] top-[820px] absolute" src="/prime/Bingprime_new_cup.png" />
       <div class="left-[759px] top-[820px] absolute justify-start text-black text-base font-normal font-['Pretendard']">
         신규 가입시 생일축하<br />
         5000원할인 쿠폰 제공
       </div>
       <div class="w-16 h-16 left-[677px] top-[804px] absolute bg-neutral-100 rounded-full"></div>
-      <img class="w-12 h-12 left-[687px] top-[814px] absolute" src="/public/prime/Bingprime_bd_cup.png" />
+      <img class="w-12 h-12 left-[687px] top-[814px] absolute" src="/prime/Bingprime_bd_cup.png" />
       <div
         class="left-[1064px] top-[820px] absolute justify-start text-black text-base font-normal font-['Pretendard']">
         빙프라임회원 전용<br />
         미리 알림 서비스 제공
       </div>
       <div class="w-16 h-16 left-[982px] top-[804px] absolute bg-neutral-100 rounded-full"></div>
-      <img class="w-12 h-12 left-[992px] top-[814px] absolute" src="/public/prime/Bingprime_alrm_cup.png" />
+      <img class="w-12 h-12 left-[992px] top-[814px] absolute" src="/prime/Bingprime_alrm_cup.png" />
       <div
         class="left-[1372px] top-[825px] absolute justify-start text-black text-base font-normal font-['Pretendard']">
         구독시 부가 서비스 무로 제공<br />
         (세제증정 | 점검 서비스)
       </div>
       <div class="w-16 h-16 left-[1287px] top-[804px] absolute bg-neutral-100 rounded-full"></div>
-      <img class="w-12 h-12 left-[1297px] top-[814px] absolute" src="/public/prime/Bingprime_plus_cup_.png" />
+      <img class="w-12 h-12 left-[1297px] top-[814px] absolute" src="/prime/Bingprime_plus_cup_.png" />
     </div>
     <div
       class="w-96 h-96 left-[343px] top-[316px] absolute bg-white shadow-[2px_2px_4px_3px_rgba(189,189,189,0.25)]"></div>
     <img class="w-8 h-7 left-[467px] top-[426px] absolute" src="/prime/Bingprime_join_personal_icon.png" />
     <div class="w-28 h-5 left-[506px] top-[429.12px] absolute text-center justify-start">
-      <img src="/public/prime/Bingprime_just.logo.png" alt="로고" />
+      <img src="/prime/BingPrime_just.logo.png" alt="로고" />
     </div>
     <router-link
       to="/PersonulAgree"
@@ -203,7 +202,7 @@
       클리너 회원가입
     </div>
     <div class="absolute left-[1275px] top-[429px] flex items-center space-x-1">
-      <img class="w-7 h-7" src="/public/prime/Bingprime_join_icon.png" />
+      <img class="w-7 h-7" src="/prime/Bingprime_join_icon.png" />
       <span class="text-black text-lg font-bold font-['SB_Aggro']">Bing</span>
       <span class="text-blue-600 text-lg font-bold font-['SB_Aggro']">Cleaner</span>
     </div>
